@@ -8,15 +8,6 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
-    <android.support.v7.widget.Toolbar
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorwhite"
-        android:id="@+id/toolbar"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:title="Navigation Drawer With Tabs" />
-
     <include
         android:id="@+id/frag"
         layout="@layout/app_bar_home"
