@@ -56,13 +56,16 @@ public class HomeActivity extends AppCompatActivity {
                     setTitle("Scheduled");
                     FragmentTransaction fragmentTransaction= fragmentmanager.beginTransaction();
                     fragmentTransaction.replace(R.id.frag, new ScheduledFragment()).commit();
+                    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                    drawer.closeDrawer(GravityCompat.START);
                 }
 
                 if (item.getItemId()== R.id.nav_calendar) {
                     setTitle("Calendar");
                     FragmentTransaction fragmentTransaction= fragmentmanager.beginTransaction();
                     fragmentTransaction.replace(R.id.frag, new CalendarFragment()).commit();
-
+                    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                    drawer.closeDrawer(GravityCompat.START);
                 }
 
                 if (item.getItemId()==R.id.nav_complete)
@@ -70,8 +73,8 @@ public class HomeActivity extends AppCompatActivity {
                     setTitle("Complete");
                     FragmentTransaction fragmentTransaction1=fragmentmanager.beginTransaction();
                     fragmentTransaction1.replace(R.id.frag,new CompleteFragment()).commit();
-
-
+                    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                    drawer.closeDrawer(GravityCompat.START);
                 }
 
                 if (item.getItemId()==R.id.nav_settings)
@@ -79,8 +82,8 @@ public class HomeActivity extends AppCompatActivity {
                     setTitle("Settings");
                     FragmentTransaction fragmentTransaction1=fragmentmanager.beginTransaction();
                     fragmentTransaction1.replace(R.id.frag,new SettingFragment()).commit();
-
-
+                    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                    drawer.closeDrawer(GravityCompat.START);
                 }
 
                 if (item.getItemId()==R.id.nav_logout)

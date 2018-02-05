@@ -28,10 +28,6 @@
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".RegisterActivity" />
-        <activity
-            android:name=".ScheduledActivity"
-            android:label="@string/title_activity_scheduled"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
