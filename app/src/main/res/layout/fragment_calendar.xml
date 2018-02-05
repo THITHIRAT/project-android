@@ -11,7 +11,7 @@
     <!-- TODO: Update blank fragment layout -->
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
@@ -24,17 +24,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="0dp"
             android:background="@color/colorwhite">
 
             <CalendarView
                 android:id="@+id/calendarView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="center_horizontal"
                 android:animationCache="true"
-                android:theme="@style/Theme.Design.Light.NoActionBar"
                 android:dateTextAppearance="@style/CalenderViewDateCustomText"
+                android:theme="@style/Theme.Design.Light.NoActionBar"
                 android:weekDayTextAppearance="@style/CalenderViewWeekCustomText" />
         </LinearLayout>
 
