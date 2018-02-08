@@ -11,7 +11,6 @@
         android:layout_height="match_parent"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-
         <RelativeLayout
             android:id="@+id/layout_settings"
             android:layout_width="match_parent"
@@ -92,6 +91,7 @@
                 android:textColor="@color/colornavy" />
 
         </RelativeLayout>
+
     </android.support.design.widget.AppBarLayout>
 
 </FrameLayout>

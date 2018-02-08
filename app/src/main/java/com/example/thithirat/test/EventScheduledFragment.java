@@ -34,36 +34,6 @@ public class EventScheduledFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_event_scheduled, container, false);
 
-        final ArrayList<EventScheduledList> eventscheduled = new ArrayList<>();
-
-        EventScheduledList e1 = new EventScheduledList("ReminderList");
-        EventScheduledList e2 = new EventScheduledList("LocationList");
-
-        eventscheduled.add(e1);
-        eventscheduled.add(e2);
-
-        BindDictionary<EventScheduledList> dictionary = new BindDictionary<>();
-        dictionary.addStringField(R.id.textname, new StringExtractor<EventScheduledList>() {
-            @Override
-            public String getStringValue(EventScheduledList event, int position) {
-                return event.getName();
-            }
-
-        });
-
-        FunDapter dapter = new FunDapter(EventScheduledFragment.this.getActivity(),eventscheduled,R.layout.event_scheduled_layout,dictionary);
-        ListView listView = (ListView)view.findViewById(R.id.event);
-
-        listView.setAdapter(dapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                EventScheduledList selected = eventscheduled.get(position);
-                Toast.makeText(EventScheduledFragment.this.getActivity(),selected.getName(),Toast.LENGTH_SHORT).show();
-
-            }
-        });
 
         return view;
     }

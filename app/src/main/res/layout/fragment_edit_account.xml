@@ -11,13 +11,98 @@
         android:layout_height="match_parent"
         android:theme="@style/AppTheme.AppBarOverlay">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Button" />
+            <TextView
+                android:id="@+id/change_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:drawableLeft="@drawable/ic_action_name_navy"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:text="Change Name"
+                android:textColor="@color/colornavy"
+                android:textSize="16sp" />
 
+            <EditText
+                android:id="@+id/edit_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/change_name"
+                android:layout_alignBottom="@+id/change_name"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="20dp"
+                android:background="@android:color/transparent"
+                android:ems="5"
+                android:gravity="end"
+                android:inputType="textPersonName"
+                android:text="Name"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colornavy"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/change_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/change_name"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:drawableLeft="@drawable/ic_action_email_navy"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:text="Change E-mail"
+                android:textColor="@color/colornavy"
+                android:textSize="16sp" />
+
+            <ImageButton
+                android:id="@+id/email_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/edit_name"
+                android:layout_alignRight="@+id/edit_name"
+                android:layout_alignTop="@+id/change_email"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_go_navy" />
+
+            <TextView
+                android:id="@+id/change_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/change_email"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:drawableLeft="@drawable/ic_action_pass_navy"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:text="Change Password"
+                android:textColor="@color/colornavy"
+                android:textSize="16sp" />
+
+            <ImageButton
+                android:id="@+id/password_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/change_password"
+                android:layout_marginRight="20dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_go_navy" />
+        </RelativeLayout>
 
     </android.support.design.widget.AppBarLayout>
 
