@@ -1,7 +1,9 @@
 package com.example.thithirat.test;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +36,15 @@ public class EventScheduledFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_event_scheduled, container, false);
 
+        FloatingActionButton fab_add_reminder = (FloatingActionButton)view.findViewById(R.id.fab_event);
+        fab_add_reminder.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AddTypeReminderActivity.class);
+                startActivity(intent);
+            }
+        });
 
         return view;
     }

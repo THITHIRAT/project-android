@@ -7,7 +7,7 @@
 
     <!-- TODO: Update blank fragment layout -->
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/fab_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -17,9 +17,7 @@
         android:src="@drawable/ic_action_add_reminder_white"
         app:elevation="6dp"
         app:fabSize="normal"
-        app:pressedTranslationZ="10dp"
-        tools:layout_editor_absoluteX="288dp"
-        tools:layout_editor_absoluteY="495dp" />
+        app:pressedTranslationZ="10dp" />
 
 
 </RelativeLayout>

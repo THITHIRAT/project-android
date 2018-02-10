@@ -31,7 +31,6 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_thin_register"
         android:text="android.studio@android.com" />
 
 </LinearLayout>
