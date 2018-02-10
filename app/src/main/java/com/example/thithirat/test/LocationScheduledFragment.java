@@ -27,15 +27,6 @@ public class LocationScheduledFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_location_scheduled, container, false);
 
-        FloatingActionButton fab_add_reminder = (FloatingActionButton)view.findViewById(R.id.fab_location);
-        fab_add_reminder.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AddTypeReminderActivity.class);
-                startActivity(intent);
-            }
-        });
 
         return view;
     }

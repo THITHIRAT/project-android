@@ -1,7 +1,9 @@
 package com.example.thithirat.test;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
@@ -42,6 +44,15 @@ public class ScheduledFragment extends Fragment {
             @Override
             public void run() {
                 tabLayout.setupWithViewPager(viewPager);
+            }
+        });
+
+        FloatingActionButton fab_add_reminder = (FloatingActionButton)view.findViewById(R.id.fab_add);
+        fab_add_reminder.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+
             }
         });
 

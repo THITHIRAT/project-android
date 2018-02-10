@@ -39,15 +39,6 @@ public class ReminderScheduledFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_reminder_scheduled, container, false);
 
-        FloatingActionButton fab_add_reminder = (FloatingActionButton)view.findViewById(R.id.fab_reminder);
-        fab_add_reminder.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AddTypeReminderActivity.class);
-                startActivity(intent);
-            }
-        });
 
         return view;
     }
