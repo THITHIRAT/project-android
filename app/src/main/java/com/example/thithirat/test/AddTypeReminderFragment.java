@@ -1,12 +1,12 @@
 package com.example.thithirat.test;
 
 
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.ActionMode;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+        import android.os.Bundle;
+        import android.support.v4.app.Fragment;
+        import android.view.ActionMode;
+        import android.view.LayoutInflater;
+        import android.view.View;
+        import android.view.ViewGroup;
 
 
 /**
@@ -28,6 +28,4 @@ public class AddTypeReminderFragment extends Fragment {
         getActivity().setTitle("Add Reminder");
         return view;
     }
-
-
 }

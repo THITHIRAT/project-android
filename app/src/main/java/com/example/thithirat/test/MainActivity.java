@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     private int counter = 3;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
