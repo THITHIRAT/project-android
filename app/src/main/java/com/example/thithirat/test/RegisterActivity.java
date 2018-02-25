@@ -45,7 +45,9 @@ public class RegisterActivity extends Activity {
             public void onClick(View v) {
                 home();
                 db.insertData(username.getText().toString(), password.getText().toString(), email.getText().toString());
-                Log.e("INSERT DATA", db.toString());
+                Log.e("INSERT DATA username", String.valueOf(username.getText()));
+                Log.e("INSERT DATA password", String.valueOf(password.getText()));
+                Log.e("INSERT DATA email", String.valueOf(email.getText()));
             }
         });
     }

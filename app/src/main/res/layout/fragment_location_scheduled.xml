@@ -6,7 +6,21 @@
     tools:context="com.example.thithirat.test.LocationScheduledFragment">
 
     <!-- TODO: Update blank fragment layout -->
-
+    <Button
+        android:id="@+id/button_map"
+        android:layout_width="300dp"
+        android:layout_height="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_radius_red"
+        android:text="View Maps"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small.Inverse"
+        android:textColor="@color/colorwhite"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </RelativeLayout>
