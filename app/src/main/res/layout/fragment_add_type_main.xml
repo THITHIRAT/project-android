@@ -1,0 +1,83 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.thithirat.test.AddTypeMainFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <RelativeLayout
+            android:id="@+id/layout_add_type"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="0dp"
+            android:background="@color/colorwhite">
+
+            <Button
+                android:id="@+id/reminder_button"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_margin="30dp"
+                android:background="@drawable/button_radius"
+                android:drawableLeft="@drawable/ic_action_reminder_white_50px"
+                android:drawablePadding="2dip"
+                android:gravity="center"
+                android:paddingLeft="90dip"
+                android:paddingRight="86dip"
+                android:singleLine="true"
+                android:text="Reminder"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small.Inverse"
+                android:textColor="@color/colorwhite"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/event_button"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/reminder_button"
+                android:layout_margin="30dp"
+                android:background="@drawable/button_radius"
+                android:drawableLeft="@drawable/ic_action_calendar_white_50px"
+                android:drawablePadding="2dip"
+                android:gravity="center"
+                android:paddingLeft="90dip"
+                android:paddingRight="86dip"
+                android:singleLine="true"
+                android:text="Event"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small.Inverse"
+                android:textColor="@color/colorwhite"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/location_button"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_below="@+id/event_button"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="30dp"
+                android:background="@drawable/button_radius"
+                android:drawableLeft="@drawable/ic_action_location_white_50px"
+                android:drawablePadding="2dip"
+                android:gravity="center"
+                android:paddingLeft="90dip"
+                android:paddingRight="86dip"
+                android:singleLine="true"
+                android:text="Location"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small.Inverse"
+                android:textColor="@color/colorwhite"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+</FrameLayout>

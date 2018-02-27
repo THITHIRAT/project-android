@@ -1,0 +1,73 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.thithirat.test.AddLocationFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/add_place"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="15dp"
+                android:background="@color/colorwhite"
+                android:drawableLeft="@drawable/ic_action_location_navy_50px"
+                android:drawablePadding="10dp"
+                android:ems="10"
+                android:hint="Add Place.."
+                android:inputType="text"
+                android:textColor="@color/colornavy"
+                android:textColorHint="@color/colornavy"
+                android:textCursorDrawable="@color/colornavy"
+                android:textSize="16sp" />
+
+            <!--android:drawableLeft="@drawable/ic_action_name_96px"-->
+
+            <EditText
+                android:id="@+id/type_location"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_below="@+id/add_place"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/colorwhite"
+                android:drawableLeft="@drawable/ic_action_notification_navy_15"
+                android:drawablePadding="10dp"
+                android:ems="10"
+                android:hint="Type Notification"
+                android:inputType="text"
+                android:textColor="@color/colornavy"
+                android:textColorHint="@color/colornavy"
+                android:textCursorDrawable="@color/colornavy"
+                android:textSize="16sp"
+                tools:ignore="DuplicateIds" />
+
+            <Button
+                android:id="@+id/button_type_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/type_location"
+                android:layout_alignBottom="@+id/type_location"
+                android:layout_alignEnd="@+id/add_place"
+                android:layout_alignRight="@+id/add_place"
+                android:background="@color/colorwhite"
+                android:text="Arrive"
+                android:stateListAnimator="@null"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small.Inverse"
+                android:textColor="@color/colornavy"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+    </android.support.design.widget.AppBarLayout>
+</FrameLayout>

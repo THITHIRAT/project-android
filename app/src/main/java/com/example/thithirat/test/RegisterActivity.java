@@ -30,15 +30,15 @@ public class RegisterActivity extends Activity {
         password = (EditText)findViewById(R.id.password);
         email = (EditText)findViewById(R.id.email);
 
-        login = (Button)findViewById(R.id.login);
+//        login = (Button)findViewById(R.id.login);
         register = (Button)findViewById(R.id.register);
 
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                login();
-            }
-        });
+//        login.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                login();
+//            }
+//        });
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override

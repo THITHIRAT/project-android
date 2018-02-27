@@ -11,10 +11,10 @@ import android.view.ViewGroup;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class EditLocationFragment extends Fragment {
+public class AddReminderFragment extends Fragment {
 
 
-    public EditLocationFragment() {
+    public AddReminderFragment() {
         // Required empty public constructor
     }
 
@@ -23,9 +23,7 @@ public class EditLocationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_edit_location, container, false);
-
-        return view;
+        return inflater.inflate(R.layout.fragment_add_reminder, container, false);
     }
 
 }

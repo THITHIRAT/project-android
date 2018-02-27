@@ -38,7 +38,7 @@ public class ReminderScheduledFragment extends Fragment {
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_reminder_scheduled, container, false);
-
+        getActivity().setTitle("Scheduled");
 
         return view;
     }

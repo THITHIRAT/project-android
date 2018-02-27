@@ -30,6 +30,8 @@ public class SettingFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_setting, container, false);
 
+        getActivity().setTitle("Setting");
+
         MainSettingFragment main_setting_fragment = new MainSettingFragment();
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.layout_settings, main_setting_fragment, null);
@@ -37,6 +39,7 @@ public class SettingFragment extends Fragment {
         fragmentTransaction.commit();
 
         return view;
+
     }
 
 
