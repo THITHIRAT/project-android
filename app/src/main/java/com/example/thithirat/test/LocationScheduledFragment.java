@@ -35,11 +35,8 @@ public class LocationScheduledFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                MapFragment map_fragment = new MapFragment();
-                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.frag, map_fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                Intent intent = new Intent(getActivity(), MapsActivity.class);
+                getActivity().startActivity(intent);
             }
         });
 
