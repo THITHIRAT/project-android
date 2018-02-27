@@ -22,7 +22,6 @@
         <item name="android:textColorPrimary">@color/colornavy</item>
         <item name="android:textColorSecondary">@color/colornavy</item>
         <item name="actionMenuTextColor">@color/colorred</item>
-        <item name="android:fontFamily">@font/roboto_thin_register</item>
     </style>
 
     <style name="CalenderViewCustom" parent="Theme.AppCompat">

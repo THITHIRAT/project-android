@@ -24,6 +24,7 @@
         android:layout_below="@+id/imageView"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="25dp"
+        android:fontFamily="sans-serif"
         android:text="Reminder"
         android:textAlignment="center"
         android:textColor="@color/colornavy"
