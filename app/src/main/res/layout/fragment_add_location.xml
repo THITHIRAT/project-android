@@ -1,7 +1,9 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/parent_linear_layout"
+    android:orientation="vertical"
     tools:context="com.example.thithirat.test.AddLocationFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -26,12 +28,10 @@
                 android:ems="10"
                 android:hint="Add Place.."
                 android:inputType="text"
-                android:textColor="@color/colornavy"
-                android:textColorHint="@color/colornavy"
-                android:textCursorDrawable="@color/colornavy"
+                android:textColor="@color/colordarkblue"
+                android:textColorHint="@color/colordarkblue"
+                android:textCursorDrawable="@color/colordarkblue"
                 android:textSize="16sp" />
-
-            <!--android:drawableLeft="@drawable/ic_action_name_96px"-->
 
             <EditText
                 android:id="@+id/type_location"
@@ -62,12 +62,47 @@
                 android:layout_alignEnd="@+id/add_place"
                 android:layout_alignRight="@+id/add_place"
                 android:background="@color/colorwhite"
+                android:drawableRight="@drawable/ic_action_down_navy_spinner"
                 android:text="Arrive"
                 android:stateListAnimator="@null"
                 android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small.Inverse"
                 android:textColor="@color/colornavy"
                 android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/add_name_reminder"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_below="@+id/type_location"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/colorwhite"
+                android:drawableLeft="@drawable/ic_action_name_96px"
+                android:drawablePadding="10dp"
+                android:ems="10"
+                android:hint="Add Task"
+                android:inputType="text"
+                android:textColor="@color/colordarkblue"
+                android:textColorHint="@color/colordarkblue"
+                android:textCursorDrawable="@color/colordarkblue"
+                android:textSize="16sp" />
+
+            <!--<Button-->
+                <!--android:id="@+id/add_task_name"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignBaseline="@+id/add_name_reminder"-->
+                <!--android:layout_alignBottom="@+id/add_name_reminder"-->
+                <!--android:layout_alignLeft="@+id/button_type_location"-->
+                <!--android:layout_alignStart="@+id/button_type_location"-->
+                <!--android:background="@drawable/button_radius_darkwhite"-->
+                <!--android:text="Add"-->
+                <!--android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small.Inverse"-->
+                <!--android:textColor="@color/colornavy"-->
+                <!--android:textStyle="bold" />-->
+
         </RelativeLayout>
 
     </android.support.design.widget.AppBarLayout>
-</FrameLayout>
+</LinearLayout>
