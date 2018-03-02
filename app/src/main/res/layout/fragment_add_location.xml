@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/parent_linear_layout"
     android:orientation="vertical"
     tools:context="com.example.thithirat.test.AddLocationFragment">
@@ -53,21 +54,16 @@
                 android:textSize="16sp"
                 tools:ignore="DuplicateIds" />
 
-            <Button
-                android:id="@+id/button_type_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/type_location"
-                android:layout_alignBottom="@+id/type_location"
+            <Spinner
+                android:id="@+id/spinner_location"
+                android:layout_width="130dp"
+                android:layout_height="35dp"
                 android:layout_alignEnd="@+id/add_place"
                 android:layout_alignRight="@+id/add_place"
-                android:background="@color/colorwhite"
-                android:drawableRight="@drawable/ic_action_down_navy_spinner"
-                android:text="Arrive"
-                android:stateListAnimator="@null"
-                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small.Inverse"
-                android:textColor="@color/colornavy"
-                android:textStyle="bold" />
+                android:layout_below="@+id/add_place"
+                android:backgroundTint="@color/colornavy"
+                android:dropDownWidth="120dp"
+                android:popupBackground="@color/colornavy" />
 
             <EditText
                 android:id="@+id/add_name_reminder"
@@ -101,6 +97,21 @@
                 <!--android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small.Inverse"-->
                 <!--android:textColor="@color/colornavy"-->
                 <!--android:textStyle="bold" />-->
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_done"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_margin="20dp"
+                android:src="@drawable/ic_action_done_white"
+                app:elevation="6dp"
+                app:fabSize="normal"
+                app:layout_anchor="@+id/viewpager"
+                app:layout_anchorGravity="right|bottom"
+                app:pressedTranslationZ="10dp" />
 
         </RelativeLayout>
 
