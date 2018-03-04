@@ -3,6 +3,7 @@ package com.example.thithirat.test;
 
 import android.animation.LayoutTransition;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -22,6 +23,8 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.location.places.ui.PlacePicker;
 
 
 /**
@@ -59,6 +62,16 @@ public class AddLocationFragment extends Fragment {
                 fragmentTransaction.replace(R.id.frag, scheduled_fragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
+            }
+        });
+
+        ImageButton marker_maps = (ImageButton)view.findViewById(R.id.marker_map);
+        marker_maps.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AddLocationMapsReminderActivity.class);
+                startActivity(intent);
             }
         });
 
