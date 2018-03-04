@@ -113,6 +113,16 @@
                 app:layout_anchorGravity="right|bottom"
                 app:pressedTranslationZ="10dp" />
 
+            <ImageButton
+                android:id="@+id/marker_map"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_alignEnd="@+id/add_place"
+                android:layout_alignRight="@+id/add_place"
+                android:layout_alignTop="@+id/add_place"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_action_map_marker_navy_new" />
+
         </RelativeLayout>
 
     </android.support.design.widget.AppBarLayout>
