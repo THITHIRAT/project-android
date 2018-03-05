@@ -18,11 +18,15 @@ import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class AddLocationMapsReminderActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -34,6 +38,8 @@ public class AddLocationMapsReminderActivity extends FragmentActivity implements
     private Location mLocation;
 
     double latitude, longtitude;
+
+    Marker marker;
 
     int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
 
@@ -48,12 +54,19 @@ public class AddLocationMapsReminderActivity extends FragmentActivity implements
         latitude = mLocation.getLatitude();
         longtitude = mLocation.getLongitude();
 
+
+
         placeAutoComplete = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.marker_map);
         placeAutoComplete.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
                 Log.d("Maps", "Place selected: " + place.getName());
-                mMap.addMarker(new MarkerOptions().position(place.getLatLng()));
+
+                LatLng getLatLng = place.getLatLng();
+                latitude = getLatLng.latitude;
+                longtitude = getLatLng.longitude;
+
+                geoLocation(latitude, longtitude, place);
             }
 
             @Override
@@ -63,9 +76,30 @@ public class AddLocationMapsReminderActivity extends FragmentActivity implements
         });
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+    }
+
+    public void geoLocation(double latitude, double longtitude, Place place) {
+        setMarker(place);
+        goToLocationZoom(latitude, longtitude, 11);
+    }
+
+    private void setMarker(Place place) {
+        if(marker != null) {
+            marker.remove();
+        }
+
+        marker = mMap.addMarker(new MarkerOptions()
+            .position(place.getLatLng())
+            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_action_marker_red))
+            .title("Select here : " + place.getName()));
+    }
+
+    private void goToLocationZoom(double latitude, double longtitude, int zoom) {
+        LatLng latlng = new LatLng(latitude, longtitude);
+        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(latlng, zoom);
+        mMap.moveCamera(update);
     }
 
 
@@ -84,9 +118,11 @@ public class AddLocationMapsReminderActivity extends FragmentActivity implements
 
         // Add a marker in Sydney and move the camera
         LatLng current = new LatLng(latitude, longtitude);
-        mMap.addMarker(new MarkerOptions().position(current).title("You are here"));
+        mMap.addMarker(new MarkerOptions()
+                .position(current).title("You are here")
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_action_person_red)));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(current));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(current,(float) 10.0));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(current,(float) 7.0));
 
     }
 
