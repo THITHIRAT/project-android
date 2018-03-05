@@ -1,10 +1,16 @@
 package com.example.thithirat.test;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -29,6 +35,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
+import java.util.List;
+
 public class AddLocationMapsReminderActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -38,10 +47,12 @@ public class AddLocationMapsReminderActivity extends FragmentActivity implements
     private Location mLocation;
 
     double latitude, longtitude;
+    double latitudefromselect, longtitudefromselect;
 
     Marker marker;
 
     int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +65,8 @@ public class AddLocationMapsReminderActivity extends FragmentActivity implements
         latitude = mLocation.getLatitude();
         longtitude = mLocation.getLongitude();
 
-
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
 
         placeAutoComplete = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.marker_map);
         placeAutoComplete.setOnPlaceSelectedListener(new PlaceSelectionListener() {
@@ -63,10 +75,10 @@ public class AddLocationMapsReminderActivity extends FragmentActivity implements
                 Log.d("Maps", "Place selected: " + place.getName());
 
                 LatLng getLatLng = place.getLatLng();
-                latitude = getLatLng.latitude;
-                longtitude = getLatLng.longitude;
+                latitudefromselect = getLatLng.latitude;
+                longtitudefromselect = getLatLng.longitude;
 
-                geoLocation(latitude, longtitude, place);
+                geoLocation(latitudefromselect, longtitudefromselect, place);
             }
 
             @Override
@@ -75,10 +87,22 @@ public class AddLocationMapsReminderActivity extends FragmentActivity implements
             }
         });
 
+        FloatingActionButton fab_place_done_reminder = (FloatingActionButton)findViewById(R.id.fab_place_done);
+        fab_place_done_reminder.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Log.d("Onclick", "Complete");
+                
+            }
+        });
+
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
+
 
     public void geoLocation(double latitude, double longtitude, Place place) {
         setMarker(place);
@@ -92,8 +116,10 @@ public class AddLocationMapsReminderActivity extends FragmentActivity implements
 
         marker = mMap.addMarker(new MarkerOptions()
             .position(place.getLatLng())
+            .draggable(true)
             .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_action_marker_red))
             .title("Select here : " + place.getName()));
+
     }
 
     private void goToLocationZoom(double latitude, double longtitude, int zoom) {
