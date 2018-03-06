@@ -55,9 +55,11 @@ public class LocationScheduledFragment extends Fragment {
         adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_expandable_list_item_1, arrayList);
         listview.setAdapter(adapter);
 
-        String name = strplace;
-        arrayList.add(name);
-        adapter.notifyDataSetChanged();
+        if (strplace != null) {
+            String name = strplace;
+            arrayList.add(name);
+            adapter.notifyDataSetChanged();
+        }
 
         return view;
     }
