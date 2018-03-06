@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +25,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amigold.fundapter.fields.StringField;
 import com.google.android.gms.location.places.ui.PlacePicker;
 
 
@@ -34,6 +36,7 @@ public class AddLocationFragment extends Fragment {
 
     Spinner spinner;
     ArrayAdapter<String> adapter;
+    static EditText strplacename;
 
     public AddLocationFragment() {
         // Required empty public constructor
@@ -51,6 +54,8 @@ public class AddLocationFragment extends Fragment {
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+
+        strplacename = (EditText)view.findViewById(R.id.add_place);
 
         FloatingActionButton fab_done_reminder = (FloatingActionButton)view.findViewById(R.id.fab_done);
         fab_done_reminder.setOnClickListener(new View.OnClickListener(){
@@ -78,4 +83,9 @@ public class AddLocationFragment extends Fragment {
         return view;
     }
 
+    public static void putArguments(Bundle args) {
+        String placename = args.getString("PlaceName");
+        Log.d("Value place ", placename);
+        strplacename.setText(placename);
+    }
 }

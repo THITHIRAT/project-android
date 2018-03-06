@@ -48,10 +48,12 @@ public class AddLocationMapsReminderActivity extends FragmentActivity implements
 
     double latitude, longtitude;
     double latitudefromselect, longtitudefromselect;
+    String placename;
 
     Marker marker;
 
     int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
+
 
 
     @Override
@@ -77,6 +79,7 @@ public class AddLocationMapsReminderActivity extends FragmentActivity implements
                 LatLng getLatLng = place.getLatLng();
                 latitudefromselect = getLatLng.latitude;
                 longtitudefromselect = getLatLng.longitude;
+                placename = (String) place.getName();
 
                 geoLocation(latitudefromselect, longtitudefromselect, place);
             }
@@ -93,7 +96,11 @@ public class AddLocationMapsReminderActivity extends FragmentActivity implements
             @Override
             public void onClick(View v) {
                 Log.d("Onclick", "Complete");
-                
+                Bundle args = new Bundle();
+                args.putString("PlaceName", placename);
+                AddLocationFragment.putArguments(args);
+
+                finish();
             }
         });
 
