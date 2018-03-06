@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -25,6 +26,9 @@ public class LocationScheduledFragment extends Fragment {
     ListView listview;
     ArrayList<String> arrayList;
     ArrayAdapter<String> adapter;
+
+    List<LocationReminder> mLocation;
+    LocationReminderAdapter locationadapter;
 
     static String strplace;
 
@@ -51,15 +55,22 @@ public class LocationScheduledFragment extends Fragment {
         });
 
         listview = (ListView)view.findViewById(R.id.list_view);
-        arrayList = new ArrayList<String>();
-        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_expandable_list_item_1, arrayList);
-        listview.setAdapter(adapter);
 
-        if (strplace != null) {
-            String name = strplace;
-            arrayList.add(name);
-            adapter.notifyDataSetChanged();
-        }
+        mLocation = new ArrayList<>();
+        String name = strplace;
+        mLocation.add(new LocationReminder(1, name));
+        locationadapter = new LocationReminderAdapter(view.getContext().getApplicationContext(), mLocation);
+        listview.setAdapter(locationadapter);
+
+//        arrayList = new ArrayList<String>();
+//        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_expandable_list_item_1, arrayList);
+//        listview.setAdapter(adapter);
+//
+//        if (strplace != null) {
+//            String name = strplace;
+//            arrayList.add(name);
+//            adapter.notifyDataSetChanged();
+//        }
 
         return view;
     }
