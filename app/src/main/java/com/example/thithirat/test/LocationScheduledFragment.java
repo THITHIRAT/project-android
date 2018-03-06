@@ -59,6 +59,7 @@ public class LocationScheduledFragment extends Fragment {
         mLocation = new ArrayList<>();
         String name = strplace;
         mLocation.add(new LocationReminder(1, name));
+        mLocation.add(new LocationReminder(2, name));
         locationadapter = new LocationReminderAdapter(view.getContext().getApplicationContext(), mLocation);
         listview.setAdapter(locationadapter);
 

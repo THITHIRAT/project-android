@@ -28,6 +28,8 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/button_map"
         android:layout_centerHorizontal="true"
+        android:dividerHeight="10dp"
+        android:divider="@null"
         android:layout_marginTop="15dp" />
 
 
