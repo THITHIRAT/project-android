@@ -28,6 +28,8 @@ import android.widget.Toast;
 import com.amigold.fundapter.fields.StringField;
 import com.google.android.gms.location.places.ui.PlacePicker;
 
+import java.util.ResourceBundle;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,7 +38,8 @@ public class AddLocationFragment extends Fragment {
 
     Spinner spinner;
     ArrayAdapter<String> adapter;
-    static EditText strplacename;
+    static EditText editstrplacename;
+    static String strplace;
 
     public AddLocationFragment() {
         // Required empty public constructor
@@ -55,13 +58,19 @@ public class AddLocationFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
-        strplacename = (EditText)view.findViewById(R.id.add_place);
+        editstrplacename = (EditText)view.findViewById(R.id.add_place);
 
         FloatingActionButton fab_done_reminder = (FloatingActionButton)view.findViewById(R.id.fab_done);
         fab_done_reminder.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v) {
+                Log.d("Onclick", "CompleteAddLocation " + strplace);
+
+                Bundle args = new Bundle();
+                args.putString("PlaceName", strplace);
+                LocationScheduledFragment.putArguments(args);
+
                 ScheduledFragment scheduled_fragment = new ScheduledFragment();
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.frag, scheduled_fragment);
@@ -86,6 +95,8 @@ public class AddLocationFragment extends Fragment {
     public static void putArguments(Bundle args) {
         String placename = args.getString("PlaceName");
         Log.d("Value place ", placename);
-        strplacename.setText(placename);
+        editstrplacename.setText(placename);
+
+        strplace = args.getString("PlaceName");
     }
 }

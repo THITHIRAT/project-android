@@ -96,14 +96,15 @@ public class AddLocationMapsReminderActivity extends FragmentActivity implements
             @Override
             public void onClick(View v) {
                 Log.d("Onclick", "Complete");
-                Bundle args = new Bundle();
-                args.putString("PlaceName", placename);
-                AddLocationFragment.putArguments(args);
+                if(placename != null) {
+                    Bundle args = new Bundle();
+                    args.putString("PlaceName", placename);
+                    AddLocationFragment.putArguments(args);
+                }
 
                 finish();
             }
         });
-
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
