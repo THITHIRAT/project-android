@@ -38,6 +38,7 @@ public class AddLocationFragment extends Fragment {
 
     Spinner spinner;
     ArrayAdapter<String> adapter;
+
     static EditText editstrplacename;
     static EditText editstrtaskname;
 

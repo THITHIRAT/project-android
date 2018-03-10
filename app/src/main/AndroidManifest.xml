@@ -7,9 +7,10 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-feature android:name="android.hardware.wifi" />
 
-    <uses-permission android:name="my.package.name.permission.MAPS_RECEIVE"/>
+    <uses-permission android:name="my.package.name.permission.MAPS_RECEIVE" />
 
     <application
         android:allowBackup="true"
@@ -44,9 +45,9 @@
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/. 
         -->
-        <!--<meta-data-->
-            <!--android:name="com.google.android.maps.v2.API_KEY"-->
-            <!--android:value="@string/google_maps_key" />-->
+        <!-- <meta-data -->
+        <!-- android:name="com.google.android.maps.v2.API_KEY" -->
+        <!-- android:value="@string/google_maps_key" /> -->
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -55,12 +56,13 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
-
         <activity android:name=".AddFavLocationActivity" />
-
         <activity
             android:name=".AddLocationMapsReminderActivity"
-            android:label="@string/title_activity_add_location_maps_reminder"></activity>
+            android:label="@string/title_activity_add_location_maps_reminder" />
+        <activity
+            android:name=".AddEventMapsReminderActivity"
+            android:label="@string/title_activity_add_event_maps_reminder"></activity>
     </application>
 
 </manifest>

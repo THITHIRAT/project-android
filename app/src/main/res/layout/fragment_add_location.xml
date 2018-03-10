@@ -34,7 +34,7 @@
                 android:textCursorDrawable="@color/colordarkblue"
                 android:textSize="16sp" />
 
-            <EditText
+            <TextView
                 android:id="@+id/type_location"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
@@ -42,6 +42,7 @@
                 android:layout_marginBottom="15dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
+                android:gravity="center_vertical"
                 android:background="@color/colorwhite"
                 android:drawableLeft="@drawable/ic_action_notification_navy_15"
                 android:drawablePadding="10dp"
