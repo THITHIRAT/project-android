@@ -10,9 +10,10 @@
         android:id="@+id/button_map"
         android:layout_width="300dp"
         android:layout_height="30dp"
+        android:layout_below="@+id/appbar_layout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:background="@drawable/button_radius_red"
+        android:background="@drawable/button_radius_darkblue"
         android:text="View Maps"
         android:textAppearance="@style/TextAppearance.AppCompat.Small.Inverse"
         android:textColor="@color/colorwhite"
@@ -31,6 +32,5 @@
         android:dividerHeight="10dp"
         android:divider="@null"
         android:layout_marginTop="15dp" />
-
 
 </RelativeLayout>

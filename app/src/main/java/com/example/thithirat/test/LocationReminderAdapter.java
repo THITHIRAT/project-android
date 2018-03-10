@@ -1,6 +1,7 @@
 package com.example.thithirat.test;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -42,11 +43,22 @@ public class LocationReminderAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = View.inflate(mContext, R.layout.location_reminder, null);
+
         TextView textviewname = (TextView)view.findViewById(R.id.lc_place_name);
+        textviewname.setMaxLines(1);
+
+        TextView textviewnoti = (TextView)view.findViewById(R.id.lc_type_noti);
+        textviewnoti.setMaxLines(1);
+
+        TextView textviewtask = (TextView)view.findViewById(R.id.lc_task_name);
+        textviewnoti.setMaxLines(1);
 
         textviewname.setText(mLocationReminder.get(position).getName());
+        textviewnoti.setText(mLocationReminder.get(position).getNoti());
+        textviewtask.setText(mLocationReminder.get(position).getTask());
 
         view.setTag(mLocationReminder.get(position).getId());
+
         return view;
     }
 }

@@ -24,13 +24,13 @@ import java.util.List;
 public class LocationScheduledFragment extends Fragment {
 
     ListView listview;
-    ArrayList<String> arrayList;
-    ArrayAdapter<String> adapter;
 
     List<LocationReminder> mLocation;
     LocationReminderAdapter locationadapter;
 
     static String strplace;
+    static String strnoti;
+    static String strtask;
 
     public LocationScheduledFragment() {
         // Required empty public constructor
@@ -58,28 +58,28 @@ public class LocationScheduledFragment extends Fragment {
 
         mLocation = new ArrayList<>();
         String name = strplace;
-        mLocation.add(new LocationReminder(1, name));
-        mLocation.add(new LocationReminder(2, name));
+        String noti = strnoti;
+        String task = strtask;
+        mLocation.add(new LocationReminder(1, name, noti, task));
+        mLocation.add(new LocationReminder(2, name, noti, task));
         locationadapter = new LocationReminderAdapter(view.getContext().getApplicationContext(), mLocation);
         listview.setAdapter(locationadapter);
-
-//        arrayList = new ArrayList<String>();
-//        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_expandable_list_item_1, arrayList);
-//        listview.setAdapter(adapter);
-//
-//        if (strplace != null) {
-//            String name = strplace;
-//            arrayList.add(name);
-//            adapter.notifyDataSetChanged();
-//        }
 
         return view;
     }
 
     public static void putArguments(Bundle args) {
         String placename = args.getString("PlaceName");
-        Log.d("Value place ", placename);
+        Log.d("LocationScheduled place", placename);
+
+        String noti = args.getString("Noti");
+        Log.d("LocationScheduled noti", noti);
+
+        String task = args.getString("Task");
+        Log.d("LocationScheduled task", task);
 
         strplace = args.getString("PlaceName");
+        strnoti = args.getString("Noti");
+        strtask = args.getString("Task");
     }
 }

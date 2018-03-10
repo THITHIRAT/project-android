@@ -66,7 +66,7 @@
                 android:popupBackground="@color/colornavy" />
 
             <EditText
-                android:id="@+id/add_name_reminder"
+                android:id="@+id/add_name_task"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_below="@+id/type_location"
