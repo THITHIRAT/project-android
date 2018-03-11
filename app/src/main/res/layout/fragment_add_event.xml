@@ -145,6 +145,48 @@
                 android:textSize="16sp"
                 tools:ignore="DuplicateIds" />
 
+            <TextView
+                android:id="@+id/before_after"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/number"
+                android:layout_below="@+id/add_place"
+                android:layout_toLeftOf="@+id/number"
+                android:layout_toStartOf="@+id/number"
+                android:gravity="center_vertical"
+                android:paddingRight="5dp"
+                android:textAlignment="center"
+                android:textColor="@color/colornavy"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/type_event_notification"
+                android:layout_below="@+id/add_place"
+                android:layout_toLeftOf="@+id/type_date"
+                android:layout_toStartOf="@+id/type_date"
+                android:gravity="center_vertical"
+                android:paddingRight="5dp"
+                android:textAlignment="center"
+                android:textColor="@color/colornavy"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/type_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/number"
+                android:layout_alignEnd="@+id/add_place"
+                android:layout_alignRight="@+id/add_place"
+                android:layout_below="@+id/add_place"
+                android:gravity="center_vertical"
+                android:paddingRight="5dp"
+                android:textAlignment="center"
+                android:textColor="@color/colornavy"
+                android:textSize="14dp" />
+
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fab_done"
@@ -160,6 +202,7 @@
                 app:layout_anchor="@+id/viewpager"
                 app:layout_anchorGravity="right|bottom"
                 app:pressedTranslationZ="10dp" />
+
 
         </RelativeLayout>
 

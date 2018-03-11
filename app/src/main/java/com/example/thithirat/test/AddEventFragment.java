@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.TimerTask;
 
 
 /**
@@ -38,19 +40,27 @@ public class AddEventFragment extends Fragment {
     Spinner spinner_min_hour;
     ArrayAdapter<String> adapter;
 
+    String str_before_after;
+    String str_number;
+    String str_type_date;
+
     public AddEventFragment() {
         // Required empty public constructor
     }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_add_event, container, false);
 
         Button btndate = (Button)view.findViewById(R.id.show_date);
         Button btntime = (Button)view.findViewById(R.id.show_time);
+
+        final TextView et_before_after = (TextView) view.findViewById(R.id.before_after);
+        final TextView et_number = (TextView) view.findViewById(R.id.number);
+        final TextView et_type_date = (TextView)view.findViewById(R.id.type_date);
 
         btndate.setOnClickListener(new View.OnClickListener() {
 
@@ -106,9 +116,9 @@ public class AddEventFragment extends Fragment {
         Button notification = (Button)view.findViewById(R.id.type_event_notification);
         notification.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                View view = getLayoutInflater().inflate(R.layout.event_notification, null);
+                final View view = getLayoutInflater().inflate(R.layout.event_notification, null);
                 spinner_before_after = (Spinner)view.findViewById(R.id.spinner_event_notification_before_after);
                 adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.types_event_notification_before_after));
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -119,24 +129,42 @@ public class AddEventFragment extends Fragment {
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner_min_hour.setAdapter(adapter);
 
-                EditText mNumber = (EditText)view.findViewById(R.id.edittext_number);
+                final EditText mNumber = (EditText)view.findViewById(R.id.edittext_number);
+
+                builder.setView(view);
+                final AlertDialog dialog = builder.create();
+                dialog.show();
 
                 Button button_done = (Button)view.findViewById(R.id.done_notification);
                 button_done.setOnClickListener(new View.OnClickListener() {
                     @Override
                         public void onClick(View v) {
-                            Toast.makeText(getActivity(),
-                                    R.string.sucesss_login_msg,
-                                    Toast.LENGTH_LONG).show();
+                        str_number = mNumber.getText().toString();
+                        str_before_after = spinner_before_after.getSelectedItem().toString();
+                        str_type_date = spinner_min_hour.getSelectedItem().toString();
+
+                        View view = inflater.inflate(R.layout.fragment_add_event, container, false);
+
+                        et_before_after.setText(str_before_after);
+                        et_number.setText(str_number);
+                        et_type_date.setText(str_type_date);
+
+                        Log.d("AddEventNotification", str_before_after + str_number + str_type_date);
+
+                        dialog.cancel();
+
                     }
                 });
 
-                builder.setView(view);
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                Button button_close = (Button)view.findViewById(R.id.back_notification);
+                button_close.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.cancel();
+                    }
+                });
             }
         });
-
 
         return view;
     }

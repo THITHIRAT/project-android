@@ -27,7 +27,8 @@
 
     <string name="title_activity_add_location_maps_reminder">Map</string>
     <string name="title_activity_add_event_maps_reminder">Map</string>
-    <string name="sucesss_login_msg">SUCCESS</string>
+    <string name="save_msg">Save</string>
+    <string name="back_msg">Back</string>
 
     <string-array name="types_event_notification_before_after">
         <item>Before</item>
@@ -37,5 +38,6 @@
     <string-array name="types_event_notification_min_hour">
         <item>Mins</item>
         <item>Hrs</item>
+        <item>Days</item>
     </string-array>
 </resources>

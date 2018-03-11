@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorwhite"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
@@ -41,6 +43,7 @@
         android:ems="10"
         android:inputType="number"
         android:text="1"
+        android:maxLength="2"
         android:textAlignment="center"
         android:textSize="14sp" />
 
@@ -62,12 +65,27 @@
         android:id="@+id/done_notification"
         android:layout_width="80dp"
         android:layout_height="35dp"
+        android:layout_alignEnd="@+id/spinner_event_notification_min_hour"
+        android:layout_alignRight="@+id/spinner_event_notification_min_hour"
         android:layout_below="@+id/edittext_number"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="15dp"
-        android:layout_marginTop="15dp"
         android:background="@drawable/button_radius"
-        android:text="OK"
+        android:text="SAVE"
+        android:layout_marginTop="15dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
+        android:textColor="@color/colorwhite"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/back_notification"
+        android:layout_width="80dp"
+        android:layout_height="35dp"
+        android:layout_alignLeft="@+id/done_notification"
+        android:layout_alignStart="@+id/done_notification"
+        android:layout_below="@+id/done_notification"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/button_radius"
+        android:text="CLOSE"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
         android:textColor="@color/colorwhite"
         android:textSize="14sp" />
