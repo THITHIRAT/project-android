@@ -21,6 +21,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -29,6 +30,8 @@ public class HomeActivity extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
+
+    TextView tv_email_nav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +104,11 @@ public class HomeActivity extends AppCompatActivity {
         toggle = new ActionBarDrawerToggle(this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer_layout.addDrawerListener(toggle);
         toggle.syncState();
+
+        View headerView = navigationView.inflateHeaderView(R.layout.nav_header_home);
+        tv_email_nav = (TextView)findViewById(R.id.email_nav_header);
+        Intent intent = getIntent();
+        tv_email_nav.setText(intent.getStringExtra(MainActivity.KEY_EMAIL));
 
     }
 
