@@ -105,11 +105,6 @@ public class HomeActivity extends AppCompatActivity {
         drawer_layout.addDrawerListener(toggle);
         toggle.syncState();
 
-        View headerView = navigationView.inflateHeaderView(R.layout.nav_header_home);
-        tv_email_nav = (TextView)findViewById(R.id.email_nav_header);
-        Intent intent = getIntent();
-        tv_email_nav.setText(intent.getStringExtra(MainActivity.KEY_EMAIL));
-
     }
 
 }
