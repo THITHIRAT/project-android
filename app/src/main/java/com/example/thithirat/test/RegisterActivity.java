@@ -34,17 +34,22 @@ public class RegisterActivity extends Activity {
 
     private EditText et_username;
     private EditText et_password;
+    private EditText et_confirmpassword;
     private EditText et_email;
 
     private Button register;
 
     String str_username;
     String str_password;
+    String str_confirmpassword;
     String str_email;
 
     public String KEY_USERNAME = "username";
     public String KEY_PASSWORD = "password";
+    public String KEY_CONFIRMPASSWORD = "confirmpassword";
     public String KEY_EMAIL = "email";
+
+    String token;
 
     DatabaseHelper db = new DatabaseHelper(this);
 
@@ -55,11 +60,8 @@ public class RegisterActivity extends Activity {
 
         et_username = (EditText)findViewById(R.id.username);
         et_password = (EditText)findViewById(R.id.password);
+        et_confirmpassword = (EditText)findViewById(R.id.confirmpassword);
         et_email = (EditText)findViewById(R.id.email);
-
-        str_username = et_username.getText().toString();
-        str_password = et_password.getText().toString();
-        str_email = et_email.getText().toString();
 
         register = (Button)findViewById(R.id.register);
 
@@ -68,20 +70,15 @@ public class RegisterActivity extends Activity {
             public void onClick(View v) {
                 str_username = et_username.getText().toString();
                 str_password = et_password.getText().toString();
+                str_confirmpassword = et_confirmpassword.getText().toString();
                 str_email = et_email.getText().toString();
 
-                connect_register(str_username, str_password, str_email);
-
-//                db.insertData(et_username.getText().toString(), et_password.getText().toString(), et_email.getText().toString());
-//                Log.e("INSERT DATA username", String.valueOf(et_username.getText()));
-//                Log.e("INSERT DATA password", String.valueOf(et_password.getText()));
-//                Log.e("INSERT DATA email", String.valueOf(et_email.getText()));
-
+                connect_register(str_username, str_password, str_confirmpassword, str_email);
             }
         });
     }
 
-    private void connect_register(String str_username, String str_password, String str_email) {
+    private void connect_register(String str_username, String str_password, String str_confirmpassword, String str_email) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(RegisterActivity.this);
             String URL = "http://161.246.5.195:3000/users/register";
@@ -89,6 +86,7 @@ public class RegisterActivity extends Activity {
             jsonBody.put("username", str_username);
             jsonBody.put("email", str_email);
             jsonBody.put("password", str_password);
+            jsonBody.put("confirmpassword", str_confirmpassword);
             final String requestBody = jsonBody.toString();
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
                     new Response.Listener<String>() {
@@ -101,10 +99,19 @@ public class RegisterActivity extends Activity {
                                 String msg_login = json.getString("msg");
                                 Log.i("VOLLEY", msg_login);
                                 if(msg_login.equals("user register sucessfully")) {
+                                    token = json.getString("token");
+
+                                    //from DatabaseHelper.java
+                                    db.insertData(token);
+                                    Log.e("INSERT DATA token", String.valueOf(token));
+
                                     home();
                                 }
                                 if(msg_login.equals("there are email to signup")) {
                                     Toast.makeText(RegisterActivity.this, "This email already used", Toast.LENGTH_LONG).show();
+                                }
+                                if(msg_login.equals("password not match")) {
+                                    Toast.makeText(RegisterActivity.this, "Password not match", Toast.LENGTH_LONG).show();
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
