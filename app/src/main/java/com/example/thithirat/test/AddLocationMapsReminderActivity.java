@@ -13,6 +13,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -34,8 +42,13 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.vision.barcode.Barcode;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 public class AddLocationMapsReminderActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -74,14 +87,15 @@ public class AddLocationMapsReminderActivity extends FragmentActivity implements
         placeAutoComplete.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-                Log.d("Maps", "Place selected: " + place.getName());
-
                 LatLng getLatLng = place.getLatLng();
                 latitudefromselect = getLatLng.latitude;
                 longtitudefromselect = getLatLng.longitude;
                 placename = (String) place.getName();
 
                 geoLocation(latitudefromselect, longtitudefromselect, place);
+                Log.d("LatLngLocation", latitudefromselect + ", " + longtitudefromselect + ", " + placename);
+
+                connect_location(latitudefromselect, longtitudefromselect, placename);
             }
 
             @Override
@@ -111,6 +125,60 @@ public class AddLocationMapsReminderActivity extends FragmentActivity implements
         mapFragment.getMapAsync(this);
     }
 
+    private void connect_location(double latitudefromselect, double longtitudefromselect, String placename) {
+        try {
+            RequestQueue requestQueue = Volley.newRequestQueue(AddLocationMapsReminderActivity.this);
+            String URL = "http://161.246.5.195:3000/place/location";
+            JSONObject jsonBody = new JSONObject();
+            jsonBody.put("latitude", latitudefromselect);
+            jsonBody.put("longtitude", longtitudefromselect);
+            jsonBody.put("name", placename);
+            final String requestBody = jsonBody.toString();
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.i("VOLLEY", response);
+                            JSONObject json = null;
+                            try {
+                                json = new JSONObject(response);
+                                String msg_location = json.getString("msg");
+                                Log.i("VOLLEY", msg_location);
+                                if(msg_location.equals("sucess insert location")) {
+                                    Toast.makeText(AddLocationMapsReminderActivity.this, "Success", Toast.LENGTH_LONG).show();
+                                }else {
+                                    Toast.makeText(AddLocationMapsReminderActivity.this, "Denied", Toast.LENGTH_LONG).show();
+                                }
+                            }catch (JSONException e){
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("VOLLEY", error.toString());
+                        }
+                    }) {
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        return requestBody == null ? null : requestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                        return null;
+                    }
+                }
+            };
+            requestQueue.add(stringRequest);
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+    }
 
     public void geoLocation(double latitude, double longtitude, Place place) {
         setMarker(place);

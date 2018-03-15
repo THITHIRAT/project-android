@@ -50,7 +50,6 @@ public class RegisterActivity extends Activity {
     public String KEY_EMAIL = "email";
 
     String token;
-
     DatabaseHelper db = new DatabaseHelper(this);
 
     @Override
@@ -102,9 +101,8 @@ public class RegisterActivity extends Activity {
                                     token = json.getString("token");
 
                                     //from DatabaseHelper.java
-                                    db.insertData(token);
+                                    db.insertDatatoken(token);
                                     Log.e("INSERT DATA token", String.valueOf(token));
-
                                     home();
                                 }
                                 if(msg_login.equals("there are email to signup")) {

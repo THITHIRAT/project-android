@@ -13,11 +13,10 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "user.db";
-    private static final String TABLE_USER_NAME = "user";
-    private static final String COL_ID = "_id";
-    private static final String COL_TOKEN = "token";
 
-    private static final String USER_CREATE = "CREATE TABLE " + TABLE_USER_NAME + "(_id INTEGER PRIMARY KEY AUTOINCREMENT, token TEXT)";
+    private static final String TABLE_USER_NAME = "user";
+    private static final String COL_ID = "ID";
+    private static final String COL_TOKEN = "TOKEN";
 
     SQLiteDatabase db;
 
@@ -27,7 +26,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(USER_CREATE);
+        db.execSQL("CREATE TABLE " + TABLE_USER_NAME + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, TOKEN TEXT)");
         this.db = db;
     }
 
@@ -38,7 +37,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         this.onCreate(db);
     }
 
-    public void insertData(String token) {
+    public void insertDatatoken(String token) {
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_TOKEN, token);

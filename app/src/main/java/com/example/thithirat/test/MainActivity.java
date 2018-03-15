@@ -61,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
     public static String KEY_EMAIL = "email";
     public static String KEY_PASSWORD = "password";
 
+    String token;
+    DatabaseHelper db = new DatabaseHelper(this);
+
     public MainActivity() throws IOException {
     }
 
@@ -118,6 +121,11 @@ public class MainActivity extends AppCompatActivity {
                                 String msg_login = json.getString("msg");
                                 Log.i("VOLLEY", msg_login);
                                 if(msg_login.equals("success login")) {
+                                    token = json.getString("token");
+
+                                    //from DatabaseHelper.java
+                                    db.insertDatatoken(token);
+                                    Log.e("INSERT DATA token", String.valueOf(token));
                                     home();
                                 }
                                 if(msg_login.equals("password incorrect")) {
