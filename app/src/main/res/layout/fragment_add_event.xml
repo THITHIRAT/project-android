@@ -27,74 +27,101 @@
                 android:ems="10"
                 android:hint="Add Task.."
                 android:inputType="text"
-                android:textColor="@color/colordarkblue"
-                android:textColorHint="@color/colordarkblue"
+                android:textColor="@color/colornavy"
+                android:textColorHint="@color/colordarkwhite"
                 android:textCursorDrawable="@color/colordarkblue"
                 android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/add_date"
-                android:layout_width="match_parent"
+            <EditText
+                android:id="@+id/all_day"
+                android:layout_width="wrap_content"
                 android:layout_height="35dp"
-                android:layout_below="@+id/add_task_name"
-                android:layout_centerHorizontal="true"
                 android:layout_marginBottom="15dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:background="@color/colorwhite"
+                android:layout_below="@+id/add_task_name"
+                android:drawableLeft="@drawable/ic_action_all_day_navy"
+                android:drawablePadding="10dp"
+                android:ems="10"
+                android:text="All Day"
+                android:inputType="text"
+                android:textColor="@color/colornavy"
+                android:textColorHint="@color/colordarkwhite"
+                android:textCursorDrawable="@color/colordarkblue"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/start_date"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_below="@+id/all_day"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@null"
                 android:drawableLeft="@drawable/ic_action_calendar_navy"
                 android:drawablePadding="10dp"
                 android:ems="10"
                 android:gravity="center_vertical"
-                android:hint="Add Date"
+                android:text="Start Date"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
                 android:textColor="@color/colornavy"
                 android:textColorHint="@color/colornavy"
                 android:textCursorDrawable="@color/colornavy"
                 android:textSize="16sp" />
 
             <Button
-                android:id="@+id/show_date"
+                android:id="@+id/start_time"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
-                android:layout_alignEnd="@+id/add_date"
-                android:layout_alignRight="@+id/add_date"
-                android:layout_below="@+id/add_task_name"
+                android:paddingRight="20dp"
+                android:layout_alignEnd="@+id/start_date"
+                android:layout_alignRight="@+id/start_date"
+                android:layout_below="@+id/all_day"
                 android:layout_marginBottom="15dp"
-                android:background="@drawable/button_radius_darkblue"
-                android:text="SHOW"
-                android:textSize="12sp" />
+                android:background="@null"
+                android:drawableLeft="@drawable/ic_action_time_navy"
+                android:drawablePadding="10dp"
+                android:text="Start Time"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
+                android:textColor="@color/colornavy"
+                android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/add_time"
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/end_date"
+                android:layout_width="wrap_content"
                 android:layout_height="35dp"
-                android:layout_below="@+id/add_date"
-                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/start_date"
                 android:layout_marginBottom="15dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:background="@color/colorwhite"
-                android:drawableLeft="@drawable/ic_action_time_navy"
-                android:drawablePadding="10dp"
+                android:background="@null"
                 android:ems="10"
                 android:gravity="center_vertical"
-                android:hint="Add Time"
+                android:paddingLeft="43dp"
+                android:text="End Date"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
                 android:textColor="@color/colornavy"
                 android:textColorHint="@color/colornavy"
                 android:textCursorDrawable="@color/colornavy"
                 android:textSize="16sp" />
 
-
             <Button
-                android:id="@+id/show_time"
+                android:id="@+id/end_time"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
-                android:layout_alignLeft="@+id/show_date"
-                android:layout_alignStart="@+id/show_date"
-                android:layout_below="@+id/show_date"
-                android:background="@drawable/button_radius_darkblue"
-                android:text="SHOW"
-                android:textSize="12sp" />
+                android:paddingRight="20dp"
+                android:layout_alignLeft="@+id/start_time"
+                android:layout_alignStart="@+id/start_time"
+                android:layout_below="@+id/start_time"
+                android:background="@null"
+                android:drawableLeft="@drawable/ic_action_time_navy"
+                android:drawablePadding="10dp"
+                android:text="End Time"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
+                android:textColor="@color/colornavy"
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/add_place"
@@ -104,15 +131,15 @@
                 android:layout_marginBottom="15dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_below="@id/add_time"
+                android:layout_below="@id/end_date"
                 android:background="@color/colorwhite"
                 android:drawableLeft="@drawable/ic_action_location_navy_50px"
                 android:drawablePadding="10dp"
                 android:ems="10"
-                android:hint="Add Place.."
+                android:hint="Place Name"
                 android:inputType="text"
-                android:textColor="@color/colordarkblue"
-                android:textColorHint="@color/colordarkblue"
+                android:textColor="@color/colornavy"
+                android:textColorHint="@color/colordarkwhite"
                 android:textCursorDrawable="@color/colordarkblue"
                 android:textSize="16sp" />
 
@@ -157,7 +184,7 @@
                 android:paddingRight="5dp"
                 android:textAlignment="center"
                 android:textColor="@color/colornavy"
-                android:textSize="14dp" />
+                android:textSize="16dp" />
 
             <TextView
                 android:id="@+id/number"
@@ -171,7 +198,7 @@
                 android:paddingRight="5dp"
                 android:textAlignment="center"
                 android:textColor="@color/colornavy"
-                android:textSize="14dp" />
+                android:textSize="16dp" />
 
             <TextView
                 android:id="@+id/type_date"
@@ -185,7 +212,7 @@
                 android:paddingRight="5dp"
                 android:textAlignment="center"
                 android:textColor="@color/colornavy"
-                android:textSize="14dp" />
+                android:textSize="16dp" />
 
 
             <android.support.design.widget.FloatingActionButton
@@ -203,6 +230,13 @@
                 app:layout_anchorGravity="right|bottom"
                 app:pressedTranslationZ="10dp" />
 
+            <Switch
+                android:id="@+id/switch_allday"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_alignBottom="@+id/all_day"
+                android:layout_alignEnd="@+id/start_date"
+                android:layout_alignRight="@+id/start_date" />
 
         </RelativeLayout>
 

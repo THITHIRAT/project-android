@@ -16,10 +16,12 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -55,16 +57,19 @@ public class AddEventFragment extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_add_event, container, false);
 
-        Button btndate = (Button)view.findViewById(R.id.show_date);
-        Button btntime = (Button)view.findViewById(R.id.show_time);
+        final Button btnstartdate = (Button)view.findViewById(R.id.start_date);
+        final Button btnenddate = (Button)view.findViewById(R.id.end_date);
+
+        final Button btnstarttime = (Button)view.findViewById(R.id.start_time);
+        final Button btnendtime = (Button)view.findViewById(R.id.end_time);
 
         final TextView et_before_after = (TextView) view.findViewById(R.id.before_after);
         final TextView et_number = (TextView) view.findViewById(R.id.number);
         final TextView et_type_date = (TextView)view.findViewById(R.id.type_date);
 
-        btndate.setOnClickListener(new View.OnClickListener() {
+        Switch onOffSwitch = (Switch) view.findViewById(R.id.switch_allday);
 
-            TextView date = (TextView) view.findViewById(R.id.add_date);
+        btnstartdate.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -76,16 +81,33 @@ public class AddEventFragment extends Fragment {
                datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                    @Override
                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                       date.setText(dayOfMonth + "/" + month + "/" + year );
+                       btnstartdate.setText(dayOfMonth + "/" + month + "/" + year );
                    }
                }, _yaer, _month, _day);
                datePickerDialog.show();
             }
         });
 
-        btntime.setOnClickListener(new View.OnClickListener() {
+        btnenddate.setOnClickListener(new View.OnClickListener() {
 
-            TextView time = (TextView) view.findViewById(R.id.add_time);
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                int _yaer = calendar.get(Calendar.YEAR);
+                int _month = calendar.get(Calendar.MONTH);
+                int _day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        btnenddate.setText(dayOfMonth + "/" + month + "/" + year );
+                    }
+                }, _yaer, _month, _day);
+                datePickerDialog.show();
+            }
+        });
+
+        btnstarttime.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -96,7 +118,25 @@ public class AddEventFragment extends Fragment {
                 timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        time.setText(hourOfDay + ":" + minute);
+                        btnstarttime.setText(hourOfDay + ":" + minute);
+                    }
+                }, _hour, _minute, true);
+                timePickerDialog.show();
+            }
+        });
+
+        btnendtime.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                int _hour = calendar.get(Calendar.HOUR);
+                int _minute = calendar.get(Calendar.MINUTE);
+
+                timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        btnendtime.setText(hourOfDay + ":" + minute);
                     }
                 }, _hour, _minute, true);
                 timePickerDialog.show();
@@ -163,6 +203,22 @@ public class AddEventFragment extends Fragment {
                         dialog.cancel();
                     }
                 });
+            }
+        });
+
+        onOffSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Log.v("Switch State", ""+isChecked);
+                if (isChecked == true) {
+                    btnstarttime.setVisibility(View.GONE);
+                    btnendtime.setVisibility(View.GONE);
+                }
+                if (isChecked == false) {
+                    btnstarttime.setVisibility(View.VISIBLE);
+                    btnendtime.setVisibility(View.VISIBLE);
+                }
             }
         });
 

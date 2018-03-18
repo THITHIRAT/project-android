@@ -82,9 +82,6 @@ public class LocationScheduledFragment extends Fragment {
 
         connection_task_location(str_token);
 
-//        locationadapter = new LocationReminderAdapter(view.getContext().getApplicationContext(), mLocation);
-//        listview.setAdapter(locationadapter);
-
         return view;
     }
 
@@ -115,7 +112,7 @@ public class LocationScheduledFragment extends Fragment {
                                         task = (String) array.get("taskname");
                                         int index = i+1;
                                         mLocation.add(new LocationReminder(index, placename, notification, task));
-                                        Log.e("Value", placename + notification + task);
+                                        Log.e("Location Value", placename + " / " + notification + " / " + task);
                                     }
                                     locationadapter = new LocationReminderAdapter(getContext().getApplicationContext(), mLocation);
                                     listview.setAdapter(locationadapter);
