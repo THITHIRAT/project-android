@@ -58,6 +58,7 @@ public class ScheduledFragment extends Fragment {
         String token_name = "PUTGET_TOKEN";
         SharedPreferences prefs = getActivity().getSharedPreferences(token_name, Context.MODE_PRIVATE);
         final String str_token = prefs.getString("TOKEN", "null");
+        Log.e("Scheduled TOKEN", str_token);
 
         tabLayout.post(new Runnable() {
             @Override

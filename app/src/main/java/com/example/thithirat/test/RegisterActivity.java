@@ -102,8 +102,8 @@ public class RegisterActivity extends Activity {
                                     token = json.getString("token");
 
                                     //from DatabaseHelper.java
-                                    db.insertDatatoken(token);
-                                    Log.e("INSERT DATA token", String.valueOf(token));
+                                    //db.insertDatatoken(token);
+                                    //Log.e("INSERT DATA token", String.valueOf(token));
                                     home();
 
                                     //preference
