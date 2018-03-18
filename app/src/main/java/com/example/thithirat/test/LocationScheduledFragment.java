@@ -68,18 +68,4 @@ public class LocationScheduledFragment extends Fragment {
         return view;
     }
 
-    public static void putArguments(Bundle args) {
-        String placename = args.getString("PlaceName");
-        Log.d("LocationScheduled place", placename);
-
-        String noti = args.getString("Noti");
-        Log.d("LocationScheduled noti", noti);
-
-        String task = args.getString("Task");
-        Log.d("LocationScheduled task", task);
-
-        strplace = args.getString("PlaceName");
-        strnoti = args.getString("Noti");
-        strtask = args.getString("Task");
-    }
 }
