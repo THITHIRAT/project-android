@@ -2,6 +2,8 @@ package com.example.thithirat.test;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.icu.text.IDNA;
 import android.icu.text.LocaleDisplayNames;
 import android.os.AsyncTask;
@@ -127,6 +129,12 @@ public class MainActivity extends AppCompatActivity {
                                     db.insertDatatoken(token);
                                     Log.e("INSERT DATA token", String.valueOf(token));
                                     home();
+
+                                    //preference
+                                    String token_name = "PUTGET_TOKEN";
+                                    SharedPreferences.Editor editor = getSharedPreferences(token_name, MODE_PRIVATE).edit();
+                                    editor.putString("TOKEN", token);
+                                    editor.apply();
                                 }
                                 if(msg_login.equals("password incorrect")) {
                                     counter--;

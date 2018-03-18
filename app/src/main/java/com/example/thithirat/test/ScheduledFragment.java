@@ -1,7 +1,11 @@
 package com.example.thithirat.test;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -11,10 +15,14 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import static android.database.sqlite.SQLiteDatabase.*;
 
 
 /**
@@ -45,6 +53,11 @@ public class ScheduledFragment extends Fragment {
         viewPager = (ViewPager)view.findViewById(R.id.viewpager);
 
         viewPager.setAdapter(new MyAdapter(getChildFragmentManager()));
+
+        //preference
+        String token_name = "PUTGET_TOKEN";
+        SharedPreferences prefs = getActivity().getSharedPreferences(token_name, Context.MODE_PRIVATE);
+        final String str_token = prefs.getString("TOKEN", "null");
 
         tabLayout.post(new Runnable() {
             @Override

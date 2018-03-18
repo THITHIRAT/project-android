@@ -27,10 +27,9 @@
                 android:drawableLeft="@drawable/ic_action_location_navy_50px"
                 android:drawablePadding="10dp"
                 android:ems="10"
-                android:hint="Add Place.."
                 android:inputType="text"
                 android:textColor="@color/colordarkblue"
-                android:textColorHint="@color/colordarkblue"
+                android:textColorHint="@color/colordarkwhite"
                 android:textCursorDrawable="@color/colordarkblue"
                 android:textSize="16sp" />
 
@@ -81,23 +80,9 @@
                 android:hint="Add Task"
                 android:inputType="text"
                 android:textColor="@color/colordarkblue"
-                android:textColorHint="@color/colordarkblue"
+                android:textColorHint="@color/colordarkwhite"
                 android:textCursorDrawable="@color/colordarkblue"
                 android:textSize="16sp" />
-
-            <!--<Button-->
-                <!--android:id="@+id/add_task_name"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_alignBaseline="@+id/add_name_reminder"-->
-                <!--android:layout_alignBottom="@+id/add_name_reminder"-->
-                <!--android:layout_alignLeft="@+id/button_type_location"-->
-                <!--android:layout_alignStart="@+id/button_type_location"-->
-                <!--android:background="@drawable/button_radius_darkwhite"-->
-                <!--android:text="Add"-->
-                <!--android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small.Inverse"-->
-                <!--android:textColor="@color/colornavy"-->
-                <!--android:textStyle="bold" />-->
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fab_done"

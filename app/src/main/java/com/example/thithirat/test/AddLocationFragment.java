@@ -1,34 +1,22 @@
 package com.example.thithirat.test;
 
 
-import android.animation.LayoutTransition;
-import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.PopupMenu;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.amigold.fundapter.fields.StringField;
-import com.google.android.gms.location.places.ui.PlacePicker;
-
-import java.util.ResourceBundle;
+import static com.example.thithirat.test.R.layout.fragment_add_location;
 
 
 /**
@@ -54,7 +42,7 @@ public class AddLocationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View view = inflater.inflate(R.layout.fragment_add_location, container, false);
+        final View view = inflater.inflate(fragment_add_location, container, false);
 
         spinner = (Spinner)view.findViewById(R.id.spinner_location);
         adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.types_location_notification));
@@ -112,4 +100,5 @@ public class AddLocationFragment extends Fragment {
 
         strplace = args.getString("PlaceName");
     }
+
 }

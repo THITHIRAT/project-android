@@ -2,6 +2,7 @@ package com.example.thithirat.test;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.icu.lang.UCharacterEnums;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -104,6 +105,12 @@ public class RegisterActivity extends Activity {
                                     db.insertDatatoken(token);
                                     Log.e("INSERT DATA token", String.valueOf(token));
                                     home();
+
+                                    //preference
+                                    String token_name = "PUTGET_TOKEN";
+                                    SharedPreferences.Editor editor = getSharedPreferences(token_name, MODE_PRIVATE).edit();
+                                    editor.putString("TOKEN", token);
+                                    editor.apply();
                                 }
                                 if(msg_login.equals("there are email to signup")) {
                                     Toast.makeText(RegisterActivity.this, "This email already used", Toast.LENGTH_LONG).show();

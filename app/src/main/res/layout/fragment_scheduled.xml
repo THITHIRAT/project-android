@@ -56,6 +56,13 @@
                 app:layout_anchorGravity="right|bottom"
                 app:pressedTranslationZ="10dp" />
 
+            <TextView
+                android:id="@+id/token"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textSize="20sp" />
+
             <android.support.v4.view.ViewPager
                 android:id="@+id/viewpager"
                 android:layout_width="match_parent"
