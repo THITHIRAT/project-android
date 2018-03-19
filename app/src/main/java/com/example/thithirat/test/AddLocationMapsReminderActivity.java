@@ -69,8 +69,6 @@ public class AddLocationMapsReminderActivity extends FragmentActivity implements
 
     int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -34,7 +34,7 @@ public class SettingFragment extends Fragment {
 
         MainSettingFragment main_setting_fragment = new MainSettingFragment();
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.layout_settings, main_setting_fragment, null);
+        fragmentTransaction.replace(R.id.frag, main_setting_fragment, null);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 

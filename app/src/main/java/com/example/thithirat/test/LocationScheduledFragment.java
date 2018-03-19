@@ -12,9 +12,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -49,6 +53,12 @@ public class LocationScheduledFragment extends Fragment {
     static String notification;
     static String task;
 
+    static String placename_position;
+    static String notification_position;
+    static String task_position;
+
+    static String str_token;
+
     public LocationScheduledFragment() {
         // Required empty public constructor
     }
@@ -63,7 +73,7 @@ public class LocationScheduledFragment extends Fragment {
         //preference
         String token_name = "PUTGET_TOKEN";
         SharedPreferences prefs = getActivity().getSharedPreferences(token_name, Context.MODE_PRIVATE);
-        final String str_token = prefs.getString("TOKEN", "null");
+        str_token = prefs.getString("TOKEN", "null");
         Log.e("Scheduled TOKEN", str_token);
 
         Button button_map = (Button)view.findViewById(R.id.button_map);
@@ -149,4 +159,7 @@ public class LocationScheduledFragment extends Fragment {
         }
     }
 
+    public static String getValueToken() {
+        return str_token;
+    }
 }

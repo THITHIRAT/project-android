@@ -63,6 +63,8 @@ public class AddLocationFragment extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(fragment_add_location, container, false);
 
+        getActivity().setTitle("Add Location");
+
         //preference
         String token_name = "PUTGET_TOKEN";
         SharedPreferences prefs = getActivity().getSharedPreferences(token_name, Context.MODE_PRIVATE);

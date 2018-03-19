@@ -25,6 +25,8 @@ public class EditAccountFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_edit_account, container, false);
 
+        getActivity().setTitle("My Account");
+
         return view;
     }
 

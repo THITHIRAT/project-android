@@ -1,5 +1,9 @@
 package com.example.thithirat.test;
 
+import android.util.Log;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+
 /**
  * Created by Thithirat on 6/3/2561.
  */
@@ -9,6 +13,7 @@ public class LocationReminder {
     private String name;
     private String noti;
     private String task;
+
 
     public LocationReminder(int id, String name, String noti, String task) {
         this.id = id;
@@ -48,4 +53,5 @@ public class LocationReminder {
     public void setTask(String task) {
         this.task = task;
     }
+
 }

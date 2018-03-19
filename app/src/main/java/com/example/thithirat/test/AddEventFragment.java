@@ -57,6 +57,8 @@ public class AddEventFragment extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_add_event, container, false);
 
+        getActivity().setTitle("Add Event");
+
         final Button btnstartdate = (Button)view.findViewById(R.id.start_date);
         final Button btnenddate = (Button)view.findViewById(R.id.end_date);
 

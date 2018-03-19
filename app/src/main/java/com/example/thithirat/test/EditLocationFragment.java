@@ -27,6 +27,8 @@ public class EditLocationFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_edit_location, container, false);
 
+        getActivity().setTitle("Edit Favourite Location");
+
         FloatingActionButton fab_add_location = (FloatingActionButton)view.findViewById(R.id.fab_add_location);
         fab_add_location.setOnClickListener(new View.OnClickListener() {
             @Override
