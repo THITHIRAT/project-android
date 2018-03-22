@@ -40,4 +40,9 @@
         <item>Hrs</item>
         <item>Days</item>
     </string-array>
+
+    <string-array name="types_event_notification_am_pm">
+        <item>AM</item>
+        <item>PM</item>
+    </string-array>
 </resources>

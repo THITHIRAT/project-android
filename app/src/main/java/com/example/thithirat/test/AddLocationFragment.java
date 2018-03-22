@@ -88,10 +88,10 @@ public class AddLocationFragment extends Fragment {
 
                 strnoti = spinner.getSelectedItem().toString();
                 strtask = editstrtaskname.getText().toString();
-                String strtype = "location";
+                String strtype = "Location";
                 int complete = 0;
 
-                Log.d("Add Location", "Hello" + strtask);
+                Log.d("Add Location", strtask);
 
                 connect_addreminder_location(str_token, strtype, strnoti, strplace, strtask, complete);
 
