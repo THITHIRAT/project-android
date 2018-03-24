@@ -39,7 +39,7 @@
                 android:textCursorDrawable="@color/colordarkblue"
                 android:textSize="16sp" />
 
-            <EditText
+            <TextView
                 android:id="@+id/all_day"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
@@ -52,6 +52,7 @@
                 android:drawablePadding="10dp"
                 android:ems="10"
                 android:text="All Day"
+                android:gravity="center_vertical"
                 android:inputType="text"
                 android:textColor="@color/colornavy"
                 android:textColorHint="@color/colordarkwhite"
@@ -161,7 +162,7 @@
                 android:src="@drawable/ic_action_map_marker_navy_new" />
 
             <Button
-                android:id="@+id/type_event_notification"
+                android:id="@+id/type_notification"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_alignLeft="@+id/add_place"
@@ -197,7 +198,7 @@
                 android:id="@+id/number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/type_event_notification"
+                android:layout_alignBottom="@+id/repeat"
                 android:layout_below="@+id/add_place"
                 android:layout_toLeftOf="@+id/type_date"
                 android:layout_toStartOf="@+id/type_date"

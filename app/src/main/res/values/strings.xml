@@ -45,4 +45,15 @@
         <item>AM</item>
         <item>PM</item>
     </string-array>
+
+    <string-array name="types_reminder_notification_type_date">
+        <item>Mins</item>
+        <item>Hrs</item>
+        <item>Days</item>
+        <item>Mths</item>
+        <item>Yrs</item>
+    </string-array>
+
+
+    <string name="title_activity_add_reminder_maps_reminder">Map</string>
 </resources>

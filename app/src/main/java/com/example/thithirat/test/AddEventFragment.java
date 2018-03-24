@@ -3,14 +3,11 @@ package com.example.thithirat.test;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.renderscript.Sampler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -18,7 +15,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -29,9 +25,7 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
-import com.amigold.fundapter.fields.StringField;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -43,11 +37,9 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
-import java.util.TimerTask;
 
 
 /**
@@ -128,7 +120,7 @@ public class AddEventFragment extends Fragment {
 
         ImageButton marker_maps = (ImageButton)view.findViewById(R.id.marker_map);
 
-        Button notification = (Button)view.findViewById(R.id.type_event_notification);
+        Button notification = (Button)view.findViewById(R.id.type_notification);
 
         btnstartdate.setOnClickListener(new View.OnClickListener() {
 
@@ -136,12 +128,13 @@ public class AddEventFragment extends Fragment {
             public void onClick(View v) {
                Calendar calendar = Calendar.getInstance();
                int _yaer = calendar.get(Calendar.YEAR);
-               int _month = calendar.get(Calendar.MONTH);
+               final int _month = calendar.get(Calendar.MONTH);
                final int _day = calendar.get(Calendar.DAY_OF_MONTH);
 
                datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                    @Override
                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                       month = _month + 1;
                        btnstartdate.setText(dayOfMonth + "/" + month + "/" + year );
                        con_str_startdate = String.valueOf(dayOfMonth);
                        con_str_startmonth = String.valueOf(month);
@@ -158,12 +151,13 @@ public class AddEventFragment extends Fragment {
             public void onClick(View v) {
                 Calendar calendar = Calendar.getInstance();
                 int _yaer = calendar.get(Calendar.YEAR);
-                int _month = calendar.get(Calendar.MONTH);
+                final int _month = calendar.get(Calendar.MONTH);
                 int _day = calendar.get(Calendar.DAY_OF_MONTH);
 
                 datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        month = _month + 1;
                         btnenddate.setText(dayOfMonth + "/" + month + "/" + year );
                         con_str_enddate = String.valueOf(dayOfMonth);
                         con_str_endmonth = String.valueOf(month);
@@ -266,12 +260,13 @@ public class AddEventFragment extends Fragment {
                     public void onClick(View v) {
                         Calendar calendar = Calendar.getInstance();
                         int _yaer = calendar.get(Calendar.YEAR);
-                        int _month = calendar.get(Calendar.MONTH);
+                        final int _month = calendar.get(Calendar.MONTH);
                         int _day = calendar.get(Calendar.DAY_OF_MONTH);
 
                         datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                month = _month + 1;
                                 button_date_allday.setText(dayOfMonth + "/" + month + "/" + year );
                                 con_str_alldaydate = String.valueOf(dayOfMonth);
                                 con_str_alldaymonth = String.valueOf(month);

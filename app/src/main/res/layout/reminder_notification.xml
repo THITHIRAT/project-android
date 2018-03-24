@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@color/colorwhite"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/event_notification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="15dp"
+        android:text="Notification"
+        android:textAlignment="center"
+        android:textColor="@color/colornavy"
+        android:textSize="18sp" />
+
+    <RelativeLayout
+        android:id="@+id/relative_notification_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/event_notification"
+        android:layout_alignLeft="@+id/event_notification"
+        android:layout_alignRight="@+id/event_notification"
+        android:layout_alignStart="@+id/event_notification"
+        android:layout_below="@+id/event_notification">
+
+        <Spinner
+            android:id="@+id/spinner_event_notification_before_after_1"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/colornavy"
+            android:dropDownWidth="100dp"
+            android:popupBackground="@color/colorwhite" />
+
+        <EditText
+            android:id="@+id/edittext_number_1"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:ems="10"
+            android:inputType="number"
+            android:maxLength="2"
+            android:text="0"
+            android:textAlignment="center"
+            android:textSize="14sp" />
+
+        <Spinner
+            android:id="@+id/spinner_event_notification_type_date_1"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/colornavy"
+            android:dropDownWidth="90dp"
+            android:maxLines="1"
+            android:popupBackground="@color/colorwhite" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relative_notification_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/relative_notification_1"
+        android:layout_alignLeft="@+id/relative_notification_1"
+        android:layout_alignRight="@+id/relative_notification_1"
+        android:layout_alignStart="@+id/relative_notification_1"
+        android:layout_below="@+id/relative_notification_1"
+        android:layout_marginTop="10dp">
+
+        <Spinner
+            android:id="@+id/spinner_event_notification_before_after_2"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/colornavy"
+            android:dropDownWidth="100dp"
+            android:popupBackground="@color/colorwhite" />
+
+        <EditText
+            android:id="@+id/edittext_number_2"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:ems="10"
+            android:inputType="number"
+            android:maxLength="2"
+            android:text="0"
+            android:textAlignment="center"
+            android:textSize="14sp" />
+
+        <Spinner
+            android:id="@+id/spinner_event_notification_type_date_2"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/colornavy"
+            android:dropDownWidth="90dp"
+            android:maxLines="1"
+            android:popupBackground="@color/colorwhite" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relative_notification_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/relative_notification_2"
+        android:layout_alignLeft="@+id/relative_notification_2"
+        android:layout_alignStart="@+id/relative_notification_2"
+        android:layout_below="@+id/relative_notification_2"
+        android:layout_marginTop="10dp"
+        tools:ignore="RtlCompat">
+
+        <Spinner
+            android:id="@+id/spinner_event_notification_before_after_3"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/colornavy"
+            android:dropDownWidth="100dp"
+            android:popupBackground="@color/colorwhite" />
+
+        <EditText
+            android:id="@+id/edittext_number_3"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:ems="10"
+            android:inputType="number"
+            android:maxLength="2"
+            android:text="0"
+            android:textAlignment="center"
+            android:textSize="14sp" />
+
+        <Spinner
+            android:id="@+id/spinner_event_notification_type_date_3"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/colornavy"
+            android:dropDownWidth="90dp"
+            android:maxLines="1"
+            android:popupBackground="@color/colorwhite" />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/done_notification"
+        android:layout_width="80dp"
+        android:layout_height="35dp"
+        android:layout_alignEnd="@+id/relative_notification_3"
+        android:layout_alignRight="@+id/relative_notification_3"
+        android:layout_below="@+id/relative_notification_3"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/button_radius"
+        android:text="SAVE"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
+        android:textColor="@color/colorwhite"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/back_notification"
+        android:layout_width="80dp"
+        android:layout_height="35dp"
+        android:layout_alignLeft="@+id/done_notification"
+        android:layout_alignStart="@+id/done_notification"
+        android:layout_below="@+id/done_notification"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/button_radius"
+        android:text="CLOSE"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
+        android:textColor="@color/colorwhite"
+        android:textSize="14sp" />
+
+</RelativeLayout>

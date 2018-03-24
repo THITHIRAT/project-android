@@ -2,12 +2,340 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.thithirat.test.AddReminderFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:subtitleTextAppearance="@color/colornavy"
+            app:subtitleTextColor="@color/colornavy" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/rm_add_task_name"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="15dp"
+                android:background="@color/colorwhite"
+                android:drawableLeft="@drawable/ic_action_name_96px"
+                android:drawablePadding="10dp"
+                android:ems="10"
+                android:hint="Add Task.."
+                android:inputType="text"
+                android:textColor="@color/colornavy"
+                android:textColorHint="@color/colordarkwhite"
+                android:textCursorDrawable="@color/colordarkblue"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/rm_all_day"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/colorwhite"
+                android:layout_below="@+id/rm_add_task_name"
+                android:drawableLeft="@drawable/ic_action_all_day_navy"
+                android:drawablePadding="10dp"
+                android:ems="10"
+                android:text="All Day"
+                android:inputType="text"
+                android:textColor="@color/colornavy"
+                android:textColorHint="@color/colordarkwhite"
+                android:textCursorDrawable="@color/colordarkblue"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/rm_start_date"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_below="@+id/rm_all_day"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@null"
+                android:drawableLeft="@drawable/ic_action_calendar_navy"
+                android:drawablePadding="10dp"
+                android:ems="10"
+                android:gravity="center_vertical"
+                android:text="Start Date"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
+                android:textColor="@color/colornavy"
+                android:textColorHint="@color/colornavy"
+                android:textCursorDrawable="@color/colornavy"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/rm_start_time"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:paddingRight="20dp"
+                android:layout_alignEnd="@+id/rm_start_date"
+                android:layout_alignRight="@+id/rm_start_date"
+                android:layout_below="@+id/rm_all_day"
+                android:layout_marginBottom="15dp"
+                android:background="@null"
+                android:drawableLeft="@drawable/ic_action_time_navy"
+                android:drawablePadding="10dp"
+                android:text="Start Time"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
+                android:textColor="@color/colornavy"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/rm_end_date"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_below="@+id/rm_start_date"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@null"
+                android:ems="10"
+                android:gravity="center_vertical"
+                android:paddingLeft="43dp"
+                android:text="End Date"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
+                android:textColor="@color/colornavy"
+                android:textColorHint="@color/colornavy"
+                android:textCursorDrawable="@color/colornavy"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/rm_end_time"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:paddingRight="20dp"
+                android:layout_alignLeft="@+id/rm_start_time"
+                android:layout_alignStart="@+id/rm_start_time"
+                android:layout_below="@+id/rm_start_time"
+                android:background="@null"
+                android:drawableLeft="@drawable/ic_action_time_navy"
+                android:drawablePadding="10dp"
+                android:text="End Time"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
+                android:textColor="@color/colornavy"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/rm_add_place"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_below="@id/rm_end_date"
+                android:background="@color/colorwhite"
+                android:drawableLeft="@drawable/ic_action_location_navy_50px"
+                android:drawablePadding="10dp"
+                android:ems="10"
+                android:hint="Place Name"
+                android:inputType="text"
+                android:textColor="@color/colornavy"
+                android:textColorHint="@color/colordarkwhite"
+                android:textCursorDrawable="@color/colordarkblue"
+                android:textSize="16sp" />
+
+            <ImageButton
+                android:id="@+id/rm_marker_map"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_alignEnd="@+id/rm_add_place"
+                android:layout_alignRight="@+id/rm_add_place"
+                android:layout_alignTop="@+id/rm_add_place"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_action_map_marker_navy_new" />
+
+            <Button
+                android:id="@+id/rm_repeat"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_alignLeft="@+id/rm_add_place"
+                android:layout_alignStart="@+id/rm_add_place"
+                android:layout_below="@+id/rm_add_place"
+                android:background="@android:color/transparent"
+                android:drawableLeft="@drawable/ic_action_notification_navy_15"
+                android:drawablePadding="10dp"
+                android:ems="10"
+                android:gravity="center_vertical"
+                android:hint="Type Notification"
+                android:inputType="text"
+                android:text="Repeat "
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
+                android:textColor="@color/colornavy"
+                android:textColorHint="@color/colornavy"
+                android:textCursorDrawable="@color/colornavy"
+                android:textSize="16sp"
+                tools:ignore="DuplicateIds" />
+
+            <TextView
+                android:id="@+id/rm_before_after_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/rm_number_1"
+                android:layout_below="@+id/rm_add_place"
+                android:layout_toLeftOf="@+id/rm_number_1"
+                android:layout_toStartOf="@+id/rm_number_1"
+                android:gravity="center_vertical"
+                android:paddingRight="5dp"
+                android:textAlignment="center"
+                android:textColor="@color/colornavy"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/rm_number_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/rm_repeat"
+                android:layout_below="@+id/rm_add_place"
+                android:layout_toLeftOf="@+id/rm_type_date_1"
+                android:layout_toStartOf="@+id/rm_type_date_1"
+                android:gravity="center_vertical"
+                android:paddingRight="5dp"
+                android:textAlignment="center"
+                android:textColor="@color/colornavy"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/rm_type_date_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/rm_number_1"
+                android:layout_alignEnd="@+id/rm_add_place"
+                android:layout_alignRight="@+id/rm_add_place"
+                android:layout_below="@+id/rm_add_place"
+                android:gravity="center_vertical"
+                android:paddingRight="5dp"
+                android:textAlignment="center"
+                android:textColor="@color/colornavy"
+                android:textSize="16dp" />
+
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_done"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_margin="20dp"
+                android:src="@drawable/ic_action_done_white"
+                app:elevation="6dp"
+                app:fabSize="normal"
+                app:layout_anchor="@+id/viewpager"
+                app:layout_anchorGravity="right|bottom"
+                app:pressedTranslationZ="10dp" />
+
+            <Switch
+                android:id="@+id/rm_switch_allday"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_alignBottom="@+id/rm_all_day"
+                android:layout_alignEnd="@+id/rm_start_date"
+                android:layout_alignRight="@+id/rm_start_date" />
+
+            <TextView
+                android:id="@+id/rm_before_after_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rm_repeat"
+                android:layout_marginTop="10dp"
+                android:layout_toLeftOf="@+id/rm_number_2"
+                android:layout_toStartOf="@+id/rm_number_2"
+                android:gravity="center_vertical"
+                android:paddingRight="5dp"
+                android:textAlignment="center"
+                android:textColor="@color/colornavy"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/rm_number_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/rm_type_date_2"
+                android:layout_alignBottom="@+id/rm_type_date_2"
+                android:layout_marginTop="10dp"
+                android:layout_toLeftOf="@+id/rm_type_date_2"
+                android:layout_toStartOf="@+id/rm_type_date_2"
+                android:gravity="center_vertical"
+                android:paddingRight="5dp"
+                android:textAlignment="center"
+                android:textColor="@color/colornavy"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/rm_type_date_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/rm_type_date_1"
+                android:layout_alignRight="@+id/rm_type_date_1"
+                android:layout_below="@+id/rm_before_after_1"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:paddingRight="5dp"
+                android:textAlignment="center"
+                android:textColor="@color/colornavy"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/rm_type_date_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/rm_type_date_2"
+                android:layout_alignRight="@+id/rm_type_date_2"
+                android:layout_below="@+id/rm_before_after_2"
+                android:layout_marginTop="10dp"
+                android:paddingRight="5dp"
+                android:textAlignment="center"
+                android:textColor="@color/colornavy"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/rm_number_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/rm_type_date_3"
+                android:layout_alignBottom="@+id/rm_type_date_3"
+                android:layout_marginTop="10dp"
+                android:layout_toLeftOf="@+id/rm_type_date_3"
+                android:layout_toStartOf="@+id/rm_type_date_3"
+                android:paddingRight="5dp"
+                android:textAlignment="center"
+                android:textColor="@color/colornavy"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/rm_before_after_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/rm_before_after_2"
+                android:layout_alignStart="@+id/rm_before_after_2"
+                android:layout_below="@+id/rm_before_after_2"
+                android:layout_marginTop="10dp"
+                android:layout_toLeftOf="@+id/rm_number_3"
+                android:layout_toStartOf="@+id/rm_number_3"
+                android:paddingRight="5dp"
+                android:textAlignment="center"
+                android:textColor="@color/colornavy"
+                android:textSize="16dp" />
+
+
+        </RelativeLayout>
+
+    </android.support.design.widget.AppBarLayout>
 
 </FrameLayout>

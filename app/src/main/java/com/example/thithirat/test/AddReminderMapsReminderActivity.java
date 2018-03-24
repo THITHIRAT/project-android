@@ -41,7 +41,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
-public class AddEventMapsReminderActivity extends FragmentActivity implements OnMapReadyCallback {
+public class AddReminderMapsReminderActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     PlaceAutocompleteFragment placeAutoComplete;
@@ -57,10 +57,11 @@ public class AddEventMapsReminderActivity extends FragmentActivity implements On
 
     int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_event_maps_reminder);
+        setContentView(R.layout.activity_add_reminder_maps_reminder);
 
         gpsTracker = new GPSTracker(getApplicationContext());
         mLocation = gpsTracker.getLocation();
@@ -101,13 +102,12 @@ public class AddEventMapsReminderActivity extends FragmentActivity implements On
                 if(placename != null) {
                     Bundle args = new Bundle();
                     args.putString("PlaceName", placename);
-                    AddEventFragment.putArguments(args);
+                    AddReminderFragment.putArguments(args);
                 }
 
                 finish();
             }
         });
-
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -116,7 +116,7 @@ public class AddEventMapsReminderActivity extends FragmentActivity implements On
 
     private void connect_location(double latitudefromselect, double longtitudefromselect, String placename) {
         try {
-            RequestQueue requestQueue = Volley.newRequestQueue(AddEventMapsReminderActivity.this);
+            RequestQueue requestQueue = Volley.newRequestQueue(AddReminderMapsReminderActivity.this);
             String URL = "http://161.246.5.195:3000/place/location";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("latitude", latitudefromselect);
@@ -134,9 +134,9 @@ public class AddEventMapsReminderActivity extends FragmentActivity implements On
                                 String msg_location = json.getString("msg");
                                 Log.i("VOLLEY", msg_location);
                                 if(msg_location.equals("sucess insert location")) {
-                                    Toast.makeText(AddEventMapsReminderActivity.this, "Success", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(AddReminderMapsReminderActivity.this, "Success", Toast.LENGTH_LONG).show();
                                 }else {
-                                    Toast.makeText(AddEventMapsReminderActivity.this, "Denied", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(AddReminderMapsReminderActivity.this, "Denied", Toast.LENGTH_LONG).show();
                                 }
                             }catch (JSONException e){
                                 e.printStackTrace();

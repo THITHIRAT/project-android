@@ -6,5 +6,14 @@
     tools:context="com.example.thithirat.test.EventScheduledFragment">
 
     <!-- TODO: Update blank fragment layout -->
+    <ListView
+        android:id="@+id/list_view"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:dividerHeight="10dp"
+        android:divider="@null"
+        android:scrollbars="none"
+        android:layout_marginTop="15dp" />
 
 </RelativeLayout>

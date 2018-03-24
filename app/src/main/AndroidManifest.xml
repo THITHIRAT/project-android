@@ -63,7 +63,10 @@
             android:label="@string/title_activity_add_location_maps_reminder" />
         <activity
             android:name=".AddEventMapsReminderActivity"
-            android:label="@string/title_activity_add_event_maps_reminder"></activity>
+            android:label="@string/title_activity_add_event_maps_reminder" />
+        <activity
+            android:name=".AddReminderMapsReminderActivity"
+            android:label="@string/title_activity_add_reminder_maps_reminder"></activity>
     </application>
 
 </manifest>
