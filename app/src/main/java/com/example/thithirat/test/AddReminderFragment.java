@@ -26,6 +26,19 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 
 
@@ -78,12 +91,12 @@ public class AddReminderFragment extends Fragment {
     String con_str_endhour = null;
     String con_str_endmin = null;
 
-    String con_str_alldaydate = null;
-    String con_str_alldaymonth = null;
-    String con_str_alldayyear = null;
-
-    String con_str_alldayhour = null;
-    String con_str_alldaymin = null;
+//    String con_str_alldaydate = null;
+//    String con_str_alldaymonth = null;
+//    String con_str_alldayyear = null;
+//
+//    String con_str_alldayhour = null;
+//    String con_str_alldaymin = null;
 
     public AddReminderFragment() {
         // Required empty public constructor
@@ -238,34 +251,42 @@ public class AddReminderFragment extends Fragment {
                     btnstarttime.setVisibility(View.GONE);
                     btnendtime.setVisibility(View.GONE);
 
-                    et_before_after_1.setText(" ");
-                    et_number_1.setText(" ");
-                    et_type_date_1.setText(" ");
+                    et_before_after_1.setVisibility(View.INVISIBLE);
+                    et_number_1.setVisibility(View.INVISIBLE);
+                    et_type_date_1.setVisibility(View.INVISIBLE);
 
-                    et_before_after_2.setText(" ");
-                    et_number_2.setText(" ");
-                    et_type_date_2.setText(" ");
+                    et_before_after_2.setVisibility(View.INVISIBLE);
+                    et_number_2.setVisibility(View.INVISIBLE);
+                    et_type_date_2.setVisibility(View.INVISIBLE);
 
-                    et_before_after_3.setText(" ");
-                    et_number_3.setText(" ");
-                    et_type_date_3.setText(" ");
+                    et_before_after_3.setVisibility(View.INVISIBLE);
+                    et_number_3.setVisibility(View.INVISIBLE);
+                    et_type_date_3.setVisibility(View.INVISIBLE);
+
+                    et_number_1.setText("0");
+                    et_number_2.setText("0");
+                    et_number_3.setText("0");
                 }
                 if (isChecked == false) {
                     checkswitch[0] = false;
                     btnstarttime.setVisibility(View.VISIBLE);
                     btnendtime.setVisibility(View.VISIBLE);
 
-                    et_before_after_1.setText(" ");
-                    et_number_1.setText(" ");
-                    et_type_date_1.setText(" ");
+                    et_before_after_1.setVisibility(View.INVISIBLE);
+                    et_number_1.setVisibility(View.INVISIBLE);
+                    et_type_date_1.setVisibility(View.INVISIBLE);
 
-                    et_before_after_2.setText(" ");
-                    et_number_2.setText(" ");
-                    et_type_date_2.setText(" ");
+                    et_before_after_2.setVisibility(View.INVISIBLE);
+                    et_number_2.setVisibility(View.INVISIBLE);
+                    et_type_date_2.setVisibility(View.INVISIBLE);
 
-                    et_before_after_3.setText(" ");
-                    et_number_3.setText(" ");
-                    et_type_date_3.setText(" ");
+                    et_before_after_3.setVisibility(View.INVISIBLE);
+                    et_number_3.setVisibility(View.INVISIBLE);
+                    et_type_date_3.setVisibility(View.INVISIBLE);
+
+                    et_number_1.setText("0");
+                    et_number_2.setText("0");
+                    et_number_3.setText("0");
                 }
             }
         });
@@ -333,30 +354,42 @@ public class AddReminderFragment extends Fragment {
                         View view = inflater.inflate(R.layout.fragment_add_reminder, container, false);
 
                         if(str_number_1.equals("0")) {
-                            et_before_after_1.setText(" ");
-                            et_number_1.setText(" ");
-                            et_type_date_1.setText(" ");
+                            et_before_after_1.setVisibility(View.INVISIBLE);
+                            et_number_1.setVisibility(View.INVISIBLE);
+                            et_type_date_1.setVisibility(View.INVISIBLE);
+                            et_number_1.setText("0");
                         }else {
+                            et_type_date_1.setVisibility(View.VISIBLE);
+                            et_number_1.setVisibility(View.VISIBLE);
+                            et_type_date_1.setVisibility(View.VISIBLE);
                             et_before_after_1.setText(str_before_after_1);
                             et_number_1.setText(str_number_1);
                             et_type_date_1.setText(str_type_date_1);
                         }
 
                         if(str_number_2.equals("0")) {
-                            et_before_after_2.setText(" ");
-                            et_number_2.setText(" ");
-                            et_type_date_2.setText(" ");
+                            et_before_after_2.setVisibility(View.INVISIBLE);
+                            et_number_2.setVisibility(View.INVISIBLE);
+                            et_type_date_2.setVisibility(View.INVISIBLE);
+                            et_number_2.setText("0");
                         }else {
+                            et_before_after_2.setVisibility(View.VISIBLE);
+                            et_number_2.setVisibility(View.VISIBLE);
+                            et_type_date_2.setVisibility(View.VISIBLE);
                             et_before_after_2.setText(str_before_after_2);
                             et_number_2.setText(str_number_2);
                             et_type_date_2.setText(str_type_date_2);
                         }
 
                         if(str_number_3.equals("0")) {
-                            et_before_after_3.setText(" ");
-                            et_number_3.setText(" ");
-                            et_type_date_3.setText(" ");
+                            et_before_after_3.setVisibility(View.INVISIBLE);
+                            et_number_3.setVisibility(View.INVISIBLE);
+                            et_type_date_3.setVisibility(View.INVISIBLE);
+                            et_number_3.setText("0");
                         }else {
+                            et_before_after_2.setVisibility(View.VISIBLE);
+                            et_number_2.setVisibility(View.VISIBLE);
+                            et_type_date_2.setVisibility(View.VISIBLE);
                             et_before_after_3.setText(str_before_after_3);
                             et_number_3.setText(str_number_3);
                             et_type_date_3.setText(str_type_date_3);
@@ -384,6 +417,19 @@ public class AddReminderFragment extends Fragment {
         fab_done_reminder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String con_str_taskname = et_addtaskname.getText().toString();
+                boolean bool_onoffswitch = onOffSwitch.isChecked();
+                String con_str_onoffswitch;
+                if(bool_onoffswitch) {
+                    con_str_onoffswitch = "1";
+                }else {
+                    con_str_onoffswitch = "0";
+                }
+                String con_str_placename = et_addplace.getText().toString();
+
+                connection_addreminder_reminder(con_str_taskname, con_str_onoffswitch, con_str_startdate, con_str_startmonth, con_str_startyear, con_str_starthour, con_str_startmin,
+                        con_str_enddate, con_str_endmonth, con_str_endyear, con_str_endhour, con_str_endmin, con_str_placename, str_before_after_1, str_number_1, str_type_date_1,
+                        str_before_after_2, str_number_2, str_type_date_2, str_before_after_3, str_number_3, str_type_date_3);
                 ScheduledFragment scheduled_fragment = new ScheduledFragment();
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.frag, scheduled_fragment);
@@ -393,6 +439,88 @@ public class AddReminderFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void connection_addreminder_reminder(String con_str_taskname, String con_str_onoffswitch, String con_str_startdate, String con_str_startmonth, String con_str_startyear, String con_str_starthour, String con_str_startmin, String con_str_enddate, String con_str_endmonth, String con_str_endyear, String con_str_endhour, String con_str_endmin, String con_str_placename, String str_before_after_1, String str_number_1, String str_type_date_1, String str_before_after_2, String str_number_2, String str_type_date_2, String str_before_after_3, String str_number_3, String str_type_date_3) {
+        try {
+            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+            String URL = "http://161.246.5.195:3000/addreminder/reminder";
+            JSONObject jsonBody = new JSONObject();
+            jsonBody.put("token", str_token);
+            jsonBody.put("type", "Reminder");
+            jsonBody.put("allday", con_str_onoffswitch);
+
+            jsonBody.put("startdate", con_str_startdate);
+            jsonBody.put("startmonth", con_str_startmonth);
+            jsonBody.put("startyear", con_str_startyear);
+            jsonBody.put("starthour", con_str_starthour);
+            jsonBody.put("startmin", con_str_startmin);
+
+            jsonBody.put("enddate", con_str_enddate);
+            jsonBody.put("endmonth", con_str_endmonth);
+            jsonBody.put("endyear", con_str_endyear);
+            jsonBody.put("endhour", con_str_endhour);
+            jsonBody.put("endmin", con_str_endmin);
+
+            jsonBody.put("placename", con_str_placename);
+            jsonBody.put("taskname", con_str_taskname);
+            jsonBody.put("complete", "0");
+
+            jsonBody.put("before_after_1", str_before_after_1);
+            jsonBody.put("num_notification_1", str_number_1);
+            jsonBody.put("type_num_1", str_type_date_1);
+
+            jsonBody.put("before_after_2", str_before_after_2);
+            jsonBody.put("num_notification_2", str_number_2);
+            jsonBody.put("type_num_2", str_type_date_2);
+
+            jsonBody.put("before_after_3", str_before_after_3);
+            jsonBody.put("num_notification_3", str_number_3);
+            jsonBody.put("type_num_3", str_type_date_3);
+
+            final String requestBody = jsonBody.toString();
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.i("VOLLEY", response);
+                            JSONObject json = null;
+                            try {
+                                json = new JSONObject(response);
+                                String msg_event = json.getString("msg");
+                                Log.i("VOLLEY", msg_event);
+                            }catch (JSONException e){
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("VOLLEY", error.toString());
+                        }
+                    }) {
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
+
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        return requestBody == null ? null : requestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                        return null;
+                    }
+                }
+            };
+            requestQueue.add(stringRequest);
+
+        }catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public static void putArguments(Bundle args) {

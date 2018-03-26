@@ -84,9 +84,9 @@ public class LocationReminderAdapter extends BaseAdapter{
                     position_location = position;
                     Log.e("Checkif", String.valueOf(isChecked) + " " + position);
                     connect_complete_location(position);
-                    lc_check_complete.setEnabled(false);
                 }else {
                     Log.e("Checkelse", String.valueOf(isChecked));
+                    connect_incomplete_location(position);
                 }
             }
         });
@@ -96,20 +96,69 @@ public class LocationReminderAdapter extends BaseAdapter{
 
     private void connect_complete_location(int position) {
         String token = LocationScheduledFragment.getValueToken();
-        String placename = mLocationReminder.get(position).getName();
-        String notification = mLocationReminder.get(position).getNoti();
-        String taskname = mLocationReminder.get(position).getTask();
+        String reminder_id = mLocationReminder.get(position).getTask();
 
-        Log.d("Complete", placename + " " + notification + " " + taskname);
+        Log.d("Complete Location", reminder_id);
 
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(mContext.getApplicationContext());
             String URL = "http://161.246.5.195:3000/complete/location";
             JSONObject jsonBody = new JSONObject();
-            jsonBody.put("token", token);
-            jsonBody.put("placename", placename);
-            jsonBody.put("notification", notification);
-            jsonBody.put("taskname", taskname);
+            jsonBody.put("reminder_id", reminder_id);;
+            final String requestBody = jsonBody.toString();
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.i("VOLLEY", response);
+                            JSONObject json = null;
+                            try {
+                                json = new JSONObject(response);
+                                String msg_task_location = json.getString("msg");
+                                Log.i("VOLLEY", msg_task_location);
+                            }catch (JSONException e){
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("VOLLEY", error.toString());
+                        }
+                    }) {
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
+
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        return requestBody == null ? null : requestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                        return null;
+                    }
+                }
+            };
+            requestQueue.add(stringRequest);
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void connect_incomplete_location(int position) {
+        String token = LocationScheduledFragment.getValueToken();
+        String reminder_id = mLocationReminder.get(position).getTask();
+
+        Log.d("Complete Location", reminder_id);
+
+        try {
+            RequestQueue requestQueue = Volley.newRequestQueue(mContext.getApplicationContext());
+            String URL = "http://161.246.5.195:3000/incomplete/location";
+            JSONObject jsonBody = new JSONObject();
+            jsonBody.put("reminder_id", reminder_id);;
             final String requestBody = jsonBody.toString();
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
                     new Response.Listener<String>() {

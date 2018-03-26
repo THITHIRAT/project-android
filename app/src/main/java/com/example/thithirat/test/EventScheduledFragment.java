@@ -45,7 +45,10 @@ public class EventScheduledFragment extends Fragment {
 
     List<LocationReminder> mLocation;
 
-    String str_token;
+    static String str_token;
+
+    String task;
+    String start_date;
 
     public EventScheduledFragment() {
         // Required empty public constructor
@@ -57,6 +60,8 @@ public class EventScheduledFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_event_scheduled, container, false);
+
+        getActivity().setTitle("Scheduled");
 
         //preference
         String token_name = "PUTGET_TOKEN";
@@ -94,11 +99,12 @@ public class EventScheduledFragment extends Fragment {
                                     Log.i("Data Task Location", String.valueOf(data));
                                     for (int i=0; i < data.length(); i++) {
                                         JSONObject array = (JSONObject) data.get(i);
-                                        String task = (String) array.get("taskname");
-                                        String start_date = (String) array.get("start_date");
+                                        task = (String) array.get("taskname");
+                                        start_date = (String) array.get("start_date");
+                                        int reminder_id = (int) array.get("_id");
                                         int index = i+1;
-                                        mLocation.add(new LocationReminder(index, " ", start_date, task));
-                                        Log.e("Location Value", task + " / " + start_date + " / " + task);
+                                        mLocation.add(new LocationReminder(index, reminder_id, " ", start_date, task));
+                                        Log.e("Event Value", task + " / " + start_date + " / " + task);
                                     }
                                     LocationReminderAdapter locationadapter = new LocationReminderAdapter(getContext().getApplicationContext(), mLocation);
                                     listview.setAdapter(locationadapter);

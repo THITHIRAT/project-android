@@ -10,13 +10,15 @@ import android.widget.CompoundButton;
 
 public class LocationReminder {
     private int id;
+    private int reminder_id;
     private String name;
     private String noti;
     private String task;
 
 
-    public LocationReminder(int id, String name, String noti, String task) {
+    public LocationReminder(int id, int reminder_id, String name, String noti, String task) {
         this.id = id;
+        this.reminder_id = reminder_id;
         this.name = name;
         this.noti = noti;
         this.task = task;
@@ -54,4 +56,11 @@ public class LocationReminder {
         this.task = task;
     }
 
+    public int getReminder_id() {
+        return reminder_id;
+    }
+
+    public void setReminder_id(int reminder_id) {
+        this.reminder_id = reminder_id;
+    }
 }

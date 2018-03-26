@@ -120,8 +120,9 @@ public class LocationScheduledFragment extends Fragment {
                                         placename = (String) array.get("placename");
                                         notification = (String) array.get("notification");
                                         task = (String) array.get("taskname");
+                                        int reminder_id = (int) array.get("_id");
                                         int index = i+1;
-                                        mLocation.add(new LocationReminder(index, placename, notification, task));
+                                        mLocation.add(new LocationReminder(index, reminder_id, placename, notification, task));
                                         Log.e("Location Value", placename + " / " + notification + " / " + task);
                                     }
                                     locationadapter = new LocationReminderAdapter(getContext().getApplicationContext(), mLocation);

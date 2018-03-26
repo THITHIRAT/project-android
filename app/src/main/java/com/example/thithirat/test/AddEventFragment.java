@@ -488,7 +488,6 @@ public class AddEventFragment extends Fragment {
         }
     }
 
-
     public static void putArguments(Bundle args) {
         String placename = args.getString("PlaceName");
         Log.d("Value place ", placename);
