@@ -94,9 +94,9 @@ public class EventScheduledFragment extends Fragment {
                                 json = new JSONObject(response);
                                 String msg_task_event = json.getString("msg");
                                 Log.i("VOLLEY", msg_task_event);
-                                if (msg_task_event.equals("query success")){
+                                if (msg_task_event.equals("task/event : select reminder event complete")){
                                     JSONArray data = json.getJSONArray("data");
-                                    Log.i("Data Task Location", String.valueOf(data));
+                                    Log.i("Data Task Event", String.valueOf(data));
                                     for (int i=0; i < data.length(); i++) {
                                         JSONObject array = (JSONObject) data.get(i);
                                         task = (String) array.get("taskname");

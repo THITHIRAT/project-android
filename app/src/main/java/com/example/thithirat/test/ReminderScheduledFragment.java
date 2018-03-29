@@ -19,7 +19,20 @@ import android.widget.Toast;
 import com.amigold.fundapter.BindDictionary;
 import com.amigold.fundapter.FunDapter;
 import com.amigold.fundapter.extractors.StringExtractor;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,8 +45,12 @@ public class ReminderScheduledFragment extends Fragment {
     ListView listview;
 
     List<LocationReminder> mLocation;
+    LocationReminderAdapter locationadapter;
 
-    String str_token;
+    static String str_token;
+
+    String task;
+    String start_date;
 
     public ReminderScheduledFragment() {
         // Required empty public constructor
@@ -58,7 +75,73 @@ public class ReminderScheduledFragment extends Fragment {
         listview = (ListView)view.findViewById(R.id.list_view);
         mLocation = new ArrayList<>();
 
+        connection_task_reminder(str_token);
+
         return view;
+    }
+
+    private void connection_task_reminder(String str_token) {
+        try {
+            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+            String URL = "http://161.246.5.195:3000/task/reminder";
+            JSONObject jsonBody = new JSONObject();
+            jsonBody.put("token", str_token);
+            final String requestBody = jsonBody.toString();
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.i("VOLLEY", response);
+                            JSONObject json = null;
+                            try {
+                                json = new JSONObject(response);
+                                String msg_task_event = json.getString("msg");
+                                Log.i("VOLLEY", msg_task_event);
+                                if (msg_task_event.equals("task/reminder : select reminder reminder complete")){
+                                    JSONArray data = json.getJSONArray("data");
+                                    Log.i("Data Task Reminder", String.valueOf(data));
+                                    for (int i=0; i < data.length(); i++) {
+                                        JSONObject array = (JSONObject) data.get(i);
+                                        task = (String) array.get("taskname");
+                                        start_date = (String) array.get("start_date");
+                                        int reminder_id = (int) array.get("_id");
+                                        int index = i+1;
+                                        mLocation.add(new LocationReminder(index, reminder_id, " ", start_date, task));
+                                        Log.e("Reminder Value", task + " / " + start_date + " / " + task);
+                                    }
+                                    locationadapter = new LocationReminderAdapter(getContext().getApplicationContext(), mLocation);
+                                    listview.setAdapter(locationadapter);
+                                }
+                            }catch (JSONException e){
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("VOLLEY", error.toString());
+                        }
+                    }) {
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
+
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        return requestBody == null ? null : requestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                        return null;
+                    }
+                }
+            };
+            requestQueue.add(stringRequest);
+        }catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 }

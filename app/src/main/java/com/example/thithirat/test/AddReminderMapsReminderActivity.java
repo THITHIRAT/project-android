@@ -133,10 +133,10 @@ public class AddReminderMapsReminderActivity extends FragmentActivity implements
                                 json = new JSONObject(response);
                                 String msg_location = json.getString("msg");
                                 Log.i("VOLLEY", msg_location);
-                                if(msg_location.equals("sucess insert location")) {
+                                if(msg_location.equals("place/location : insert location complete")) {
                                     Toast.makeText(AddReminderMapsReminderActivity.this, "Success", Toast.LENGTH_LONG).show();
                                 }else {
-                                    Toast.makeText(AddReminderMapsReminderActivity.this, "Denied", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(AddReminderMapsReminderActivity.this, "Already", Toast.LENGTH_LONG).show();
                                 }
                             }catch (JSONException e){
                                 e.printStackTrace();

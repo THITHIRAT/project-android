@@ -18,26 +18,24 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
- * Created by Thithirat on 6/3/2561.
+ * Created by Thithirat on 27/3/2561.
  */
 
-public class LocationReminderAdapter extends BaseAdapter{
+public class LocationReminderCompleteAdapter extends BaseAdapter {
 
     Context mContext;
-    private List<LocationReminder> mLocationReminder;
+    private List<LocationReminderComplete> mLocationReminder;
 
     int position_location;
 
-    public LocationReminderAdapter(Context mcontext, List<LocationReminder> mLocationReminder) {
+    public LocationReminderCompleteAdapter(Context mcontext, List<LocationReminderComplete> mLocationReminder) {
         this.mContext = mcontext;
         this.mLocationReminder = mLocationReminder;
     }
@@ -59,7 +57,7 @@ public class LocationReminderAdapter extends BaseAdapter{
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        View view = View.inflate(mContext, R.layout.location_reminder, null);
+        View view = View.inflate(mContext, R.layout.location_reminder_complete, null);
 
         TextView textviewname = (TextView)view.findViewById(R.id.lc_place_name);
         textviewname.setMaxLines(1);
@@ -77,16 +75,17 @@ public class LocationReminderAdapter extends BaseAdapter{
         view.setTag(mLocationReminder.get(position).getId());
 
         final CheckBox lc_check_complete = (CheckBox)view.findViewById(R.id.lc_complete);
+        lc_check_complete.setChecked(true);
         lc_check_complete.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 position_location = position;
                 if(isChecked) {
                     Log.e("Checkif", String.valueOf(isChecked) + " " + position);
-                    connect_complete_location(position);
+//                    connect_complete_location(position);
                 }else {
                     Log.e("Checkelse", String.valueOf(isChecked) + " " + position);
-                    connect_incomplete_location(position);
+//                    connect_incomplete_location(position);
                 }
             }
         });
@@ -154,7 +153,7 @@ public class LocationReminderAdapter extends BaseAdapter{
 
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(mContext.getApplicationContext());
-            String URL = "http://161.246.5.195:3000/incomplete/location";
+            String URL = "http://161.246.5.195:3000/incomplete/complete";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("reminder_id", reminder_id);;
             final String requestBody = jsonBody.toString();

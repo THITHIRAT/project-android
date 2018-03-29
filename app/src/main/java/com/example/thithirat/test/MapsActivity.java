@@ -117,7 +117,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 json = new JSONObject(response);
                                 String msg_task_location = json.getString("msg");
                                 Log.i("VOLLEY", msg_task_location);
-                                if (msg_task_location.equals("query success")){
+                                if (msg_task_location.equals("task/location : select reminder location complete")){
                                     JSONArray data = json.getJSONArray("data");
                                     Log.i("Data Task Location", String.valueOf(data));
                                     for (int i=0; i < data.length(); i++) {

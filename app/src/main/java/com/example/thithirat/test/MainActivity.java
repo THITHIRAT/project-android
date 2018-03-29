@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -122,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
                                 json = new JSONObject(response);
                                 String msg_login = json.getString("msg");
                                 Log.i("VOLLEY", msg_login);
-                                if(msg_login.equals("success login")) {
+                                if(msg_login.equals("users/login : success login")) {
                                     token = json.getString("token");
 
                                     //from DatabaseHelper.java
@@ -157,7 +158,8 @@ public class MainActivity extends AppCompatActivity {
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Log.e("VOLLEY", error.toString());
+                            Log.e("VOLLEY", error.toString() + " " + error.getMessage());
+
                         }
                     }) {
                 @Override

@@ -53,10 +53,6 @@ public class LocationScheduledFragment extends Fragment {
     static String notification;
     static String task;
 
-    static String placename_position;
-    static String notification_position;
-    static String task_position;
-
     static String str_token;
 
     public LocationScheduledFragment() {
@@ -112,7 +108,7 @@ public class LocationScheduledFragment extends Fragment {
                                 json = new JSONObject(response);
                                 String msg_task_location = json.getString("msg");
                                 Log.i("VOLLEY", msg_task_location);
-                                if (msg_task_location.equals("query success")){
+                                if (msg_task_location.equals("task/location : select reminder location complete")){
                                     JSONArray data = json.getJSONArray("data");
                                     Log.i("Data Task Location", String.valueOf(data));
                                     for (int i=0; i < data.length(); i++) {

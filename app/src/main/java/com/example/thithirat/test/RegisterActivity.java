@@ -98,7 +98,7 @@ public class RegisterActivity extends Activity {
                                 json = new JSONObject(response);
                                 String msg_login = json.getString("msg");
                                 Log.i("VOLLEY", msg_login);
-                                if(msg_login.equals("user register sucessfully")) {
+                                if(msg_login.equals("users/register : user register sucessfully")) {
                                     token = json.getString("token");
 
                                     //from DatabaseHelper.java
