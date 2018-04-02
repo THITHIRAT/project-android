@@ -136,6 +136,7 @@ public class AddReminderFragment extends Fragment {
         final TextView et_type_date_3 = (TextView)view.findViewById(R.id.rm_type_date_3);
 
         final EditText et_addtaskname = (EditText) view.findViewById(R.id.rm_add_task_name);
+        final EditText et_addsubtaskname = (EditText) view.findViewById(R.id.rm_add_subtask_name);
         et_addplace = (EditText) view.findViewById(R.id.rm_add_place);
 
         final Switch onOffSwitch = (Switch) view.findViewById(R.id.rm_switch_allday);
@@ -145,25 +146,26 @@ public class AddReminderFragment extends Fragment {
 
         Button repeat = (Button)view.findViewById(R.id.rm_repeat);
 
+        Calendar calendar = Calendar.getInstance();
+        final int _year = calendar.get(Calendar.YEAR);
+        final int _month = calendar.get(Calendar.MONTH);
+        final int _day = calendar.get(Calendar.DAY_OF_MONTH);
+
         btnstartdate.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                Calendar calendar = Calendar.getInstance();
-                int _yaer = calendar.get(Calendar.YEAR);
-                final int _month = calendar.get(Calendar.MONTH);
-                final int _day = calendar.get(Calendar.DAY_OF_MONTH);
-
                 datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        month = _month + 1;
-                        btnstartdate.setText(dayOfMonth + "/" + month + "/" + year );
+                        month = month + 1;
+                        int yyyy = year + 543;
+                        btnstartdate.setText(dayOfMonth + "/" + month + "/" + yyyy );
                         con_str_startdate = String.valueOf(dayOfMonth);
                         con_str_startmonth = String.valueOf(month);
                         con_str_startyear = String.valueOf(year);
                     }
-                }, _yaer, _month, _day);
+                }, _year, _month, _day);
                 datePickerDialog.show();
             }
         });
@@ -172,21 +174,17 @@ public class AddReminderFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                Calendar calendar = Calendar.getInstance();
-                int _yaer = calendar.get(Calendar.YEAR);
-                final int _month = calendar.get(Calendar.MONTH);
-                int _day = calendar.get(Calendar.DAY_OF_MONTH);
-
                 datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        month = _month + 1;
-                        btnenddate.setText(dayOfMonth + "/" + month + "/" + year );
+                        month = month + 1;
+                        int yyyy = year + 543;
+                        btnenddate.setText(dayOfMonth + "/" + month + "/" + yyyy );
                         con_str_enddate = String.valueOf(dayOfMonth);
                         con_str_endmonth = String.valueOf(month);
                         con_str_endyear = String.valueOf(year);
                     }
-                }, _yaer, _month, _day);
+                }, _year, _month, _day);
                 datePickerDialog.show();
             }
         });
@@ -418,6 +416,7 @@ public class AddReminderFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String con_str_taskname = et_addtaskname.getText().toString();
+                String con_str_subtaskname = et_addsubtaskname.getText().toString();
                 boolean bool_onoffswitch = onOffSwitch.isChecked();
                 String con_str_onoffswitch;
                 if(bool_onoffswitch) {
@@ -427,7 +426,7 @@ public class AddReminderFragment extends Fragment {
                 }
                 String con_str_placename = et_addplace.getText().toString();
 
-                connection_addreminder_reminder(con_str_taskname, con_str_onoffswitch, con_str_startdate, con_str_startmonth, con_str_startyear, con_str_starthour, con_str_startmin,
+                connection_addreminder_reminder(con_str_taskname, con_str_subtaskname, con_str_onoffswitch, con_str_startdate, con_str_startmonth, con_str_startyear, con_str_starthour, con_str_startmin,
                         con_str_enddate, con_str_endmonth, con_str_endyear, con_str_endhour, con_str_endmin, con_str_placename, str_before_after_1, str_number_1, str_type_date_1,
                         str_before_after_2, str_number_2, str_type_date_2, str_before_after_3, str_number_3, str_type_date_3);
                 ScheduledFragment scheduled_fragment = new ScheduledFragment();
@@ -441,7 +440,7 @@ public class AddReminderFragment extends Fragment {
         return view;
     }
 
-    private void connection_addreminder_reminder(String con_str_taskname, String con_str_onoffswitch, String con_str_startdate, String con_str_startmonth, String con_str_startyear, String con_str_starthour, String con_str_startmin, String con_str_enddate, String con_str_endmonth, String con_str_endyear, String con_str_endhour, String con_str_endmin, String con_str_placename, String str_before_after_1, String str_number_1, String str_type_date_1, String str_before_after_2, String str_number_2, String str_type_date_2, String str_before_after_3, String str_number_3, String str_type_date_3) {
+    private void connection_addreminder_reminder(String con_str_taskname, String con_str_subtaskname, String con_str_onoffswitch, String con_str_startdate, String con_str_startmonth, String con_str_startyear, String con_str_starthour, String con_str_startmin, String con_str_enddate, String con_str_endmonth, String con_str_endyear, String con_str_endhour, String con_str_endmin, String con_str_placename, String str_before_after_1, String str_number_1, String str_type_date_1, String str_before_after_2, String str_number_2, String str_type_date_2, String str_before_after_3, String str_number_3, String str_type_date_3) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
             String URL = "http://161.246.5.195:3000/addreminder/reminder";
@@ -464,6 +463,7 @@ public class AddReminderFragment extends Fragment {
 
             jsonBody.put("placename", con_str_placename);
             jsonBody.put("taskname", con_str_taskname);
+            jsonBody.put("subtaskname", con_str_subtaskname);
             jsonBody.put("complete", "0");
 
             jsonBody.put("before_after_1", str_before_after_1);

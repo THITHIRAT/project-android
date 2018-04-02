@@ -40,6 +40,26 @@
                 android:textSize="16sp" />
 
             <EditText
+                android:id="@+id/rm_add_subtask_name"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_below="@+id/rm_add_task_name"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/colorwhite"
+                android:drawablePadding="10dp"
+                android:ems="10"
+                android:hint="Add Subtask.."
+                android:inputType="text"
+                android:paddingLeft="42dp"
+                android:textColor="@color/colornavy"
+                android:textColorHint="@color/colordarkwhite"
+                android:textCursorDrawable="@color/colordarkblue"
+                android:textSize="16sp" />
+
+            <EditText
                 android:id="@+id/rm_all_day"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
@@ -47,7 +67,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:background="@color/colorwhite"
-                android:layout_below="@+id/rm_add_task_name"
+                android:layout_below="@+id/rm_add_subtask_name"
                 android:drawableLeft="@drawable/ic_action_all_day_navy"
                 android:drawablePadding="10dp"
                 android:ems="10"

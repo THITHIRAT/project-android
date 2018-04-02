@@ -82,10 +82,10 @@ public class LocationReminderCompleteAdapter extends BaseAdapter {
                 position_location = position;
                 if(isChecked) {
                     Log.e("Checkif", String.valueOf(isChecked) + " " + position);
-//                    connect_complete_location(position);
+                    connect_incomplete_location(position);
                 }else {
                     Log.e("Checkelse", String.valueOf(isChecked) + " " + position);
-//                    connect_incomplete_location(position);
+                    connect_complete_location(position);
                 }
             }
         });
@@ -100,7 +100,7 @@ public class LocationReminderCompleteAdapter extends BaseAdapter {
 
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(mContext.getApplicationContext());
-            String URL = "http://161.246.5.195:3000/complete/task";
+            String URL = "http://161.246.5.195:3000/incomplete/task";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("reminder_id", reminder_id);;
             final String requestBody = jsonBody.toString();

@@ -122,25 +122,27 @@ public class AddEventFragment extends Fragment {
 
         Button notification = (Button)view.findViewById(R.id.type_notification);
 
+        Calendar calendar = Calendar.getInstance();
+        final int _year = calendar.get(Calendar.YEAR);
+        final int _month = calendar.get(Calendar.MONTH);
+        final int _day = calendar.get(Calendar.DAY_OF_MONTH);
+
         btnstartdate.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-               Calendar calendar = Calendar.getInstance();
-               int _yaer = calendar.get(Calendar.YEAR);
-               final int _month = calendar.get(Calendar.MONTH);
-               final int _day = calendar.get(Calendar.DAY_OF_MONTH);
 
                datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                    @Override
                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                       month = _month + 1;
-                       btnstartdate.setText(dayOfMonth + "/" + month + "/" + year );
+                       month = month + 1;
+                       int yyyy = year + 543;
+                       btnstartdate.setText(dayOfMonth + "/" + month + "/" + yyyy );
                        con_str_startdate = String.valueOf(dayOfMonth);
                        con_str_startmonth = String.valueOf(month);
                        con_str_startyear = String.valueOf(year);
                    }
-               }, _yaer, _month, _day);
+               }, _year, _month, _day);
                datePickerDialog.show();
             }
         });
@@ -149,21 +151,18 @@ public class AddEventFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                Calendar calendar = Calendar.getInstance();
-                int _yaer = calendar.get(Calendar.YEAR);
-                final int _month = calendar.get(Calendar.MONTH);
-                int _day = calendar.get(Calendar.DAY_OF_MONTH);
 
                 datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         month = _month + 1;
-                        btnenddate.setText(dayOfMonth + "/" + month + "/" + year );
+                        int yyyy = year + 543;
+                        btnenddate.setText(dayOfMonth + "/" + month + "/" + yyyy );
                         con_str_enddate = String.valueOf(dayOfMonth);
                         con_str_endmonth = String.valueOf(month);
                         con_str_endyear = String.valueOf(year);
                     }
-                }, _yaer, _month, _day);
+                }, _year, _month, _day);
                 datePickerDialog.show();
             }
         });
