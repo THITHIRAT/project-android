@@ -56,4 +56,7 @@
 
 
     <string name="title_activity_add_reminder_maps_reminder">Map</string>
+    <string name="title_activity_update_location_maps">Map</string>
+    <string name="title_activity_update_event_maps">Map</string>
+    <string name="title_activity_update_reminder_maps">Map</string>
 </resources>

@@ -33,6 +33,7 @@ public class ScheduledFragment extends Fragment {
     public static TabLayout tabLayout;
     public static ViewPager viewPager;
     public static int int_items = 3;
+    public FloatingActionButton fab_add_reminder;
 
 
     public ScheduledFragment() {
@@ -67,7 +68,7 @@ public class ScheduledFragment extends Fragment {
             }
         });
 
-        FloatingActionButton fab_add_reminder = (FloatingActionButton)view.findViewById(R.id.fab_add);
+        fab_add_reminder = (FloatingActionButton)view.findViewById(R.id.fab_add);
         fab_add_reminder.setOnClickListener(new View.OnClickListener(){
 
             @Override

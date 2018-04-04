@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.thithirat.test.AddEventMapsReminderActivity">
+    tools:context="com.example.thithirat.test.UpdateReminderMapsActivity">
 
     <fragment
         android:id="@+id/marker_map"
         android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="5dp"
+        android:layout_marginHorizontal="15dp"
         android:layout_marginVertical="0dp" />
 
     <fragment

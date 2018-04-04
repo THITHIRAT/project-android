@@ -100,11 +100,18 @@ public class EventScheduledFragment extends Fragment {
                                     for (int i=0; i < data.length(); i++) {
                                         JSONObject array = (JSONObject) data.get(i);
                                         task = (String) array.get("taskname");
+
                                         start_date = (String) array.get("start_date");
+                                        String[] start = start_date.split("-");
+                                        String start_year = start[0];
+                                        String start_month = start[1];
+                                        String start_day = start[2];
+                                        String start_DDMMYYYY = start_day + "/" + start_month + "/" + start_year;
+
                                         int reminder_id = (int) array.get("_id");
                                         int index = i+1;
-                                        mLocation.add(new LocationReminder(index, reminder_id, " ", start_date, task));
-                                        Log.e("Event Value", task + " / " + start_date + " / " + task);
+                                        mLocation.add(new LocationReminder(index, reminder_id, " ", start_DDMMYYYY, task, "Event"));
+                                        Log.e("Event Value", task + " / " + start_DDMMYYYY);
                                     }
                                     LocationReminderAdapter locationadapter = new LocationReminderAdapter(getContext().getApplicationContext(), mLocation);
                                     listview.setAdapter(locationadapter);

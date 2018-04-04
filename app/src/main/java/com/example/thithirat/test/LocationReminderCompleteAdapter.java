@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -73,6 +74,7 @@ public class LocationReminderCompleteAdapter extends BaseAdapter {
         textviewtask.setText(mLocationReminder.get(position).getTask());
 
         view.setTag(mLocationReminder.get(position).getId());
+        final String type = mLocationReminder.get(position).getType();
 
         final CheckBox lc_check_complete = (CheckBox)view.findViewById(R.id.lc_complete);
         lc_check_complete.setChecked(true);
@@ -87,6 +89,15 @@ public class LocationReminderCompleteAdapter extends BaseAdapter {
                     Log.e("Checkelse", String.valueOf(isChecked) + " " + position);
                     connect_complete_location(position);
                 }
+            }
+        });
+
+        RelativeLayout task = (RelativeLayout)view.findViewById(R.id.task);
+        task.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                position_location = position;
+                Log.e("OnclickTask", "Type : " + type + " & Position : " + String.valueOf(position_location));
             }
         });
 

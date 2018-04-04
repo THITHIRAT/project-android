@@ -14,14 +14,16 @@ public class LocationReminder {
     private String name;
     private String noti;
     private String task;
+    private String type;
 
 
-    public LocationReminder(int id, int reminder_id, String name, String noti, String task) {
+    public LocationReminder(int id, int reminder_id, String name, String noti, String task, String type) {
         this.id = id;
         this.reminder_id = reminder_id;
         this.name = name;
         this.noti = noti;
         this.task = task;
+        this.type = type;
     }
 
     public int getId() {
@@ -62,5 +64,13 @@ public class LocationReminder {
 
     public void setReminder_id(int reminder_id) {
         this.reminder_id = reminder_id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

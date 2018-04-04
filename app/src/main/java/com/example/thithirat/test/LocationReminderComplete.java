@@ -10,13 +10,15 @@ public class LocationReminderComplete {
     private String name;
     private String noti;
     private String task;
+    private String type;
 
-    public LocationReminderComplete(int id, int reminder_id, String name, String noti, String task) {
+    public LocationReminderComplete(int id, int reminder_id, String name, String noti, String task, String type) {
         this.id = id;
         this.reminder_id = reminder_id;
         this.name = name;
         this.noti = noti;
         this.task = task;
+        this.type = type;
     }
 
     public int getId() {
@@ -57,5 +59,13 @@ public class LocationReminderComplete {
 
     public void setTask(String task) {
         this.task = task;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.thithirat.test;
 
 
+        import android.annotation.SuppressLint;
         import android.os.Bundle;
         import android.support.v4.app.Fragment;
         import android.support.v4.app.FragmentTransaction;
@@ -17,8 +18,20 @@ package com.example.thithirat.test;
 public class AddTypeReminderFragment extends Fragment {
 
 
+    public Button button_reminder;
+    public Button button_event;
+    public Button button_location;
+
+    int type;
+
     public AddTypeReminderFragment() {
         // Required empty public constructor
+    }
+
+    @SuppressLint("ValidFragment")
+    public AddTypeReminderFragment(int type) {
+        // Required empty public constructor
+        this.type = type;
     }
 
 
@@ -35,9 +48,9 @@ public class AddTypeReminderFragment extends Fragment {
 //        fragmentTransaction.addToBackStack(null);
 //        fragmentTransaction.commit();
 
-        Button button_reminder = (Button)view.findViewById(R.id.reminder_button);
-        Button button_event = (Button)view.findViewById(R.id.event_button);
-        Button button_location = (Button)view.findViewById(R.id.location_button);
+        button_reminder = (Button)view.findViewById(R.id.reminder_button);
+        button_event = (Button)view.findViewById(R.id.event_button);
+        button_location = (Button)view.findViewById(R.id.location_button);
 
         button_reminder.setOnClickListener(new View.OnClickListener() {
             @Override

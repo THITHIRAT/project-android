@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".UpdateLocationFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:subtitleTextAppearance="@color/colornavy"
+            app:subtitleTextColor="@color/colornavy" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/add_place"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="15dp"
+                android:background="@color/colorwhite"
+                android:drawableLeft="@drawable/ic_action_location_navy_50px"
+                android:drawablePadding="10dp"
+                android:ems="10"
+                android:hint="Place Name"
+                android:inputType="text"
+                android:textColor="@color/colordarkblue"
+                android:textColorHint="@color/colordarkwhite"
+                android:textCursorDrawable="@color/colordarkblue"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/type_location"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_below="@+id/add_place"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/colorwhite"
+                android:drawableLeft="@drawable/ic_action_notification_navy_15"
+                android:drawablePadding="10dp"
+                android:ems="10"
+                android:gravity="center_vertical"
+                android:hint="Type Notification"
+                android:inputType="text"
+                android:textColor="@color/colornavy"
+                android:textColorHint="@color/colornavy"
+                android:textCursorDrawable="@color/colornavy"
+                android:textSize="16sp"
+                tools:ignore="DuplicateIds" />
+
+            <Spinner
+                android:id="@+id/spinner_location"
+                android:layout_width="130dp"
+                android:layout_height="35dp"
+                android:layout_alignEnd="@+id/add_place"
+                android:layout_alignRight="@+id/add_place"
+                android:layout_below="@+id/add_place"
+                android:backgroundTint="@color/colornavy"
+                android:dropDownWidth="120dp"
+                android:popupBackground="@color/colornavy" />
+
+            <EditText
+                android:id="@+id/add_name_task"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_below="@+id/type_location"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/colorwhite"
+                android:drawableLeft="@drawable/ic_action_name_96px"
+                android:drawablePadding="10dp"
+                android:ems="10"
+                android:hint="Task Name"
+                android:inputType="text"
+                android:textColor="@color/colordarkblue"
+                android:textColorHint="@color/colordarkwhite"
+                android:textCursorDrawable="@color/colordarkblue"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/update"
+                android:layout_width="150dp"
+                android:layout_height="45dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_margin="20dp"
+                android:background="@drawable/button_radius_darkblue"
+                android:text="Update"
+                app:layout_anchorGravity="right|bottom" />
+
+            <Button
+                android:id="@+id/delete"
+                android:layout_width="150dp"
+                android:layout_height="45dp"
+                android:layout_alignStart="@+id/add_place"
+                android:layout_alignLeft="@+id/add_place"
+                android:layout_alignTop="@+id/update"
+                android:background="@drawable/button_radius_red"
+                android:text="Delete" />
+
+            <ImageButton
+                android:id="@+id/marker_map"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_alignEnd="@+id/add_place"
+                android:layout_alignRight="@+id/add_place"
+                android:layout_alignTop="@+id/add_place"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_action_map_marker_navy_new" />
+
+        </RelativeLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+</LinearLayout>

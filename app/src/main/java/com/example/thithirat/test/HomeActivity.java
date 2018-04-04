@@ -112,6 +112,32 @@ public class HomeActivity extends AppCompatActivity {
         drawer_layout.addDrawerListener(toggle);
         toggle.syncState();
 
+        boolean location = getIntent().getBooleanExtra("location", false);
+        if (location) {
+            UpdateLocationFragment up_location_fragment = new UpdateLocationFragment();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frag, up_location_fragment, null);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
+
+        boolean event = getIntent().getBooleanExtra("event", false);
+        if (event) {
+            UpdateEventFragment up_event_fragment = new UpdateEventFragment();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frag, up_event_fragment, null);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
+
+        boolean reminder = getIntent().getBooleanExtra("reminder", false);
+        if (reminder) {
+            UpdateReminderFragment up_reminder_fragment = new UpdateReminderFragment();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frag, up_reminder_fragment, null);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
     }
 
 }

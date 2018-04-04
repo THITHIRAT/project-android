@@ -34,37 +34,50 @@ public class AddTypeMainFragment extends Fragment {
         button_reminder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddReminderFragment reminder_fragment = new AddReminderFragment();
-                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.layout_add_type, reminder_fragment, null);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                reminder();
             }
         });
 
         button_event.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddEventFragment event_fragment = new AddEventFragment();
-                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.layout_add_type, event_fragment, null);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                event();
             }
         });
 
         button_location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddLocationFragment location_fragment = new AddLocationFragment();
-                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.layout_add_type, location_fragment, null);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                location();
             }
         });
 
         return view;
     }
+
+    private void location() {
+        AddLocationFragment location_fragment = new AddLocationFragment();
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.layout_add_type, location_fragment, null);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+    private void event() {
+        AddEventFragment event_fragment = new AddEventFragment();
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.layout_add_type, event_fragment, null);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+    private void reminder() {
+        AddReminderFragment reminder_fragment = new AddReminderFragment();
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.layout_add_type, reminder_fragment, null);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
 
 }

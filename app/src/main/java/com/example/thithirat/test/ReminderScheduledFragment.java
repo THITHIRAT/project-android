@@ -50,6 +50,7 @@ public class ReminderScheduledFragment extends Fragment {
     static String str_token;
 
     String task;
+    String subtask;
     String start_date;
 
     public ReminderScheduledFragment() {
@@ -103,11 +104,26 @@ public class ReminderScheduledFragment extends Fragment {
                                     for (int i=0; i < data.length(); i++) {
                                         JSONObject array = (JSONObject) data.get(i);
                                         task = (String) array.get("taskname");
+                                        subtask = (String) array.get("subtaskname");
+
+                                        String output;
+                                        if(subtask.equals("")) {
+                                            output = task;
+                                        }else {
+                                            output = task + " : " + subtask;
+                                        }
+
                                         start_date = (String) array.get("start_date");
+                                        String[] start = start_date.split("-");
+                                        String start_year = start[0];
+                                        String start_month = start[1];
+                                        String start_day = start[2];
+                                        String start_DDMMYYYY = start_day + "/" + start_month + "/" + start_year;
+
                                         int reminder_id = (int) array.get("_id");
                                         int index = i+1;
-                                        mLocation.add(new LocationReminder(index, reminder_id, " ", start_date, task));
-                                        Log.e("Reminder Value", task + " / " + start_date + " / " + task);
+                                        mLocation.add(new LocationReminder(index, reminder_id, " ", start_DDMMYYYY, output, "Reminder"));
+                                        Log.e("Reminder Value", output + " / " + start_DDMMYYYY);
                                     }
                                     locationadapter = new LocationReminderAdapter(getContext().getApplicationContext(), mLocation);
                                     listview.setAdapter(locationadapter);

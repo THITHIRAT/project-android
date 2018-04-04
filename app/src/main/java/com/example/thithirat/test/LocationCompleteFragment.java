@@ -98,7 +98,7 @@ public class LocationCompleteFragment extends Fragment {
                                         task = (String) array.get("taskname");
                                         int reminder_id = (int) array.get("_id");
                                         int index = i+1;
-                                        mLocation.add(new LocationReminderComplete(index, reminder_id, placename, notification, task));
+                                        mLocation.add(new LocationReminderComplete(index, reminder_id, placename, notification, task, "Location"));
                                         Log.e("Location Value", placename + " / " + notification + " / " + task);
                                     }
                                     locationadapter = new LocationReminderCompleteAdapter(getContext().getApplicationContext(), mLocation);

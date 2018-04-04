@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".UpdateEventFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:subtitleTextAppearance="@color/colornavy"
+            app:subtitleTextColor="@color/colornavy" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/add_task_name"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="15dp"
+                android:background="@color/colorwhite"
+                android:drawableLeft="@drawable/ic_action_name_96px"
+                android:drawablePadding="10dp"
+                android:ems="10"
+                android:hint="Add Task.."
+                android:inputType="text"
+                android:textColor="@color/colornavy"
+                android:textColorHint="@color/colordarkwhite"
+                android:textCursorDrawable="@color/colordarkblue"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/all_day"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/colorwhite"
+                android:layout_below="@+id/add_task_name"
+                android:drawableLeft="@drawable/ic_action_all_day_navy"
+                android:drawablePadding="10dp"
+                android:ems="10"
+                android:text="All Day"
+                android:gravity="center_vertical"
+                android:inputType="text"
+                android:textColor="@color/colornavy"
+                android:textColorHint="@color/colordarkwhite"
+                android:textCursorDrawable="@color/colordarkblue"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/start_date"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_below="@+id/all_day"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@null"
+                android:drawableLeft="@drawable/ic_action_calendar_navy"
+                android:drawablePadding="10dp"
+                android:ems="10"
+                android:gravity="center_vertical"
+                android:text="Start Date"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
+                android:textColor="@color/colornavy"
+                android:textColorHint="@color/colornavy"
+                android:textCursorDrawable="@color/colornavy"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/start_time"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:paddingRight="20dp"
+                android:layout_alignEnd="@+id/start_date"
+                android:layout_alignRight="@+id/start_date"
+                android:layout_below="@+id/all_day"
+                android:layout_marginBottom="15dp"
+                android:background="@null"
+                android:drawableLeft="@drawable/ic_action_time_navy"
+                android:drawablePadding="10dp"
+                android:text="Start Time"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
+                android:textColor="@color/colornavy"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/end_date"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_below="@+id/start_date"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@null"
+                android:ems="10"
+                android:gravity="center_vertical"
+                android:paddingLeft="43dp"
+                android:text="End Date"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
+                android:textColor="@color/colornavy"
+                android:textColorHint="@color/colornavy"
+                android:textCursorDrawable="@color/colornavy"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/end_time"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:paddingRight="20dp"
+                android:layout_alignLeft="@+id/start_time"
+                android:layout_alignStart="@+id/start_time"
+                android:layout_below="@+id/start_time"
+                android:background="@null"
+                android:drawableLeft="@drawable/ic_action_time_navy"
+                android:drawablePadding="10dp"
+                android:text="End Time"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
+                android:textColor="@color/colornavy"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/add_place"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_below="@id/end_date"
+                android:background="@color/colorwhite"
+                android:drawableLeft="@drawable/ic_action_location_navy_50px"
+                android:drawablePadding="10dp"
+                android:ems="10"
+                android:hint="Place Name"
+                android:inputType="text"
+                android:textColor="@color/colornavy"
+                android:textColorHint="@color/colordarkwhite"
+                android:textCursorDrawable="@color/colordarkblue"
+                android:textSize="16sp" />
+
+            <ImageButton
+                android:id="@+id/marker_map"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_alignEnd="@+id/add_place"
+                android:layout_alignRight="@+id/add_place"
+                android:layout_alignTop="@+id/add_place"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_action_map_marker_navy_new" />
+
+            <Button
+                android:id="@+id/type_notification"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_alignLeft="@+id/add_place"
+                android:layout_alignStart="@+id/add_place"
+                android:layout_below="@+id/add_place"
+                android:background="@android:color/transparent"
+                android:drawableLeft="@drawable/ic_action_notification_navy_15"
+                android:drawablePadding="-15dp"
+                android:ems="10"
+                android:hint="Type Notification"
+                android:inputType="text"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
+                android:textColorHint="@color/colornavy"
+                android:textCursorDrawable="@color/colornavy"
+                android:textSize="16sp"
+                tools:ignore="DuplicateIds" />
+
+            <TextView
+                android:id="@+id/before_after"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/number"
+                android:layout_below="@+id/add_place"
+                android:layout_toLeftOf="@+id/number"
+                android:layout_toStartOf="@+id/number"
+                android:gravity="center_vertical"
+                android:paddingRight="5dp"
+                android:textAlignment="center"
+                android:textColor="@color/colornavy"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/repeat"
+                android:layout_below="@+id/add_place"
+                android:layout_toLeftOf="@+id/type_date"
+                android:layout_toStartOf="@+id/type_date"
+                android:gravity="center_vertical"
+                android:paddingRight="5dp"
+                android:textAlignment="center"
+                android:textColor="@color/colornavy"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/type_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/number"
+                android:layout_alignEnd="@+id/add_place"
+                android:layout_alignRight="@+id/add_place"
+                android:layout_below="@+id/add_place"
+                android:gravity="center_vertical"
+                android:paddingRight="5dp"
+                android:textAlignment="center"
+                android:textColor="@color/colornavy"
+                android:textSize="16dp" />
+
+            <Button
+                android:id="@+id/update"
+                android:layout_width="150dp"
+                android:layout_height="45dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_margin="20dp"
+                android:background="@drawable/button_radius_darkblue"
+                android:text="Update"
+                app:layout_anchorGravity="right|bottom" />
+
+            <Button
+                android:id="@+id/delete"
+                android:layout_width="150dp"
+                android:layout_height="45dp"
+                android:layout_alignStart="@+id/add_place"
+                android:layout_alignLeft="@+id/add_place"
+                android:layout_alignTop="@+id/update"
+                android:background="@drawable/button_radius_red"
+                android:text="Delete" />
+
+            <Switch
+                android:id="@+id/switch_allday"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_alignBottom="@+id/all_day"
+                android:layout_alignEnd="@+id/start_date"
+                android:layout_alignRight="@+id/start_date" />
+
+        </RelativeLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+</FrameLayout>

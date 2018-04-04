@@ -1,12 +1,20 @@
 package com.example.thithirat.test;
 
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -18,10 +26,8 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -33,9 +39,11 @@ import java.util.List;
 public class LocationReminderAdapter extends BaseAdapter{
 
     Context mContext;
+    private Fragment currentfragment;
     private List<LocationReminder> mLocationReminder;
 
     int position_location;
+    private FragmentActivity activity;
 
     public LocationReminderAdapter(Context mcontext, List<LocationReminder> mLocationReminder) {
         this.mContext = mcontext;
@@ -59,7 +67,8 @@ public class LocationReminderAdapter extends BaseAdapter{
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        View view = View.inflate(mContext, R.layout.location_reminder, null);
+
+        final View view = View.inflate(mContext, R.layout.location_reminder, null);
 
         TextView textviewname = (TextView)view.findViewById(R.id.lc_place_name);
         textviewname.setMaxLines(1);
@@ -75,6 +84,7 @@ public class LocationReminderAdapter extends BaseAdapter{
         textviewtask.setText(mLocationReminder.get(position).getTask());
 
         view.setTag(mLocationReminder.get(position).getId());
+        final String type = mLocationReminder.get(position).getType();
 
         final CheckBox lc_check_complete = (CheckBox)view.findViewById(R.id.lc_complete);
         lc_check_complete.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -89,6 +99,31 @@ public class LocationReminderAdapter extends BaseAdapter{
                     connect_incomplete_location(position);
                 }
             }
+        });
+
+        RelativeLayout task = (RelativeLayout)view.findViewById(R.id.task);
+        task.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                position_location = position;
+                Log.e("OnclickTask", "Type : " + type + " & Position : " + String.valueOf(position_location));
+                if (type.equals("Location")) {
+                    Intent intent = new Intent(mContext.getApplicationContext(), HomeActivity.class);
+                    intent.putExtra("location", true);
+                    mContext.startActivity(intent);
+                }
+                if (type.equals("Event")) {
+                    Intent intent = new Intent(mContext.getApplicationContext(), HomeActivity.class);
+                    intent.putExtra("event", true);
+                    mContext.startActivity(intent);
+                }
+                if (type.equals("Reminder")) {
+                    Intent intent = new Intent(mContext.getApplicationContext(), HomeActivity.class);
+                    intent.putExtra("reminder", true);
+                    mContext.startActivity(intent);
+                }
+            }
+
         });
 
         return view;
