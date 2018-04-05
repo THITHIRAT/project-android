@@ -91,13 +91,6 @@ public class AddReminderFragment extends Fragment {
     String con_str_endhour = null;
     String con_str_endmin = null;
 
-//    String con_str_alldaydate = null;
-//    String con_str_alldaymonth = null;
-//    String con_str_alldayyear = null;
-//
-//    String con_str_alldayhour = null;
-//    String con_str_alldaymin = null;
-
     public AddReminderFragment() {
         // Required empty public constructor
     }
@@ -357,7 +350,7 @@ public class AddReminderFragment extends Fragment {
                             et_type_date_1.setVisibility(View.INVISIBLE);
                             et_number_1.setText("0");
                         }else {
-                            et_type_date_1.setVisibility(View.VISIBLE);
+                            et_before_after_1.setVisibility(View.VISIBLE);
                             et_number_1.setVisibility(View.VISIBLE);
                             et_type_date_1.setVisibility(View.VISIBLE);
                             et_before_after_1.setText(str_before_after_1);
@@ -385,17 +378,17 @@ public class AddReminderFragment extends Fragment {
                             et_type_date_3.setVisibility(View.INVISIBLE);
                             et_number_3.setText("0");
                         }else {
-                            et_before_after_2.setVisibility(View.VISIBLE);
-                            et_number_2.setVisibility(View.VISIBLE);
-                            et_type_date_2.setVisibility(View.VISIBLE);
+                            et_before_after_3.setVisibility(View.VISIBLE);
+                            et_number_3.setVisibility(View.VISIBLE);
+                            et_type_date_3.setVisibility(View.VISIBLE);
                             et_before_after_3.setText(str_before_after_3);
                             et_number_3.setText(str_number_3);
                             et_type_date_3.setText(str_type_date_3);
                         }
 
-                        Log.d("AddEventNotification 1", str_before_after_1 + str_number_1 + str_type_date_1);
-                        Log.d("AddEventNotification 2", str_before_after_2 + str_number_2 + str_type_date_2);
-                        Log.d("AddEventNotification 3", str_before_after_3 + str_number_3 + str_type_date_3);
+                        Log.d("AddReminderNoti_1", str_before_after_1 + str_number_1 + str_type_date_1);
+                        Log.d("AddReminderNoti_2", str_before_after_2 + str_number_2 + str_type_date_2);
+                        Log.d("AddReminderNoti_3", str_before_after_3 + str_number_3 + str_type_date_3);
 
                         dialog.cancel();
                     }

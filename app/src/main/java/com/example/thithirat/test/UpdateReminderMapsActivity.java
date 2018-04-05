@@ -2,11 +2,13 @@ package com.example.thithirat.test;
 
 import android.content.Intent;
 import android.location.Location;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -87,6 +89,22 @@ public class UpdateReminderMapsActivity extends FragmentActivity implements OnMa
             @Override
             public void onError(Status status) {
                 Log.d("Maps", "An error occurred: " + status);
+            }
+        });
+
+        FloatingActionButton fab_place_done_reminder = (FloatingActionButton)findViewById(R.id.fab_place_done);
+        fab_place_done_reminder.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Log.d("Onclick", "Complete");
+                if(placename != null) {
+                    Bundle args = new Bundle();
+                    args.putString("PlaceName", placename);
+                    UpdateReminderFragment.putArguments(args);
+                }
+
+                finish();
             }
         });
 

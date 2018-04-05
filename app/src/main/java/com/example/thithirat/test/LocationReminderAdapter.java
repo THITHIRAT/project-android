@@ -85,6 +85,7 @@ public class LocationReminderAdapter extends BaseAdapter{
 
         view.setTag(mLocationReminder.get(position).getId());
         final String type = mLocationReminder.get(position).getType();
+        final int id = mLocationReminder.get(position).getReminder_id();
 
         final CheckBox lc_check_complete = (CheckBox)view.findViewById(R.id.lc_complete);
         lc_check_complete.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -110,16 +111,19 @@ public class LocationReminderAdapter extends BaseAdapter{
                 if (type.equals("Location")) {
                     Intent intent = new Intent(mContext.getApplicationContext(), HomeActivity.class);
                     intent.putExtra("location", true);
+                    intent.putExtra("id", id);
                     mContext.startActivity(intent);
                 }
                 if (type.equals("Event")) {
                     Intent intent = new Intent(mContext.getApplicationContext(), HomeActivity.class);
                     intent.putExtra("event", true);
+                    intent.putExtra("id", id);
                     mContext.startActivity(intent);
                 }
                 if (type.equals("Reminder")) {
                     Intent intent = new Intent(mContext.getApplicationContext(), HomeActivity.class);
                     intent.putExtra("reminder", true);
+                    intent.putExtra("id", id);
                     mContext.startActivity(intent);
                 }
             }

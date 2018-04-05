@@ -1,6 +1,7 @@
 package com.example.thithirat.test;
 
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -9,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,12 +26,26 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
+@SuppressLint("ValidFragment")
 public class UpdateEventFragment extends Fragment {
 
     DatePickerDialog datePickerDialog;
@@ -68,9 +84,12 @@ public class UpdateEventFragment extends Fragment {
     String con_str_alldayhour = null;
     String con_str_alldaymin = null;
 
-
-    public UpdateEventFragment() {
+    int reminder_id = 0;
+    @SuppressLint("ValidFragment")
+    public UpdateEventFragment(int id) {
         // Required empty public constructor
+        this.reminder_id = id;
+        Log.e("UpdateEvent", String.valueOf(id));
     }
 
 
@@ -365,7 +384,12 @@ public class UpdateEventFragment extends Fragment {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                connection_delete(reminder_id);
+                ScheduledFragment scheduled_fragment = new ScheduledFragment();
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.frag, scheduled_fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
 
@@ -373,11 +397,69 @@ public class UpdateEventFragment extends Fragment {
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                connection_update(reminder_id);
+                ScheduledFragment scheduled_fragment = new ScheduledFragment();
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.frag, scheduled_fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
 
         return view;
+    }
+
+    private void connection_update(int reminder_id) {
+    }
+
+    private void connection_delete(int reminder_id) {
+        try {
+            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+            String URL = "http://161.246.5.195:3000/deletereminder/task";
+            JSONObject jsonBody = new JSONObject();
+            jsonBody.put("id", reminder_id);
+
+            final String requestBody = jsonBody.toString();
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.i("VOLLEY", response);
+                            JSONObject json = null;
+                            try {
+                                json = new JSONObject(response);
+                                String msg_delete = json.getString("msg");
+                                Log.i("VOLLEY", msg_delete);
+                            }catch (JSONException e){
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("VOLLEY", error.toString());
+                        }
+                    }) {
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
+
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        return requestBody == null ? null : requestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                        return null;
+                    }
+                }
+            };
+            requestQueue.add(stringRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -101,7 +101,7 @@ public class UpdateLocationMapsActivity extends FragmentActivity implements OnMa
                 if(placename != null) {
                     Bundle args = new Bundle();
                     args.putString("PlaceName", placename);
-                    AddLocationFragment.putArguments(args);
+                    UpdateLocationFragment.putArguments(args);
                 }
 
                 finish();
