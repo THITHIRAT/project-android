@@ -114,6 +114,8 @@ public class UpdateReminderFragment extends Fragment {
     String con_str_endhour = null;
     String con_str_endmin = null;
 
+    String con_str_onoffswitch;
+
     TextView et_before_after_1 = null;
     TextView et_number_1 = null;
     TextView et_type_date_1 = null;
@@ -264,7 +266,7 @@ public class UpdateReminderFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AddReminderMapsReminderActivity.class);
+                Intent intent = new Intent(getActivity(), UpdateReminderMapsActivity.class);
                 startActivity(intent);
             }
         });
@@ -474,6 +476,52 @@ public class UpdateReminderFragment extends Fragment {
         return view;
     }
 
+    private void checkswitch() {
+        boolean bool_onoffswitch = onOffSwitch.isChecked();
+        if(bool_onoffswitch) {
+            con_str_onoffswitch = "1";
+        }else {
+            con_str_onoffswitch = "0";
+        }
+    }
+
+    private void getstartdatetime() {
+        String startdate = (String) btnstartdate.getText();
+        String[] array_startdate = startdate.split("/");
+        con_str_startdate = array_startdate[0];
+        con_str_startmonth = array_startdate[1];
+        con_str_startyear = array_startdate[2];
+
+        String starttime = (String) btnstarttime.getText();
+
+        String[] array_starttime = starttime.split(":");
+        if(array_starttime.length == 1) {
+            con_str_starthour = "0";
+            con_str_startmin = "0";
+        }else {
+            con_str_starthour = array_starttime[0];
+            con_str_startmin = array_starttime[1];
+        }
+    }
+
+    private void getenddatetime() {
+        String enddate = (String) btnenddate.getText();
+        String[] array_startdate = enddate.split("/");
+        con_str_enddate = array_startdate[0];
+        con_str_endmonth = array_startdate[1];
+        con_str_endyear = array_startdate[2];
+
+        String endtime = (String) btnendtime.getText();
+        String[] array_endtime = endtime.split(":");
+        if(array_endtime.length == 1) {
+            con_str_endhour = "0";
+            con_str_endmin = "0";
+        }else {
+            con_str_endhour = array_endtime[0];
+            con_str_endmin = array_endtime[1];
+        }
+    }
+
     private void connection_show() {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
@@ -534,12 +582,14 @@ public class UpdateReminderFragment extends Fragment {
 
                                     if(array.get("start_time").equals(null)){
                                         //allday
+                                        btnstarttime.setText("00:00");
                                     }else {
                                         str_starttime = (String) array.get("start_time");
                                         btnstarttime.setText(str_starttime);
                                     }
                                     if(array.get("end_time").equals(null)) {
                                         //allday
+                                        btnendtime.setText("00:00");
                                     }else {
                                         str_endtime = (String) array.get("end_time");
                                         btnendtime.setText(str_endtime);
@@ -547,36 +597,48 @@ public class UpdateReminderFragment extends Fragment {
 
                                     reminder_id = (int) array.get("_id");
 
-                                    Log.e("Location Value", str_placename + " / " + str_taskname + " / " + str_subtaskname);
+                                    Log.e("Reminder Value", str_placename + " / " + str_taskname + " / " + str_subtaskname);
                                 }
                                 if (msg_reminder.equals("detailreminder/task : complete")) {
                                     JSONArray notification = json.getJSONArray("notification");
-                                    Log.i("Data Task Location", String.valueOf(notification));
+                                    Log.i("Data Notification", String.valueOf(notification));
                                     for (int i=0; i < notification.length(); i++) {
                                         JSONObject array_notification = (JSONObject) notification.get(i);
                                         if(i == 0) {
+                                            et_before_after_1.setVisibility(View.VISIBLE);
+                                            et_number_1.setVisibility(View.VISIBLE);
+                                            et_type_date_1.setVisibility(View.VISIBLE);
                                             str_before_after_1 = (String) array_notification.get("before_after");
                                             et_before_after_1.setText(str_before_after_1);
                                             str_number_1 = array_notification.get("number").toString();
                                             et_number_1.setText(str_number_1);
                                             str_type_date_1 = (String) array_notification.get("type");
                                             et_type_date_1.setText(str_type_date_1);
+                                            Log.e("Notification 1", str_before_after_1 + " " + str_number_1 + " " + str_type_date_1);
                                         }
                                         if(i == 1) {
+                                            et_before_after_2.setVisibility(View.VISIBLE);
+                                            et_number_2.setVisibility(View.VISIBLE);
+                                            et_type_date_2.setVisibility(View.VISIBLE);
                                             str_before_after_2 = (String) array_notification.get("before_after");
                                             et_before_after_2.setText(str_before_after_2);
                                             str_number_2 = array_notification.get("number").toString();
                                             et_number_2.setText(str_number_2);
                                             str_type_date_2 = (String) array_notification.get("type");
                                             et_type_date_2.setText(str_type_date_2);
+                                            Log.e("Notification 2", str_before_after_2 + " " + str_number_2 + " " + str_type_date_2);
                                         }
                                         if(i == 2) {
+                                            et_before_after_3.setVisibility(View.VISIBLE);
+                                            et_number_3.setVisibility(View.VISIBLE);
+                                            et_type_date_3.setVisibility(View.VISIBLE);
                                             str_before_after_3 = (String) array_notification.get("before_after");
                                             et_before_after_3.setText(str_before_after_3);
                                             str_number_3 = array_notification.get("number").toString();
                                             et_number_3.setText(str_number_3);
                                             str_type_date_3 = (String) array_notification.get("type");
                                             et_type_date_3.setText(str_type_date_3);
+                                            Log.e("Notification 3", str_before_after_3 + " " + str_number_3 + " " + str_type_date_3);
                                         }
                                     }
                                 }
@@ -613,6 +675,100 @@ public class UpdateReminderFragment extends Fragment {
     }
 
     private void connection_update(int reminder_id) {
+        try {
+            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+            String URL = "http://161.246.5.195:3000/updatereminder/task";
+            JSONObject jsonBody = new JSONObject();
+            jsonBody.put("id", reminder_id);
+            jsonBody.put("type", "Reminder");
+
+            checkswitch();
+            jsonBody.put("allday", con_str_onoffswitch);
+
+            getstartdatetime();
+            Log.e("Update Start", con_str_startdate + con_str_startmonth + con_str_startyear + " " + con_str_starthour + ":" + con_str_startmin);
+            jsonBody.put("startdate", con_str_startdate);
+            jsonBody.put("startmonth", con_str_startmonth);
+            jsonBody.put("startyear", con_str_startyear);
+            jsonBody.put("starthour", con_str_starthour);
+            jsonBody.put("startmin", con_str_startmin);
+
+            getenddatetime();
+            Log.e("Update End", con_str_enddate + con_str_endmonth + con_str_endyear + " " + con_str_endhour + ":" + con_str_endmin);
+            jsonBody.put("enddate", con_str_enddate);
+            jsonBody.put("endmonth", con_str_endmonth);
+            jsonBody.put("endyear", con_str_endyear);
+            jsonBody.put("endhour", con_str_endhour);
+            jsonBody.put("endmin", con_str_endmin);
+
+            jsonBody.put("placename", str_placename);
+
+            Log.e("Update Place", str_placename);
+
+            String con_str_taskname = et_addtaskname.getText().toString();
+            String con_str_subtaskname = et_addsubtaskname.getText().toString();
+            jsonBody.put("taskname", con_str_taskname);
+            jsonBody.put("subtaskname", con_str_subtaskname);
+
+            jsonBody.put("before_after_1", str_before_after_1);
+            jsonBody.put("num_notification_1", str_number_1);
+            jsonBody.put("type_num_1", str_type_date_1);
+
+            Log.e("Update Noti 1", str_before_after_1 + str_number_1 + str_type_date_1);
+
+            jsonBody.put("before_after_2", str_before_after_2);
+            jsonBody.put("num_notification_2", str_number_2);
+            jsonBody.put("type_num_2", str_type_date_2);
+
+            Log.e("Update Noti 2", str_before_after_2 + str_number_2 + str_type_date_2);
+
+            jsonBody.put("before_after_3", str_before_after_3);
+            jsonBody.put("num_notification_3", str_number_3);
+            jsonBody.put("type_num_3", str_type_date_3);
+
+            Log.e("Update Noti 3", str_before_after_3 + str_number_3 + str_type_date_3);
+
+            final String requestBody = jsonBody.toString();
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.i("VOLLEY", response);
+                            JSONObject json = null;
+                            try {
+                                json = new JSONObject(response);
+                                String msg_delete = json.getString("msg");
+                                Log.i("VOLLEY", msg_delete);
+                            }catch (JSONException e){
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("VOLLEY", error.toString());
+                        }
+                    }) {
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
+
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        return requestBody == null ? null : requestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                        return null;
+                    }
+                }
+            };
+            requestQueue.add(stringRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void connection_delete(int reminder_id) {

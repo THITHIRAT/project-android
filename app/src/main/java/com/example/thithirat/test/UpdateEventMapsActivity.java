@@ -101,7 +101,7 @@ public class UpdateEventMapsActivity extends FragmentActivity implements OnMapRe
                 if(placename != null) {
                     Bundle args = new Bundle();
                     args.putString("PlaceName", placename);
-                    AddEventFragment.putArguments(args);
+                    UpdateEventFragment.putArguments(args);
                 }
 
                 finish();

@@ -184,7 +184,7 @@
             <TextView
                 android:id="@+id/before_after"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
                 android:layout_alignBottom="@+id/number"
                 android:layout_below="@+id/add_place"
                 android:layout_toLeftOf="@+id/number"
@@ -198,7 +198,7 @@
             <TextView
                 android:id="@+id/number"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
                 android:layout_alignBottom="@+id/repeat"
                 android:layout_below="@+id/add_place"
                 android:layout_toLeftOf="@+id/type_date"
@@ -212,7 +212,7 @@
             <TextView
                 android:id="@+id/type_date"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
                 android:layout_alignBottom="@+id/number"
                 android:layout_alignEnd="@+id/add_place"
                 android:layout_alignRight="@+id/add_place"

@@ -25,6 +25,7 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -35,6 +36,7 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -55,13 +57,33 @@ public class UpdateEventFragment extends Fragment {
     Spinner spinner_min_hour;
     ArrayAdapter<String> adapter;
 
+    static String str_placename;
+    String str_taskname;
+    String str_subtaskname;
+    int int_onoffswitch;
+
+    Switch onOffSwitch;
+
+    Button btnstartdate;
+    Button btnenddate;
+    String str_startdate;
+    String str_enddate;
+
+    Button btnstarttime;
+    Button btnendtime;
+    String str_starttime;
+    String str_endtime;
+
     String str_before_after;
     String str_number;
     String str_type_date;
 
     static EditText et_addplace;
+    static EditText et_addtaskname;
 
     String str_token;
+
+    String con_str_onoffswitch;
 
     String con_str_startdate = null;
     String con_str_startmonth = null;
@@ -83,6 +105,10 @@ public class UpdateEventFragment extends Fragment {
 
     String con_str_alldayhour = null;
     String con_str_alldaymin = null;
+
+    TextView et_before_after;
+    TextView et_number;
+    TextView et_type_date;
 
     int reminder_id = 0;
     @SuppressLint("ValidFragment")
@@ -107,20 +133,20 @@ public class UpdateEventFragment extends Fragment {
         str_token = prefs.getString("TOKEN", "null");
         Log.e("Event TOKEN", str_token);
 
-        final Button btnstartdate = (Button)view.findViewById(R.id.start_date);
-        final Button btnenddate = (Button)view.findViewById(R.id.end_date);
+        btnstartdate = (Button)view.findViewById(R.id.start_date);
+        btnenddate = (Button)view.findViewById(R.id.end_date);
 
-        final Button btnstarttime = (Button)view.findViewById(R.id.start_time);
-        final Button btnendtime = (Button)view.findViewById(R.id.end_time);
+        btnstarttime = (Button)view.findViewById(R.id.start_time);
+        btnendtime = (Button)view.findViewById(R.id.end_time);
 
-        final TextView et_before_after = (TextView) view.findViewById(R.id.before_after);
-        final TextView et_number = (TextView) view.findViewById(R.id.number);
-        final TextView et_type_date = (TextView)view.findViewById(R.id.type_date);
+        et_before_after = (TextView) view.findViewById(R.id.before_after);
+        et_number = (TextView) view.findViewById(R.id.number);
+        et_type_date = (TextView)view.findViewById(R.id.type_date);
 
-        final EditText et_addtaskname = (EditText) view.findViewById(R.id.add_task_name);
+        et_addtaskname = (EditText) view.findViewById(R.id.add_task_name);
         et_addplace = (EditText) view.findViewById(R.id.add_place);
 
-        final Switch onOffSwitch = (Switch) view.findViewById(R.id.switch_allday);
+        onOffSwitch = (Switch) view.findViewById(R.id.switch_allday);
         final boolean[] checkswitch = {false};
 
         ImageButton marker_maps = (ImageButton)view.findViewById(R.id.marker_map);
@@ -271,7 +297,8 @@ public class UpdateEventFragment extends Fragment {
                                 @Override
                                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                                     month = _month + 1;
-                                    button_date_allday.setText(dayOfMonth + "/" + month + "/" + year );
+                                    int year_25 = year + 543;
+                                    button_date_allday.setText(dayOfMonth + "/" + month + "/" + year_25);
                                     con_str_alldaydate = String.valueOf(dayOfMonth);
                                     con_str_alldaymonth = String.valueOf(month);
                                     con_str_alldayyear = String.valueOf(year);
@@ -380,6 +407,9 @@ public class UpdateEventFragment extends Fragment {
             }
         });
 
+        //show detail each reminder_id
+        connection_show();
+
         Button delete =  (Button) view.findViewById(R.id.delete);
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -409,7 +439,295 @@ public class UpdateEventFragment extends Fragment {
         return view;
     }
 
+    private void checkswitch() {
+        boolean bool_onoffswitch = onOffSwitch.isChecked();
+        if(bool_onoffswitch) {
+            con_str_onoffswitch = "1";
+        }else {
+            con_str_onoffswitch = "0";
+        }
+    }
+
+    private void getstartdatetime() {
+        String startdate = (String) btnstartdate.getText();
+        String[] array_startdate = startdate.split("/");
+        con_str_startdate = array_startdate[0];
+        con_str_startmonth = array_startdate[1];
+        con_str_startyear = array_startdate[2];
+
+        String starttime = (String) btnstarttime.getText();
+
+        String[] array_starttime = starttime.split(":");
+        if(array_starttime.length == 1) {
+            con_str_starthour = "0";
+            con_str_startmin = "0";
+        }else {
+            con_str_starthour = array_starttime[0];
+            con_str_startmin = array_starttime[1];
+        }
+    }
+
+    private void getenddatetime() {
+        String enddate = (String) btnenddate.getText();
+        String[] array_startdate = enddate.split("/");
+        con_str_enddate = array_startdate[0];
+        con_str_endmonth = array_startdate[1];
+        con_str_endyear = array_startdate[2];
+
+        String endtime = (String) btnendtime.getText();
+        String[] array_endtime = endtime.split(":");
+        if(array_endtime.length == 1) {
+            con_str_endhour = "0";
+            con_str_endmin = "0";
+        }else {
+            con_str_endhour = array_endtime[0];
+            con_str_endmin = array_endtime[1];
+        }
+    }
+
+    private void getallday() {
+        String date = (String) et_number.getText();
+        String[] array_d = date.split("/");
+        con_str_alldaydate = array_d[0];
+        con_str_alldaymonth = array_d[1];
+        con_str_alldayyear = array_d[2];
+
+        String time = (String) et_type_date.getText();
+        String[] array_t = time.split(":");
+        con_str_alldayhour = array_t[0];
+        con_str_alldaymin = array_t[1];
+    }
+    private void connection_show() {
+        try {
+            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+            String URL = "http://161.246.5.195:3000/detailreminder/task";
+            JSONObject jsonBody = new JSONObject();
+            jsonBody.put("id", reminder_id);
+            jsonBody.put("type", "Event");
+            final String requestBody = jsonBody.toString();
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.i("VOLLEY", response);
+                            JSONObject json = null;
+                            try {
+                                json = new JSONObject(response);
+                                String msg_event = json.getString("msg");
+                                Log.i("VOLLEY", msg_event);
+                                if (msg_event.equals("detailreminder/task : complete")){
+                                    JSONArray data = json.getJSONArray("data");
+                                    Log.i("Data Event" , String.valueOf(data));
+                                    JSONObject array = (JSONObject) data.get(0);
+                                    str_placename = (String) array.get("placename");
+                                    if (str_placename.equals("null")){
+                                        //placename == null
+                                        et_addplace.setHint("Place name");
+                                    }else {
+                                        et_addplace.setText(str_placename);
+                                    }
+                                    str_taskname = (String) array.get("taskname");
+                                    et_addtaskname.setText(str_taskname);
+
+                                    int_onoffswitch = (int)array.get("allday");
+                                    if(int_onoffswitch == 0) {
+                                        onOffSwitch.setChecked(false);
+                                    }
+                                    if(int_onoffswitch == 1) {
+                                        onOffSwitch.setChecked(true);
+                                    }
+
+                                    str_startdate = (String) array.get("start_date");
+                                    String[] split_start = str_startdate.split("-");
+                                    String split_startyear = split_start[0];
+                                    String split_startmonth = split_start[1];
+                                    String split_startdate = split_start[2];
+                                    String str_startdate_show = split_startdate + "/" + split_startmonth + "/" + split_startyear;
+                                    btnstartdate.setText(str_startdate_show);
+
+                                    str_enddate = (String) array.get("end_date");
+                                    String[] split_end = str_enddate.split("-");
+                                    String split_endyear = split_end[0];
+                                    String split_endmonth = split_end[1];
+                                    String split_enddate = split_end[2];
+                                    String str_enddate_show = split_enddate + "/" + split_endmonth + "/" + split_endyear;
+                                    btnenddate.setText(str_enddate_show);
+
+                                    if(array.get("start_time").equals(null)){
+                                        //allday
+                                    }else {
+                                        str_starttime = (String) array.get("start_time");
+                                        btnstarttime.setText(str_starttime);
+                                    }
+                                    if(array.get("end_time").equals(null)) {
+                                        //allday
+                                    }else {
+                                        str_endtime = (String) array.get("end_time");
+                                        btnendtime.setText(str_endtime);
+                                    }
+
+                                    reminder_id = (int) array.get("_id");
+
+                                    Log.e("Event Value", str_placename + " / " + str_taskname);
+                                }
+                                if (msg_event.equals("detailreminder/task : complete")) {
+                                    JSONArray notification = json.getJSONArray("notification");
+                                    Log.i("Data Notification", String.valueOf(notification));
+                                    for (int i=0; i < notification.length(); i++) {
+                                        JSONObject array_notification = (JSONObject) notification.get(i);
+                                        if(int_onoffswitch == 0) {
+                                            et_before_after.setVisibility(View.VISIBLE);
+                                            et_number.setVisibility(View.VISIBLE);
+                                            et_type_date.setVisibility(View.VISIBLE);
+                                            str_before_after = (String) array_notification.get("before_after");
+                                            et_before_after.setText(str_before_after);
+                                            str_number = array_notification.get("number").toString();
+                                            et_number.setText(str_number);
+                                            str_type_date = (String) array_notification.get("type");
+                                            et_type_date.setText(str_type_date);
+                                            Log.e("Notification allday 0", str_before_after + " " + str_number + " " + str_type_date);
+                                        }else {
+                                            et_number.setVisibility(View.VISIBLE);
+                                            et_type_date.setVisibility(View.VISIBLE);
+                                            str_number = (String) array_notification.get("date");
+                                            String[] ddmmyyyy = str_number.split("-");
+                                            String yyyy = ddmmyyyy[0];
+                                            String mm = ddmmyyyy[1];
+                                            String dd = ddmmyyyy[2];
+                                            String date = dd + "/" + mm + "/" + yyyy;
+                                            et_number.setText(date);
+                                            str_type_date = (String) array_notification.get("time");
+                                            String[] date_time = str_type_date.split(":");
+                                            String hr = date_time[0];
+                                            String min = date_time[1];
+                                            String time = hr + ":" + min;
+                                            et_type_date.setText(time);
+                                            Log.e("Notification allday 1", str_before_after + " " + date + " " + time);
+                                        }
+                                    }
+                                }
+                            }catch (JSONException e){
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("VOLLEY", error.toString());
+                        }
+                    }) {
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
+
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        return requestBody == null ? null : requestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                        return null;
+                    }
+                }
+            };
+            requestQueue.add(stringRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void connection_update(int reminder_id) {
+        try {
+            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+            String URL = "http://161.246.5.195:3000/updatereminder/task";
+            JSONObject jsonBody = new JSONObject();
+            jsonBody.put("id", reminder_id);
+            jsonBody.put("type", "Event");
+
+            checkswitch();
+            jsonBody.put("allday", con_str_onoffswitch);
+
+            getstartdatetime();
+            Log.e("Update Start", con_str_startdate + con_str_startmonth + con_str_startyear + " " + con_str_starthour + ":" + con_str_startmin);
+            jsonBody.put("startdate", con_str_startdate);
+            jsonBody.put("startmonth", con_str_startmonth);
+            jsonBody.put("startyear", con_str_startyear);
+            jsonBody.put("starthour", con_str_starthour);
+            jsonBody.put("startmin", con_str_startmin);
+
+            getenddatetime();
+            Log.e("Update End", con_str_enddate + con_str_endmonth + con_str_endyear + " " + con_str_endhour + ":" + con_str_endmin);
+            jsonBody.put("enddate", con_str_enddate);
+            jsonBody.put("endmonth", con_str_endmonth);
+            jsonBody.put("endyear", con_str_endyear);
+            jsonBody.put("endhour", con_str_endhour);
+            jsonBody.put("endmin", con_str_endmin);
+
+            jsonBody.put("placename", str_placename);
+
+            Log.e("Update Place", str_placename);
+
+            String con_str_taskname = et_addtaskname.getText().toString();
+            jsonBody.put("taskname", con_str_taskname);
+
+            if(con_str_onoffswitch == "0") {
+                jsonBody.put("before_after_1", str_before_after);
+                jsonBody.put("num_notification_1", str_number);
+                jsonBody.put("type_num_1", str_type_date);
+            }
+
+            if(con_str_onoffswitch == "1") {
+                getallday();
+                jsonBody.put("allday_date", con_str_alldaydate);
+                jsonBody.put("allday_month", con_str_alldaymonth);
+                jsonBody.put("allday_year", con_str_alldayyear);
+                jsonBody.put("allday_hrs", con_str_alldayhour);
+                jsonBody.put("allday_mins", con_str_alldaymin);
+            }
+
+            final String requestBody = jsonBody.toString();
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.i("VOLLEY", response);
+                            JSONObject json = null;
+                            try {
+                                json = new JSONObject(response);
+                                String msg_update = json.getString("msg");
+                                Log.i("VOLLEY", msg_update);
+                            }catch (JSONException e){
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("VOLLEY", error.toString());
+                        }
+                    }) {
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
+
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        return requestBody == null ? null : requestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                        return null;
+                    }
+                }
+            };
+            requestQueue.add(stringRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void connection_delete(int reminder_id) {
@@ -460,6 +778,13 @@ public class UpdateEventFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void putArguments(Bundle args) {
+        String placename = args.getString("PlaceName");
+        Log.d("Value place ", placename);
+        et_addplace.setText(placename);
+        str_placename = args.getString("PlaceName");
     }
 
 }

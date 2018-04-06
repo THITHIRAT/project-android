@@ -266,7 +266,8 @@ public class AddEventFragment extends Fragment {
                             @Override
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                                 month = _month + 1;
-                                button_date_allday.setText(dayOfMonth + "/" + month + "/" + year );
+                                int year_25 = year + 543;
+                                button_date_allday.setText(dayOfMonth + "/" + month + "/" + year_25);
                                 con_str_alldaydate = String.valueOf(dayOfMonth);
                                 con_str_alldaymonth = String.valueOf(month);
                                 con_str_alldayyear = String.valueOf(year);

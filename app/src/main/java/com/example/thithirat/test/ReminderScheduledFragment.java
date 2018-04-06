@@ -81,7 +81,7 @@ public class ReminderScheduledFragment extends Fragment {
         return view;
     }
 
-    private void connection_task_reminder(String str_token) {
+    private void connection_task_reminder(final String str_token) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
             String URL = "http://161.246.5.195:3000/task/reminder";
@@ -119,10 +119,10 @@ public class ReminderScheduledFragment extends Fragment {
                                         String start_month = start[1];
                                         String start_day = start[2];
                                         String start_DDMMYYYY = start_day + "/" + start_month + "/" + start_year;
-
+//
                                         int reminder_id = (int) array.get("_id");
                                         int index = i+1;
-                                        mLocation.add(new LocationReminder(index, reminder_id, " ", start_DDMMYYYY, output, "Reminder"));
+                                        mLocation.add(new LocationReminder(index, reminder_id, " ", start_date, output, "Reminder"));
                                         Log.e("Reminder Value", output + " / " + start_DDMMYYYY);
                                     }
                                     locationadapter = new LocationReminderAdapter(getContext().getApplicationContext(), mLocation);
