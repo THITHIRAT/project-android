@@ -67,7 +67,6 @@ public class SubtasknameAdapter extends BaseAdapter {
                     EditText taskname_popup_add = (EditText)root_add_subtaskname.findViewById(R.id.sugguest_addsubtaskname);
                     taskname_popup_add.setText(str_subtaskname);
                 }
-
             }
         });
 

@@ -23,7 +23,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -107,9 +106,22 @@ public class AddReminderFragment extends Fragment {
     String con_str_endhour = null;
     String con_str_endmin = null;
 
+    String fn_con_str_startdate = null;
+    String fn_con_str_startmonth = null;
+    String fn_con_str_startyear = null;
+
+    String fn_con_str_enddate = null;
+    String fn_con_str_endmonth = null;
+    String fn_con_str_endyear = null;
+
+    String fn_con_str_starthour = null;
+    String fn_con_str_startmin = null;
+
+    String fn_con_str_endhour = null;
+    String fn_con_str_endmin = null;
+
     TextView et_addtaskname;
     TextView et_addsubtaskname;
-
     String sugguest_taskname;
     String sugguest_addtaskname;
     EditText taskname_popup;
@@ -539,19 +551,82 @@ public class AddReminderFragment extends Fragment {
                     con_str_onoffswitch = "0";
                 }
                 String con_str_placename = et_addplace.getText().toString();
+                con_str_taskname = et_addtaskname.getText().toString();
+                con_str_subtaskname = et_addsubtaskname.getText().toString();
 
-                connection_addreminder_reminder(con_str_taskname, con_str_subtaskname, con_str_onoffswitch, con_str_startdate, con_str_startmonth, con_str_startyear, con_str_starthour, con_str_startmin,
-                        con_str_enddate, con_str_endmonth, con_str_endyear, con_str_endhour, con_str_endmin, con_str_placename, str_before_after_1, str_number_1, str_type_date_1,
-                        str_before_after_2, str_number_2, str_type_date_2, str_before_after_3, str_number_3, str_type_date_3);
-                ScheduledFragment scheduled_fragment = new ScheduledFragment();
-                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.frag, scheduled_fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                boolean check = connection_addreminder_reminder();
+
+                if(check == true) {
+                    ScheduledFragment scheduled_fragment = new ScheduledFragment();
+                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.frag, scheduled_fragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                }
             }
         });
 
         return view;
+    }
+
+    private void checkswitch() {
+        boolean bool_onoffswitch = onOffSwitch.isChecked();
+        if(bool_onoffswitch) {
+            con_str_onoffswitch = "1";
+        }else {
+            con_str_onoffswitch = "0";
+        }
+    }
+
+    private boolean getstartdatetime() {
+        String startdate = (String) btnstartdate.getText();
+        String[] array_startdate = startdate.split("/");
+        if(array_startdate.length == 1) {
+            Toast.makeText(getActivity(), "Plase fill startdate", Toast.LENGTH_SHORT).show();
+            return false;
+        }else {
+            fn_con_str_startdate = array_startdate[0];
+            fn_con_str_startmonth = array_startdate[1];
+            int startyear = Integer.parseInt(array_startdate[2]) - 543;
+            fn_con_str_startyear = String.valueOf(startyear);
+        }
+
+
+        String starttime = (String) btnstarttime.getText();
+        String[] array_starttime = starttime.split(":");
+        if(array_starttime.length == 1) {
+            fn_con_str_starthour = "0";
+            fn_con_str_startmin = "0";
+        }else {
+            fn_con_str_starthour = array_starttime[0];
+            fn_con_str_startmin = array_starttime[1];
+        }
+        return true;
+    }
+
+    private boolean getenddatetime() {
+        String enddate = (String) btnenddate.getText();
+        String[] array_enddate = enddate.split("/");
+        if(array_enddate.length == 1) {
+            Toast.makeText(getActivity(), "Plase fill enddate", Toast.LENGTH_SHORT).show();
+            return false;
+        }else {
+            fn_con_str_enddate = array_enddate[0];
+            fn_con_str_endmonth = array_enddate[1];
+            int endyear = Integer.parseInt(array_enddate[2]) - 543;
+            fn_con_str_endyear = String.valueOf(endyear);
+        }
+
+        String endtime = (String) btnendtime.getText();
+        String[] array_endtime = endtime.split(":");
+        if(array_endtime.length == 1) {
+            fn_con_str_endhour = "0";
+            fn_con_str_endmin = "0";
+        }else {
+            fn_con_str_endhour = array_endtime[0];
+            fn_con_str_endmin = array_endtime[1];
+        }
+        return true;
     }
 
     private void connection_taskname() {
@@ -691,6 +766,54 @@ public class AddReminderFragment extends Fragment {
                                 json = new JSONObject(response);
                                 String msg_taskname = json.getString("msg");
                                 Log.i("VOLLEY", msg_taskname);
+                                if(msg_taskname.equals("suggestreminder/tasknamenotification : no before_after complete")) {
+                                    JSONObject array_output = (JSONObject) json.getJSONObject("output");
+
+                                    String suggest_onoffswitch = (String) array_output.get("allday");
+                                    if(suggest_onoffswitch.equals("0")) {
+                                        onOffSwitch.setChecked(false);
+                                    }
+                                    if(suggest_onoffswitch.equals("1")) {
+                                        onOffSwitch.setChecked(true);
+                                    }
+
+                                    str_startdate = (String) array_output.get("startdate");
+                                    String[] split_start = str_startdate.split("/");
+                                    String split_startyear = split_start[2];
+                                    String split_startmonth = split_start[1];
+                                    String split_startdate = split_start[0];
+                                    String str_startdate_show = split_startdate + "/" + split_startmonth + "/" + split_startyear;
+                                    btnstartdate.setText(str_startdate_show);
+
+                                    str_enddate = (String) array_output.get("enddate");
+                                    String[] split_end = str_enddate.split("/");
+                                    String split_endyear = split_end[2];
+                                    String split_endmonth = split_end[1];
+                                    String split_enddate = split_end[0];
+                                    String str_enddate_show = split_enddate + "/" + split_endmonth + "/" + split_endyear;
+                                    btnenddate.setText(str_enddate_show);
+
+                                    et_before_after_1.setVisibility(View.VISIBLE);
+                                    et_number_1.setVisibility(View.VISIBLE);
+                                    et_type_date_1.setVisibility(View.VISIBLE);
+                                    et_before_after_1.setText("");
+                                    et_number_1.setText("");
+                                    et_type_date_1.setText("");
+
+                                    et_before_after_2.setVisibility(View.VISIBLE);
+                                    et_number_2.setVisibility(View.VISIBLE);
+                                    et_type_date_2.setVisibility(View.VISIBLE);
+                                    et_before_after_2.setText("");
+                                    et_number_2.setText("");
+                                    et_type_date_2.setText("");
+
+                                    et_before_after_3.setVisibility(View.VISIBLE);
+                                    et_number_3.setVisibility(View.VISIBLE);
+                                    et_type_date_3.setVisibility(View.VISIBLE);
+                                    et_before_after_3.setText("");
+                                    et_number_3.setText("");
+                                    et_type_date_3.setText("");
+                                }
                                 if (msg_taskname.equals("suggestreminder/tasknamenotification : complete")) {
                                     Log.e("Notification taskname", "dont have data");
                                     et_addsubtaskname.setText("");
@@ -834,6 +957,54 @@ public class AddReminderFragment extends Fragment {
                                 json = new JSONObject(response);
                                 String msg_subtaskname = json.getString("msg");
                                 Log.i("VOLLEY", msg_subtaskname);
+                                if(msg_subtaskname.equals("suggestreminder/subtasknamenotification : no before_after complete")) {
+                                    JSONObject array_output = (JSONObject) json.getJSONObject("output");
+
+                                    String suggest_onoffswitch = (String) array_output.get("allday");
+                                    if(suggest_onoffswitch.equals("0")) {
+                                        onOffSwitch.setChecked(false);
+                                    }
+                                    if(suggest_onoffswitch.equals("1")) {
+                                        onOffSwitch.setChecked(true);
+                                    }
+
+                                    str_startdate = (String) array_output.get("startdate");
+                                    String[] split_start = str_startdate.split("/");
+                                    String split_startyear = split_start[2];
+                                    String split_startmonth = split_start[1];
+                                    String split_startdate = split_start[0];
+                                    String str_startdate_show = split_startdate + "/" + split_startmonth + "/" + split_startyear;
+                                    btnstartdate.setText(str_startdate_show);
+
+                                    str_enddate = (String) array_output.get("enddate");
+                                    String[] split_end = str_enddate.split("/");
+                                    String split_endyear = split_end[2];
+                                    String split_endmonth = split_end[1];
+                                    String split_enddate = split_end[0];
+                                    String str_enddate_show = split_enddate + "/" + split_endmonth + "/" + split_endyear;
+                                    btnenddate.setText(str_enddate_show);
+
+                                    et_before_after_1.setVisibility(View.VISIBLE);
+                                    et_number_1.setVisibility(View.VISIBLE);
+                                    et_type_date_1.setVisibility(View.VISIBLE);
+                                    et_before_after_1.setText("");
+                                    et_number_1.setText("");
+                                    et_type_date_1.setText("");
+
+                                    et_before_after_2.setVisibility(View.VISIBLE);
+                                    et_number_2.setVisibility(View.VISIBLE);
+                                    et_type_date_2.setVisibility(View.VISIBLE);
+                                    et_before_after_2.setText("");
+                                    et_number_2.setText("");
+                                    et_type_date_2.setText("");
+
+                                    et_before_after_3.setVisibility(View.VISIBLE);
+                                    et_number_3.setVisibility(View.VISIBLE);
+                                    et_type_date_3.setVisibility(View.VISIBLE);
+                                    et_before_after_3.setText("");
+                                    et_number_3.setText("");
+                                    et_type_date_3.setText("");
+                                }
                                 if (msg_subtaskname.equals("suggestreminder/subtasknamenotification : complete")) {
                                     Log.e("Notification taskname", "dont have data");
                                     onOffSwitch.setChecked(false);
@@ -955,7 +1126,18 @@ public class AddReminderFragment extends Fragment {
         }
     }
 
-    private void connection_addreminder_reminder(String con_str_taskname, String con_str_subtaskname, String con_str_onoffswitch, String con_str_startdate, String con_str_startmonth, String con_str_startyear, String con_str_starthour, String con_str_startmin, String con_str_enddate, String con_str_endmonth, String con_str_endyear, String con_str_endhour, String con_str_endmin, String con_str_placename, String str_before_after_1, String str_number_1, String str_type_date_1, String str_before_after_2, String str_number_2, String str_type_date_2, String str_before_after_3, String str_number_3, String str_type_date_3) {
+    private boolean connection_addreminder_reminder() {
+        boolean checkerror = true;
+        final String[] msg = {"0"};
+        checkswitch();
+        boolean check = getstartdatetime();
+        if (check != checkerror) {
+            return false;
+        }
+        check = getenddatetime();
+        if (check != checkerror) {
+            return false;
+        }
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
             String URL = "http://161.246.5.195:3000/addreminder/reminder";
@@ -964,21 +1146,26 @@ public class AddReminderFragment extends Fragment {
             jsonBody.put("type", "Reminder");
             jsonBody.put("allday", con_str_onoffswitch);
 
-            jsonBody.put("startdate", con_str_startdate);
-            jsonBody.put("startmonth", con_str_startmonth);
-            jsonBody.put("startyear", con_str_startyear);
-            jsonBody.put("starthour", con_str_starthour);
-            jsonBody.put("startmin", con_str_startmin);
+            jsonBody.put("startdate", fn_con_str_startdate);
+            jsonBody.put("startmonth", fn_con_str_startmonth);
+            jsonBody.put("startyear", fn_con_str_startyear);
+            jsonBody.put("starthour", fn_con_str_starthour);
+            jsonBody.put("startmin", fn_con_str_startmin);
 
-            jsonBody.put("enddate", con_str_enddate);
-            jsonBody.put("endmonth", con_str_endmonth);
-            jsonBody.put("endyear", con_str_endyear);
-            jsonBody.put("endhour", con_str_endhour);
-            jsonBody.put("endmin", con_str_endmin);
+            jsonBody.put("enddate", fn_con_str_enddate);
+            jsonBody.put("endmonth", fn_con_str_endmonth);
+            jsonBody.put("endyear", fn_con_str_endyear);
+            jsonBody.put("endhour", fn_con_str_endhour);
+            jsonBody.put("endmin", fn_con_str_endmin);
 
-            jsonBody.put("placename", con_str_placename);
-            jsonBody.put("taskname", con_str_taskname);
-            jsonBody.put("subtaskname", con_str_subtaskname);
+            String get_con_str_placename = et_addplace.getText().toString();
+            jsonBody.put("placename", get_con_str_placename);
+
+            String get_taskname = et_addtaskname.getText().toString();
+            jsonBody.put("taskname", get_taskname);
+
+            String get_subtaskname = et_addsubtaskname.getText().toString();
+            jsonBody.put("subtaskname", get_subtaskname);
             jsonBody.put("complete", "0");
 
             jsonBody.put("before_after_1", str_before_after_1);
@@ -1002,9 +1189,17 @@ public class AddReminderFragment extends Fragment {
                             JSONObject json = null;
                             try {
                                 json = new JSONObject(response);
-                                String msg_event = json.getString("msg");
-                                Log.i("VOLLEY", msg_event);
-                            }catch (JSONException e){
+                                String msg_reminder = json.getString("msg");
+                                int status_reminder = json.getInt("status");
+                                Log.i("VOLLEY", msg_reminder);
+                                if (msg_reminder.equals("addreminder reminder : data not enough")) {
+                                    Toast.makeText(getActivity(), "Please fill data", Toast.LENGTH_SHORT).show();
+                                    msg[0] = "addreminder reminder : data not enough";
+                                }
+                                if(status_reminder == 200) {
+                                    Toast.makeText(getActivity(), "Complete", Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
@@ -1032,10 +1227,15 @@ public class AddReminderFragment extends Fragment {
             };
             requestQueue.add(stringRequest);
 
-        }catch (JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 
+        if(msg[0].equals("addreminder reminder : data not enough")) {
+            return false;
+        }else {
+            return true;
+        }
     }
 
     public static void putArguments(Bundle args) {

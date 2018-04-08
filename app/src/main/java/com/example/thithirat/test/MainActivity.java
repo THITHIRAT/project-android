@@ -123,12 +123,14 @@ public class MainActivity extends AppCompatActivity {
                                 json = new JSONObject(response);
                                 String msg_login = json.getString("msg");
                                 Log.i("VOLLEY", msg_login);
+                                if(msg_login.equals("users/login : password incorrect")) {
+                                    Toast.makeText(MainActivity.this, "Password Incorrect", Toast.LENGTH_LONG).show();
+                                }
+                                if(msg_login.equals("users/login : database have not email")) {
+                                    Toast.makeText(MainActivity.this, "This email don't have account", Toast.LENGTH_LONG).show();
+                                }
                                 if(msg_login.equals("users/login : success login")) {
                                     token = json.getString("token");
-
-                                    //from DatabaseHelper.java
-                                    //db.insertDatatoken(token);
-                                    //Log.e("INSERT DATA token", String.valueOf(token));
                                     home();
 
                                     //preference
@@ -136,19 +138,6 @@ public class MainActivity extends AppCompatActivity {
                                     SharedPreferences.Editor editor = getSharedPreferences(token_name, MODE_PRIVATE).edit();
                                     editor.putString("TOKEN", token);
                                     editor.apply();
-                                }
-                                if(msg_login.equals("password incorrect")) {
-                                    counter--;
-                                    infoattempt.setText("No of attempts remaining: " + String.valueOf(counter));
-
-                                    if(counter == 0) {
-                                        login.setEnabled(false);
-                                    }
-
-                                    Toast.makeText(MainActivity.this, "Password Incorrect", Toast.LENGTH_LONG).show();
-                                }
-                                if(msg_login.equals("database have not email")) {
-                                    Toast.makeText(MainActivity.this, "This email don't have account", Toast.LENGTH_LONG).show();
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

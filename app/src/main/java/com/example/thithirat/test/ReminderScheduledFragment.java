@@ -76,12 +76,17 @@ public class ReminderScheduledFragment extends Fragment {
         listview = (ListView)view.findViewById(R.id.list_view);
         mLocation = new ArrayList<>();
 
-        connection_task_reminder(str_token);
+        boolean check = connection_task_reminder(str_token);
+        if(check == false) {
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
+        }
 
         return view;
     }
 
-    private void connection_task_reminder(final String str_token) {
+    private boolean connection_task_reminder(final String str_token) {
+        final boolean[] check_msg = {true};
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
             String URL = "http://161.246.5.195:3000/task/reminder";
@@ -96,9 +101,12 @@ public class ReminderScheduledFragment extends Fragment {
                             JSONObject json = null;
                             try {
                                 json = new JSONObject(response);
-                                String msg_task_event = json.getString("msg");
-                                Log.i("VOLLEY", msg_task_event);
-                                if (msg_task_event.equals("task/reminder : select reminder reminder complete")){
+                                String msg_task_reminder = json.getString("msg");
+                                Log.i("VOLLEY", msg_task_reminder);
+                                if(msg_task_reminder.equals("task/reminder : dont have token")) {
+                                    check_msg[0] = false;
+                                }
+                                if (msg_task_reminder.equals("task/reminder : select reminder reminder complete")){
                                     JSONArray data = json.getJSONArray("data");
                                     Log.i("Data Task Reminder", String.valueOf(data));
                                     for (int i=0; i < data.length(); i++) {
@@ -124,6 +132,7 @@ public class ReminderScheduledFragment extends Fragment {
                                         int index = i+1;
                                         mLocation.add(new LocationReminder(index, reminder_id, " ", start_date, output, "Reminder"));
                                         Log.e("Reminder Value", output + " / " + start_DDMMYYYY);
+
                                     }
                                     locationadapter = new LocationReminderAdapter(getContext().getApplicationContext(), mLocation);
                                     listview.setAdapter(locationadapter);
@@ -158,6 +167,8 @@ public class ReminderScheduledFragment extends Fragment {
         }catch (JSONException e) {
             e.printStackTrace();
         }
+
+        return check_msg[0];
     }
 
 }
