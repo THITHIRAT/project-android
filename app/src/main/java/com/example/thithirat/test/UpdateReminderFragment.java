@@ -21,10 +21,12 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -40,8 +42,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 
 /**
@@ -50,18 +53,27 @@ import java.util.Calendar;
 @SuppressLint("ValidFragment")
 public class UpdateReminderFragment extends Fragment {
 
+    private static View getrootview;
     DatePickerDialog datePickerDialog;
     TimePickerDialog timePickerDialog;
 
     ArrayAdapter<String> adapter;
+
+    List<Taskname> mtaskname;
+    TasknameAdapter mtasknameAdapter;
+
+    List<Taskname> msubtaskname;
+    SubtasknameAdapter msubtasknameAdapter;
+
+    ListView listview;
 
     static String str_placename;
     String str_taskname;
     String str_subtaskname;
     int int_onoffswitch;
 
-    EditText et_addtaskname;
-    EditText et_addsubtaskname;
+    TextView et_addtaskname;
+    TextView et_addsubtaskname;
 
     static EditText et_addplace;
 
@@ -128,6 +140,13 @@ public class UpdateReminderFragment extends Fragment {
     TextView et_number_3 = null;
     TextView et_type_date_3 = null;
 
+    String sugguest_taskname;
+    String sugguest_addtaskname;
+    EditText taskname_popup;
+    EditText subtaskname_popup;
+
+    String get_tasknamefromfragment;
+
     int reminder_id = 0;
     public UpdateReminderFragment(int id) {
         // Required empty public constructor
@@ -135,12 +154,23 @@ public class UpdateReminderFragment extends Fragment {
         Log.e("UpdateReminder", String.valueOf(id));
     }
 
+    public UpdateReminderFragment(String str_taskname) {
+        sugguest_addtaskname = str_taskname;
+    }
+
+    public static View getroot() {
+        return getrootview;
+    }
+
+    public static String update() {
+        return "update";
+    }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_update_reminder, container, false);
+        final View view = inflater.inflate(R.layout.fragment_update_reminder, container, false);
 
         getActivity().setTitle("Edit Reminder");
 
@@ -168,8 +198,8 @@ public class UpdateReminderFragment extends Fragment {
         et_number_3 = (TextView) view.findViewById(R.id.rm_number_3);
         et_type_date_3 = (TextView)view.findViewById(R.id.rm_type_date_3);
 
-        et_addtaskname = (EditText) view.findViewById(R.id.rm_add_task_name);
-        et_addsubtaskname = (EditText) view.findViewById(R.id.rm_add_subtask_name);
+        et_addtaskname = (TextView) view.findViewById(R.id.rm_add_task_name);
+        et_addsubtaskname = (TextView) view.findViewById(R.id.rm_add_subtask_name);
         et_addplace = (EditText) view.findViewById(R.id.rm_add_place);
 
         onOffSwitch = (Switch) view.findViewById(R.id.rm_switch_allday);
@@ -183,6 +213,93 @@ public class UpdateReminderFragment extends Fragment {
         final int _year = calendar.get(Calendar.YEAR);
         final int _month = calendar.get(Calendar.MONTH);
         final int _day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        et_addtaskname.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                final View rootview = getLayoutInflater().inflate(R.layout.sugguest_taskname, null);
+                getrootview = rootview;
+
+                listview = (ListView)rootview.findViewById(R.id.listview);
+                mtaskname = new ArrayList<>();
+
+                taskname_popup = (EditText)rootview.findViewById(R.id.sugguest_addtaskname);
+                taskname_popup.setText(et_addtaskname.getText().toString());
+
+                builder.setView(rootview);
+                final AlertDialog dialog = builder.create();
+                dialog.show();
+
+                connection_taskname();
+
+                Button btn_save = (Button) rootview.findViewById(R.id.save);
+                btn_save.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String str_taskname_popup = taskname_popup.getText().toString();
+                        et_addtaskname.setText(str_taskname_popup);
+
+                        dialog.cancel();
+                        connection_taskname_notification(str_taskname_popup);
+
+                    }
+                });
+
+                Button btn_close = (Button) rootview.findViewById(R.id.close);
+                btn_close.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.cancel();
+                    }
+                });
+            }
+        });
+
+        et_addsubtaskname.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView tv_get_taskname = (TextView)view.findViewById(R.id.rm_add_task_name);
+                get_tasknamefromfragment = tv_get_taskname.getText().toString();
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                final View rootview = getLayoutInflater().inflate(R.layout.sugguest_subtaskname, null);
+                getrootview = rootview;
+
+                listview = (ListView)rootview.findViewById(R.id.listview);
+                msubtaskname = new ArrayList<>();
+
+                subtaskname_popup = (EditText)rootview.findViewById(R.id.sugguest_addsubtaskname);
+                subtaskname_popup.setText(et_addsubtaskname.getText().toString());
+
+                builder.setView(rootview);
+                final AlertDialog dialog = builder.create();
+                dialog.show();
+
+                connection_subtaskname();
+
+                Button btn_save = (Button) rootview.findViewById(R.id.save);
+                btn_save.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String str_taskname_popup = taskname_popup.getText().toString();
+                        String str_subtaskname_popup = subtaskname_popup.getText().toString();
+                        et_addsubtaskname.setText(str_subtaskname_popup);
+                        dialog.cancel();
+                        connection_subtaskname_notification(str_taskname_popup, str_subtaskname_popup);
+
+                    }
+                });
+
+                Button btn_close = (Button) rootview.findViewById(R.id.close);
+                btn_close.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.cancel();
+                    }
+                });
+            }
+        });
 
         btnstartdate.setOnClickListener(new View.OnClickListener() {
 
@@ -282,42 +399,12 @@ public class UpdateReminderFragment extends Fragment {
                     btnstarttime.setVisibility(View.GONE);
                     btnendtime.setVisibility(View.GONE);
 
-                    et_before_after_1.setVisibility(View.INVISIBLE);
-                    et_number_1.setVisibility(View.INVISIBLE);
-                    et_type_date_1.setVisibility(View.INVISIBLE);
-
-                    et_before_after_2.setVisibility(View.INVISIBLE);
-                    et_number_2.setVisibility(View.INVISIBLE);
-                    et_type_date_2.setVisibility(View.INVISIBLE);
-
-                    et_before_after_3.setVisibility(View.INVISIBLE);
-                    et_number_3.setVisibility(View.INVISIBLE);
-                    et_type_date_3.setVisibility(View.INVISIBLE);
-
-                    et_number_1.setText("0");
-                    et_number_2.setText("0");
-                    et_number_3.setText("0");
                 }
                 if (isChecked == false) {
                     checkswitch[0] = false;
                     btnstarttime.setVisibility(View.VISIBLE);
                     btnendtime.setVisibility(View.VISIBLE);
 
-                    et_before_after_1.setVisibility(View.INVISIBLE);
-                    et_number_1.setVisibility(View.INVISIBLE);
-                    et_type_date_1.setVisibility(View.INVISIBLE);
-
-                    et_before_after_2.setVisibility(View.INVISIBLE);
-                    et_number_2.setVisibility(View.INVISIBLE);
-                    et_type_date_2.setVisibility(View.INVISIBLE);
-
-                    et_before_after_3.setVisibility(View.INVISIBLE);
-                    et_number_3.setVisibility(View.INVISIBLE);
-                    et_type_date_3.setVisibility(View.INVISIBLE);
-
-                    et_number_1.setText("0");
-                    et_number_2.setText("0");
-                    et_number_3.setText("0");
                 }
             }
         });
@@ -464,12 +551,14 @@ public class UpdateReminderFragment extends Fragment {
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                connection_update(reminder_id);
-                ScheduledFragment scheduled_fragment = new ScheduledFragment();
-                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.frag, scheduled_fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                boolean check = connection_update(reminder_id);
+                if(check == true) {
+                    ScheduledFragment scheduled_fragment = new ScheduledFragment();
+                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.frag, scheduled_fragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                }
             }
         });
 
@@ -485,12 +574,18 @@ public class UpdateReminderFragment extends Fragment {
         }
     }
 
-    private void getstartdatetime() {
+    private boolean getstartdatetime() {
         String startdate = (String) btnstartdate.getText();
         String[] array_startdate = startdate.split("/");
-        con_str_startdate = array_startdate[0];
-        con_str_startmonth = array_startdate[1];
-        con_str_startyear = array_startdate[2];
+        if(array_startdate.length == 1) {
+            Toast.makeText(getActivity(), "Plase fill startdate", Toast.LENGTH_SHORT).show();
+            return false;
+        }else {
+            con_str_startdate = array_startdate[0];
+            con_str_startmonth = array_startdate[1];
+            con_str_startyear = array_startdate[2];
+        }
+
 
         String starttime = (String) btnstarttime.getText();
 
@@ -502,14 +597,20 @@ public class UpdateReminderFragment extends Fragment {
             con_str_starthour = array_starttime[0];
             con_str_startmin = array_starttime[1];
         }
+        return true;
     }
 
-    private void getenddatetime() {
+    private boolean getenddatetime() {
         String enddate = (String) btnenddate.getText();
-        String[] array_startdate = enddate.split("/");
-        con_str_enddate = array_startdate[0];
-        con_str_endmonth = array_startdate[1];
-        con_str_endyear = array_startdate[2];
+        String[] array_enddate = enddate.split("/");
+        if(array_enddate.length == 1) {
+            Toast.makeText(getActivity(), "Plase fill enddate", Toast.LENGTH_SHORT).show();
+            return false;
+        }else {
+            con_str_enddate = array_enddate[0];
+            con_str_endmonth = array_enddate[1];
+            con_str_endyear = array_enddate[2];
+        }
 
         String endtime = (String) btnendtime.getText();
         String[] array_endtime = endtime.split(":");
@@ -519,6 +620,408 @@ public class UpdateReminderFragment extends Fragment {
         }else {
             con_str_endhour = array_endtime[0];
             con_str_endmin = array_endtime[1];
+        }
+        return true;
+    }
+
+    private void connection_taskname() {
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        String URL = "http://161.246.5.195:3000/sugguestreminder/taskname";
+        JSONObject jsonBody = new JSONObject();
+
+        final String requestBody = jsonBody.toString();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.i("VOLLEY", response);
+                        JSONObject json = null;
+                        try {
+                            json = new JSONObject(response);
+                            String msg_taskname = json.getString("msg");
+                            Log.i("VOLLEY", msg_taskname);
+                            if (msg_taskname.equals("suggestreminder/taskname : complete")) {
+                                JSONArray data = json.getJSONArray("data");
+                                Log.i("Data Taskname", String.valueOf(data));
+                                for (int i=0; i < data.length(); i++) {
+                                    JSONObject array = (JSONObject) data.get(i);
+                                    String str_taskname = (String) array.get("type");
+                                    int index = i+1;
+                                    mtaskname.add(new Taskname(index, str_taskname.toLowerCase()));
+                                    Log.e("Taskname Value", str_taskname);
+                                }
+                                mtasknameAdapter = new TasknameAdapter(getContext().getApplicationContext(), mtaskname, "UpdateReminderFragment");
+                                listview.setAdapter(mtasknameAdapter);
+                            }
+                        }catch (JSONException e){
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("VOLLEY", error.toString());
+                    }
+                }) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return requestBody == null ? null : requestBody.getBytes("utf-8");
+                } catch (UnsupportedEncodingException uee) {
+                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                    return null;
+                }
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
+
+    private void connection_subtaskname() {
+        try {
+            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+            String URL = "http://161.246.5.195:3000/sugguestreminder/subtaskname";
+            JSONObject jsonBody = new JSONObject();
+            jsonBody.put("type", get_tasknamefromfragment);
+            final String requestBody = jsonBody.toString();
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.i("VOLLEY", response);
+                            JSONObject json = null;
+                            try {
+                                json = new JSONObject(response);
+                                String msg_subtaskname = json.getString("msg");
+                                Log.i("VOLLEY", msg_subtaskname);
+                                if (msg_subtaskname.equals("suggestreminder/subtaskname : complete")) {
+                                    JSONArray data = json.getJSONArray("data");
+                                    Log.i("Data Taskname", String.valueOf(data));
+                                    for (int i = 0; i < data.length(); i++) {
+                                        JSONObject array = (JSONObject) data.get(i);
+                                        String str_subtaskname = (String) array.get("item");
+                                        int index = i + 1;
+                                        msubtaskname.add(new Taskname(index, str_subtaskname.toLowerCase()));
+                                        Log.e("Subtaskname Value", str_subtaskname);
+                                    }
+                                    msubtasknameAdapter = new SubtasknameAdapter(getContext().getApplicationContext(), msubtaskname, "UpdateReminderFragment");
+                                    listview.setAdapter(msubtasknameAdapter);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("VOLLEY", error.toString());
+                        }
+                    }) {
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
+
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        return requestBody == null ? null : requestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                        return null;
+                    }
+                }
+            };
+            requestQueue.add(stringRequest);
+        }catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void connection_taskname_notification(String string) {
+        try {
+            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+            String URL = "http://161.246.5.195:3000/sugguestreminder/tasknamenotification";
+            JSONObject jsonBody = new JSONObject();
+            jsonBody.put("taskname", string);
+            final String requestBody = jsonBody.toString();
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.i("VOLLEY", response);
+                            JSONObject json = null;
+                            try {
+                                json = new JSONObject(response);
+                                String msg_taskname = json.getString("msg");
+                                Log.i("VOLLEY", msg_taskname);
+                                if (msg_taskname.equals("suggestreminder/tasknamenotification : complete")) {
+                                    Log.e("Notification taskname", "dont have data");
+                                    et_addsubtaskname.setText("");
+                                    et_addsubtaskname.setHint("Add Subtask");
+                                    onOffSwitch.setChecked(false);
+                                    btnstartdate.setText("Start Date");
+                                    btnstarttime.setText("Start Time");
+                                    btnenddate.setText("End Date");
+                                    btnendtime.setText("End Time");
+
+                                    et_before_after_1.setVisibility(View.VISIBLE);
+                                    et_number_1.setVisibility(View.VISIBLE);
+                                    et_type_date_1.setVisibility(View.VISIBLE);
+                                    et_before_after_1.setText("");
+                                    et_number_1.setText("");
+                                    et_type_date_1.setText("");
+
+                                    et_before_after_2.setVisibility(View.VISIBLE);
+                                    et_number_2.setVisibility(View.VISIBLE);
+                                    et_type_date_2.setVisibility(View.VISIBLE);
+                                    et_before_after_2.setText("");
+                                    et_number_2.setText("");
+                                    et_type_date_2.setText("");
+
+                                    et_before_after_3.setVisibility(View.VISIBLE);
+                                    et_number_3.setVisibility(View.VISIBLE);
+                                    et_type_date_3.setVisibility(View.VISIBLE);
+                                    et_before_after_3.setText("");
+                                    et_number_3.setText("");
+                                    et_type_date_3.setText("");
+                                }
+                                if (msg_taskname.equals("suggestreminder/tasknamenotification : add data complete")) {
+                                    JSONObject array_output = (JSONObject) json.getJSONObject("output");
+                                    JSONObject array_notification = (JSONObject) json.getJSONObject("notification");
+                                    et_addsubtaskname.setText("");
+                                    et_addsubtaskname.setHint("Add Subtask");
+
+                                    String suggest_onoffswitch = (String) array_output.get("allday");
+                                    if(suggest_onoffswitch.equals("0")) {
+                                        onOffSwitch.setChecked(false);
+                                    }
+                                    if(suggest_onoffswitch.equals("1")) {
+                                        onOffSwitch.setChecked(true);
+                                    }
+
+                                    str_startdate = (String) array_output.get("startdate");
+                                    String[] split_start = str_startdate.split("/");
+                                    String split_startyear = split_start[2];
+                                    String split_startmonth = split_start[1];
+                                    String split_startdate = split_start[0];
+                                    String str_startdate_show = split_startdate + "/" + split_startmonth + "/" + split_startyear;
+                                    btnstartdate.setText(str_startdate_show);
+
+                                    str_enddate = (String) array_output.get("enddate");
+                                    String[] split_end = str_enddate.split("/");
+                                    String split_endyear = split_end[2];
+                                    String split_endmonth = split_end[1];
+                                    String split_enddate = split_end[0];
+                                    String str_enddate_show = split_enddate + "/" + split_endmonth + "/" + split_endyear;
+                                    btnenddate.setText(str_enddate_show);
+
+                                    String noti_1 = (String) array_notification.get("notification_1");
+                                    if(noti_1 != null) {
+                                        String[] split_noti1 = noti_1.split(" ");
+                                        String before_after_1 = split_noti1[0];
+                                        String number_1 = split_noti1[1];
+                                        String type_date_1 = split_noti1[2];
+
+                                        et_before_after_1.setVisibility(View.VISIBLE);
+                                        et_number_1.setVisibility(View.VISIBLE);
+                                        et_type_date_1.setVisibility(View.VISIBLE);
+                                        et_before_after_1.setText(before_after_1);
+                                        et_number_1.setText(number_1);
+                                        et_type_date_1.setText(type_date_1);
+                                        Log.e("Notification 1", str_before_after_1 + " " + str_number_1 + " " + str_type_date_1);
+                                    }
+
+                                    String noti_2 = (String) array_notification.get("notification_2");
+                                    if(noti_2 != null) {
+                                        String[] split_noti2 = noti_2.split(" ");
+                                        String before_after_2 = split_noti2[0];
+                                        String number_2 = split_noti2[1];
+                                        String type_date_2 = split_noti2[2];
+
+                                        et_before_after_2.setVisibility(View.VISIBLE);
+                                        et_number_2.setVisibility(View.VISIBLE);
+                                        et_type_date_2.setVisibility(View.VISIBLE);
+                                        et_before_after_2.setText(before_after_2);
+                                        et_number_2.setText(number_2);
+                                        et_type_date_2.setText(type_date_2);
+                                        Log.e("Notification 2", str_before_after_2 + " " + str_number_2 + " " + str_type_date_2);
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("VOLLEY", error.toString());
+                        }
+                    }) {
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
+
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        return requestBody == null ? null : requestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                        return null;
+                    }
+                }
+            };
+            requestQueue.add(stringRequest);
+        }catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void connection_subtaskname_notification(String taskname, String subtaskname) {
+        try {
+            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+            String URL = "http://161.246.5.195:3000/sugguestreminder/subtasknamenotification";
+            JSONObject jsonBody = new JSONObject();
+            jsonBody.put("taskname", taskname);
+            jsonBody.put("subtaskname", subtaskname);
+            final String requestBody = jsonBody.toString();
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.i("VOLLEY", response);
+                            JSONObject json = null;
+                            try {
+                                json = new JSONObject(response);
+                                String msg_subtaskname = json.getString("msg");
+                                Log.i("VOLLEY", msg_subtaskname);
+                                if (msg_subtaskname.equals("suggestreminder/subtasknamenotification : complete")) {
+                                    Log.e("Notification taskname", "dont have data");
+                                    onOffSwitch.setChecked(false);
+                                    btnstartdate.setText("Start Date");
+                                    btnstarttime.setText("Start Time");
+                                    btnenddate.setText("End Date");
+                                    btnendtime.setText("End Time");
+
+                                    et_before_after_1.setVisibility(View.VISIBLE);
+                                    et_number_1.setVisibility(View.VISIBLE);
+                                    et_type_date_1.setVisibility(View.VISIBLE);
+                                    et_before_after_1.setText("");
+                                    et_number_1.setText("");
+                                    et_type_date_1.setText("");
+
+                                    et_before_after_2.setVisibility(View.VISIBLE);
+                                    et_number_2.setVisibility(View.VISIBLE);
+                                    et_type_date_2.setVisibility(View.VISIBLE);
+                                    et_before_after_2.setText("");
+                                    et_number_2.setText("");
+                                    et_type_date_2.setText("");
+
+                                    et_before_after_3.setVisibility(View.VISIBLE);
+                                    et_number_3.setVisibility(View.VISIBLE);
+                                    et_type_date_3.setVisibility(View.VISIBLE);
+                                    et_before_after_3.setText("");
+                                    et_number_3.setText("");
+                                    et_type_date_3.setText("");
+                                }
+                                if (msg_subtaskname.equals("suggestreminder/subtasknamenotification : add data complete")) {
+                                    JSONObject array_output = (JSONObject) json.getJSONObject("output");
+                                    JSONObject array_notification = (JSONObject) json.getJSONObject("notification");
+
+                                    String suggest_onoffswitch = (String) array_output.get("allday");
+                                    if(suggest_onoffswitch.equals("0")) {
+                                        onOffSwitch.setChecked(false);
+                                    }
+                                    if(suggest_onoffswitch.equals("1")) {
+                                        onOffSwitch.setChecked(true);
+                                    }
+
+                                    str_startdate = (String) array_output.get("startdate");
+                                    String[] split_start = str_startdate.split("/");
+                                    String split_startyear = split_start[2];
+                                    String split_startmonth = split_start[1];
+                                    String split_startdate = split_start[0];
+                                    String str_startdate_show = split_startdate + "/" + split_startmonth + "/" + split_startyear;
+                                    btnstartdate.setText(str_startdate_show);
+
+                                    str_enddate = (String) array_output.get("enddate");
+                                    String[] split_end = str_enddate.split("/");
+                                    String split_endyear = split_end[2];
+                                    String split_endmonth = split_end[1];
+                                    String split_enddate = split_end[0];
+                                    String str_enddate_show = split_enddate + "/" + split_endmonth + "/" + split_endyear;
+                                    btnenddate.setText(str_enddate_show);
+
+                                    String noti_1 = (String) array_notification.get("notification_1");
+                                    if(noti_1 != null) {
+                                        String[] split_noti1 = noti_1.split(" ");
+                                        String before_after_1 = split_noti1[0];
+                                        String number_1 = split_noti1[1];
+                                        String type_date_1 = split_noti1[2];
+
+                                        et_before_after_1.setVisibility(View.VISIBLE);
+                                        et_number_1.setVisibility(View.VISIBLE);
+                                        et_type_date_1.setVisibility(View.VISIBLE);
+                                        et_before_after_1.setText(before_after_1);
+                                        et_number_1.setText(number_1);
+                                        et_type_date_1.setText(type_date_1);
+                                        Log.e("Notification 1", str_before_after_1 + " " + str_number_1 + " " + str_type_date_1);
+                                    }
+
+                                    String noti_2 = (String) array_notification.get("notification_2");
+                                    if(noti_2 != null) {
+                                        String[] split_noti2 = noti_2.split(" ");
+                                        String before_after_2 = split_noti2[0];
+                                        String number_2 = split_noti2[1];
+                                        String type_date_2 = split_noti2[2];
+
+                                        et_before_after_2.setVisibility(View.VISIBLE);
+                                        et_number_2.setVisibility(View.VISIBLE);
+                                        et_type_date_2.setVisibility(View.VISIBLE);
+                                        et_before_after_2.setText(before_after_2);
+                                        et_number_2.setText(number_2);
+                                        et_type_date_2.setText(type_date_2);
+                                        Log.e("Notification 2", str_before_after_2 + " " + str_number_2 + " " + str_type_date_2);
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("VOLLEY", error.toString());
+                        }
+                    }) {
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
+
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        return requestBody == null ? null : requestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                        return null;
+                    }
+                }
+            };
+            requestQueue.add(stringRequest);
+        }catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 
@@ -585,6 +1088,10 @@ public class UpdateReminderFragment extends Fragment {
                                         btnstarttime.setText("00:00");
                                     }else {
                                         str_starttime = (String) array.get("start_time");
+                                        String[] start =  str_starttime.split(":");
+                                        String hr = start[0];
+                                        String min = start[1];
+                                        str_starttime = hr + ":" + min;
                                         btnstarttime.setText(str_starttime);
                                     }
                                     if(array.get("end_time").equals(null)) {
@@ -592,6 +1099,10 @@ public class UpdateReminderFragment extends Fragment {
                                         btnendtime.setText("00:00");
                                     }else {
                                         str_endtime = (String) array.get("end_time");
+                                        String[] end =  str_endtime.split(":");
+                                        String hr = end[0];
+                                        String min = end[1];
+                                        str_endtime = hr + ":" + min;
                                         btnendtime.setText(str_endtime);
                                     }
 
@@ -674,7 +1185,17 @@ public class UpdateReminderFragment extends Fragment {
         }
     }
 
-    private void connection_update(int reminder_id) {
+    private boolean connection_update(int reminder_id) {
+        boolean checkerror = true;
+        checkswitch();
+        boolean check = getstartdatetime();
+        if(check != checkerror) {
+            return false;
+        }
+        check = getenddatetime();
+        if(check != checkerror) {
+            return false;
+        }
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
             String URL = "http://161.246.5.195:3000/updatereminder/task";
@@ -682,10 +1203,8 @@ public class UpdateReminderFragment extends Fragment {
             jsonBody.put("id", reminder_id);
             jsonBody.put("type", "Reminder");
 
-            checkswitch();
             jsonBody.put("allday", con_str_onoffswitch);
 
-            getstartdatetime();
             Log.e("Update Start", con_str_startdate + con_str_startmonth + con_str_startyear + " " + con_str_starthour + ":" + con_str_startmin);
             jsonBody.put("startdate", con_str_startdate);
             jsonBody.put("startmonth", con_str_startmonth);
@@ -693,7 +1212,6 @@ public class UpdateReminderFragment extends Fragment {
             jsonBody.put("starthour", con_str_starthour);
             jsonBody.put("startmin", con_str_startmin);
 
-            getenddatetime();
             Log.e("Update End", con_str_enddate + con_str_endmonth + con_str_endyear + " " + con_str_endhour + ":" + con_str_endmin);
             jsonBody.put("enddate", con_str_enddate);
             jsonBody.put("endmonth", con_str_endmonth);
@@ -769,6 +1287,7 @@ public class UpdateReminderFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        return true;
     }
 
     private void connection_delete(int reminder_id) {
@@ -827,4 +1346,5 @@ public class UpdateReminderFragment extends Fragment {
         et_addplace.setText(placename);
         str_placename = args.getString("PlaceName");
     }
+
 }

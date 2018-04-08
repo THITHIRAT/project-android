@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/task"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="20dp"
+    android:background="@color/colorwhite"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/taskname"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:gravity="center_vertical"
+        android:text="Custom taskname : "
+        android:textColor="@color/colornavy"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/sugguest_addtaskname"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/taskname"
+        android:layout_toRightOf="@+id/taskname"
+        android:background="@android:color/transparent"
+        android:maxLines="1"
+        android:ems="10"
+        android:text=""
+        android:hint="taskname"
+        android:inputType="text"
+        android:paddingLeft="10dp"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/selecttaskname"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_above="@+id/relative_listview"
+        android:layout_alignLeft="@+id/relative_listview"
+        android:layout_alignStart="@+id/relative_listview"
+        android:layout_marginBottom="-100dp"
+        android:gravity="center_vertical"
+        android:text="Select taskname "
+        android:layout_marginLeft="20dp"
+        android:textColor="@color/colornavy"
+        android:textSize="16sp" />
+
+    <RelativeLayout
+        android:id="@+id/relative_listview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ListView
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="95dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="100dp"
+            android:divider="@null"
+            android:dividerHeight="5dp"></ListView>
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/save"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/relative_listview"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="-90dp"
+        android:background="@drawable/button_radius"
+        android:text="Save"
+        android:textColor="@color/colorwhite" />
+
+    <Button
+        android:id="@+id/close"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/save"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/button_radius"
+        android:text="close"
+        android:textColor="@color/colorwhite" />
+
+</RelativeLayout>

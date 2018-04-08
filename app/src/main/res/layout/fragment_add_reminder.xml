@@ -22,11 +22,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <EditText
+            <TextView
                 android:id="@+id/rm_add_task_name"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
-                android:layout_centerHorizontal="true"
+                android:gravity="center_vertical"
                 android:layout_margin="15dp"
                 android:background="@color/colorwhite"
                 android:drawableLeft="@drawable/ic_action_name_96px"
@@ -39,12 +39,12 @@
                 android:textCursorDrawable="@color/colordarkblue"
                 android:textSize="16sp" />
 
-            <EditText
+            <TextView
                 android:id="@+id/rm_add_subtask_name"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_below="@+id/rm_add_task_name"
-                android:layout_centerHorizontal="true"
+                android:gravity="center_vertical"
                 android:layout_marginBottom="15dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
