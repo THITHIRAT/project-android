@@ -13,22 +13,23 @@
         android:layout_height="50dp"
         android:layout_marginLeft="20dp"
         android:gravity="center_vertical"
-        android:text="Custom subtaskname : "
+        android:text="Taskname : "
         android:textColor="@color/colornavy"
         android:textSize="16sp" />
 
-    <EditText
-        android:id="@+id/sugguest_addsubtaskname"
+    <TextView
+        android:id="@+id/sugguest_taskname"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/subtaskname"
         android:layout_toRightOf="@+id/subtaskname"
         android:background="@android:color/transparent"
+        android:gravity="center_vertical"
         android:ems="10"
         android:text=""
         android:maxLines="1"
-        android:hint="subtaskname"
+        android:textColor="@color/colornavy"
         android:inputType="text"
         android:paddingLeft="10dp"
         android:textSize="16sp" />
@@ -67,6 +68,20 @@
 
     </RelativeLayout>
 
+    <EditText
+        android:id="@+id/other_subtaskname"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_marginLeft="20dp"
+        android:layout_alignTop="@+id/save"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:backgroundTint="@color/colordarkwhite"
+        android:background="@drawable/button_radius_darkwhite"
+        android:paddingLeft="20dp"
+        android:textSize="16sp"
+        android:hint="other" />
+
     <Button
         android:id="@+id/save"
         android:layout_width="wrap_content"
@@ -78,9 +93,9 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="-90dp"
-        android:background="@drawable/button_radius"
+        android:background="@null"
         android:text="Save"
-        android:textColor="@color/colorwhite" />
+        android:textColor="@color/colornavy" />
 
     <Button
         android:id="@+id/close"
@@ -92,8 +107,8 @@
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="20dp"
-        android:background="@drawable/button_radius"
-        android:text="close"
-        android:textColor="@color/colorwhite" />
+        android:background="@null"
+        android:text="back"
+        android:textColor="@color/colornavy" />
 
 </RelativeLayout>

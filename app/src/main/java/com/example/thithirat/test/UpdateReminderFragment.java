@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,6 +41,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -140,10 +142,9 @@ public class UpdateReminderFragment extends Fragment {
     TextView et_number_3 = null;
     TextView et_type_date_3 = null;
 
-    String sugguest_taskname;
-    String sugguest_addtaskname;
-    EditText taskname_popup;
-    EditText subtaskname_popup;
+    TextView sugguest_taskname;
+    EditText subtaskname_other;
+    EditText taskname_other;
 
     String get_tasknamefromfragment;
 
@@ -155,7 +156,7 @@ public class UpdateReminderFragment extends Fragment {
     }
 
     public UpdateReminderFragment(String str_taskname) {
-        sugguest_addtaskname = str_taskname;
+        String taskname = str_taskname;
     }
 
     public static View getroot() {
@@ -218,39 +219,35 @@ public class UpdateReminderFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                final View rootview = getLayoutInflater().inflate(R.layout.sugguest_taskname, null);
-                getrootview = rootview;
+                final View rootview_taskname = getLayoutInflater().inflate(R.layout.sugguest_taskname, null);
+                getrootview = rootview_taskname;
 
-                listview = (ListView)rootview.findViewById(R.id.listview);
+                listview = (ListView)rootview_taskname.findViewById(R.id.listview);
                 mtaskname = new ArrayList<>();
 
-                taskname_popup = (EditText)rootview.findViewById(R.id.sugguest_addtaskname);
-                taskname_popup.setText(et_addtaskname.getText().toString());
+                taskname_other = (EditText) rootview_taskname.findViewById(R.id.other_taskname);
 
-                builder.setView(rootview);
-                final AlertDialog dialog = builder.create();
-                dialog.show();
+                builder.setView(rootview_taskname);
+                final AlertDialog dialog_update = builder.create();
+                dialog_update.show();
 
                 connection_taskname();
 
-                Button btn_save = (Button) rootview.findViewById(R.id.save);
+                Button btn_save = (Button) rootview_taskname.findViewById(R.id.save);
                 btn_save.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String str_taskname_popup = taskname_popup.getText().toString();
-                        et_addtaskname.setText(str_taskname_popup);
-
-                        dialog.cancel();
-                        connection_taskname_notification(str_taskname_popup);
-
+                        et_addtaskname.setText(taskname_other.getText().toString());
+                        dialog_update.cancel();
+                        connection_taskname_notification(taskname_other.getText().toString());
                     }
                 });
 
-                Button btn_close = (Button) rootview.findViewById(R.id.close);
+                Button btn_close = (Button) rootview_taskname.findViewById(R.id.close);
                 btn_close.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        dialog.cancel();
+                        dialog_update.cancel();
                     }
                 });
             }
@@ -263,40 +260,38 @@ public class UpdateReminderFragment extends Fragment {
                 get_tasknamefromfragment = tv_get_taskname.getText().toString();
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                final View rootview = getLayoutInflater().inflate(R.layout.sugguest_subtaskname, null);
-                getrootview = rootview;
+                final View rootview_subtaskname = getLayoutInflater().inflate(R.layout.sugguest_subtaskname, null);
+                getrootview = rootview_subtaskname;
 
-                listview = (ListView)rootview.findViewById(R.id.listview);
+                listview = (ListView)rootview_subtaskname.findViewById(R.id.listview);
                 msubtaskname = new ArrayList<>();
 
-                subtaskname_popup = (EditText)rootview.findViewById(R.id.sugguest_addsubtaskname);
-                subtaskname_popup.setText(et_addsubtaskname.getText().toString());
+                sugguest_taskname = (TextView) rootview_subtaskname.findViewById(R.id.sugguest_taskname);
+                sugguest_taskname.setText(et_addtaskname.getText().toString());
+                subtaskname_other = (EditText) rootview_subtaskname.findViewById(R.id.other_subtaskname);
 
-                builder.setView(rootview);
-                final AlertDialog dialog = builder.create();
-                dialog.show();
+                builder.setView(rootview_subtaskname);
+                final AlertDialog dialog_update = builder.create();
+                dialog_update.show();
 
                 connection_subtaskname();
 
-                Button btn_save = (Button) rootview.findViewById(R.id.save);
+                Button btn_save = (Button) rootview_subtaskname.findViewById(R.id.save);
                 btn_save.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String str_taskname_popup = et_addtaskname.getText().toString();
-                        String str_subtaskname_popup = subtaskname_popup.getText().toString();
-                        et_addsubtaskname.setText(str_subtaskname_popup);
-                        dialog.cancel();
-                        connection_subtaskname_notification(str_taskname_popup, str_subtaskname_popup);
-                        Log.i("UpdateReminderFragment", "taskname : " + str_taskname_popup + "subtaskname : " + str_subtaskname_popup);
+                        et_addsubtaskname.setText(subtaskname_other.getText().toString());
+                        dialog_update.cancel();
+                        connection_subtaskname_notification(sugguest_taskname.getText().toString(), subtaskname_other.getText().toString());
 
                     }
                 });
 
-                Button btn_close = (Button) rootview.findViewById(R.id.close);
+                Button btn_close = (Button) rootview_subtaskname.findViewById(R.id.close);
                 btn_close.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        dialog.cancel();
+                        dialog_update.cancel();
                     }
                 });
             }
@@ -1343,35 +1338,23 @@ public class UpdateReminderFragment extends Fragment {
             jsonBody.put("taskname", con_str_taskname);
             jsonBody.put("subtaskname", con_str_subtaskname);
 
-            str_before_after_1 = et_before_after_1.getText().toString();
-            str_number_1 = et_number_1.getText().toString();
-            str_type_date_1 = et_type_date_1.getText().toString();
-            jsonBody.put("before_after_1", str_before_after_1);
-            jsonBody.put("num_notification_1", str_number_1);
-            jsonBody.put("type_num_1", str_type_date_1);
+            jsonBody.put("before_after_1", et_before_after_1.getText().toString());
+            jsonBody.put("num_notification_1", et_number_1.getText().toString());
+            jsonBody.put("type_num_1", et_type_date_1.getText().toString());
 
-            Log.e("Update Noti 1", str_before_after_1 + str_number_1 + str_type_date_1);
+            Log.e("Update Noti 1", et_before_after_1.getText().toString() + et_number_1.getText().toString() + et_type_date_1.getText().toString());
 
-            str_before_after_2 = et_before_after_2.getText().toString();
-            str_number_2 = et_number_2.getText().toString();
-            str_type_date_2 = et_type_date_2.getText().toString();
-            jsonBody.put("before_after_2", str_before_after_2);
-            jsonBody.put("num_notification_2", str_number_2);
-            jsonBody.put("type_num_2", str_type_date_2);
+            jsonBody.put("before_after_2", et_before_after_2.getText().toString());
+            jsonBody.put("num_notification_2", et_number_2.getText().toString());
+            jsonBody.put("type_num_2", et_type_date_2.getText().toString());
 
-            Log.e("Update Noti 2", str_before_after_2 + str_number_2 + str_type_date_2);
+            Log.e("Update Noti 2", et_before_after_2.getText().toString() + et_number_2.getText().toString() + et_type_date_2.getText().toString());
 
-            str_before_after_3 = et_before_after_3.getText().toString();
-            str_number_3 = et_number_3.getText().toString();
-            str_type_date_3 = et_type_date_3.getText().toString();
-            jsonBody.put("before_after_2", str_before_after_2);
-            jsonBody.put("num_notification_2", str_number_2);
-            jsonBody.put("type_num_2", str_type_date_2);
-            jsonBody.put("before_after_3", str_before_after_3);
-            jsonBody.put("num_notification_3", str_number_3);
-            jsonBody.put("type_num_3", str_type_date_3);
+            jsonBody.put("before_after_3", et_before_after_3.getText().toString());
+            jsonBody.put("num_notification_3", et_number_3.getText().toString());
+            jsonBody.put("type_num_3", et_type_date_3.getText().toString());
 
-            Log.e("Update Noti 3", str_before_after_3 + str_number_3 + str_type_date_3);
+            Log.e("Update Noti 3", et_before_after_3.getText().toString() + et_number_3.getText().toString() + et_type_date_3.getText().toString());
 
             final String requestBody = jsonBody.toString();
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
@@ -1473,5 +1456,4 @@ public class UpdateReminderFragment extends Fragment {
         et_addplace.setText(placename);
         str_placename = args.getString("PlaceName");
     }
-
 }

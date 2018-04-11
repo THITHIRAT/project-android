@@ -45,27 +45,28 @@ public class SubtasknameAdapter extends BaseAdapter {
         TextView et_taskname = (TextView) view.findViewById(R.id.task_name);
         et_taskname.setMaxLines(1);
 
-        final String str_taskname = taskname.get(position).getName();
-        et_taskname.setText(str_taskname);
+        final String str_subtaskname = taskname.get(position).getName();
+        et_taskname.setText(str_subtaskname);
         view.setTag(taskname.get(position).getId());
 
         RelativeLayout task = (RelativeLayout)view.findViewById(R.id.sugguest_task);
         task.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String str_subtaskname = taskname.get(position).getName();
-                Log.e("Show Subtaskname", str_subtaskname);
+                String get_subtaskname = taskname.get(position).getName().toLowerCase();
 
                 View root_update_subtaskname = UpdateReminderFragment.getroot();
                 View root_add_subtaskname = AddReminderFragment.getroot();
 
                 if(myFragment.equals("UpdateReminderFragment")) {
-                    EditText taskname_popup_update = (EditText) root_update_subtaskname.findViewById(R.id.sugguest_addsubtaskname);
-                    taskname_popup_update.setText(str_subtaskname);
+                    EditText select_subtaskname = (EditText) root_update_subtaskname.findViewById(R.id.other_subtaskname);
+                    select_subtaskname.setText(get_subtaskname);
+                    Log.e("Show Subtaskname", " onFragment  " + myFragment + " - " + get_subtaskname);
                 }
                 if(myFragment.equals("AddReminderFragment")) {
-                    EditText taskname_popup_add = (EditText)root_add_subtaskname.findViewById(R.id.sugguest_addsubtaskname);
-                    taskname_popup_add.setText(str_subtaskname);
+                    EditText select_subtaskname = (EditText) root_add_subtaskname.findViewById(R.id.other_subtaskname);
+                    select_subtaskname.setText(get_subtaskname);
+                    Log.e("Show Subtaskname", " onFragment  " + myFragment + " - " + get_subtaskname);
                 }
             }
         });

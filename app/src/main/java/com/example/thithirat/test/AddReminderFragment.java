@@ -76,18 +76,6 @@ public class AddReminderFragment extends Fragment {
     Spinner spinner_before_after_3;
     Spinner spinner_type_date_3;
 
-    String str_before_after_1;
-    String str_number_1;
-    String str_type_date_1;
-
-    String str_before_after_2;
-    String str_number_2;
-    String str_type_date_2;
-
-    String str_before_after_3;
-    String str_number_3;
-    String str_type_date_3;
-
     static EditText et_addplace;
 
     String str_token;
@@ -100,12 +88,6 @@ public class AddReminderFragment extends Fragment {
     String con_str_endmonth = null;
     String con_str_endyear = null;
 
-    String con_str_starthour = null;
-    String con_str_startmin = null;
-
-    String con_str_endhour = null;
-    String con_str_endmin = null;
-
     String fn_con_str_startdate = null;
     String fn_con_str_startmonth = null;
     String fn_con_str_startyear = null;
@@ -114,31 +96,15 @@ public class AddReminderFragment extends Fragment {
     String fn_con_str_endmonth = null;
     String fn_con_str_endyear = null;
 
-    String fn_con_str_starthour = null;
-    String fn_con_str_startmin = null;
-
-    String fn_con_str_endhour = null;
-    String fn_con_str_endmin = null;
-
     TextView et_addtaskname;
     TextView et_addsubtaskname;
-    String sugguest_taskname;
+    TextView sugguest_taskname;
     String sugguest_addtaskname;
-    EditText taskname_popup;
-    EditText subtaskname_popup;
-
-    Switch onOffSwitch;
-    String con_str_onoffswitch;
 
     Button btnstartdate;
     Button btnenddate;
     String str_startdate;
     String str_enddate;
-
-    Button btnstarttime;
-    Button btnendtime;
-    String str_starttime;
-    String str_endtime;
 
     TextView et_before_after_1;
     TextView et_number_1;
@@ -151,6 +117,9 @@ public class AddReminderFragment extends Fragment {
     TextView et_before_after_3;
     TextView et_number_3;
     TextView et_type_date_3;
+
+    EditText subtaskname_other;
+    EditText taskname_other;
 
     String get_tasknamefromfragment;
 
@@ -189,9 +158,6 @@ public class AddReminderFragment extends Fragment {
         btnstartdate = (Button)view.findViewById(R.id.rm_start_date);
         btnenddate = (Button)view.findViewById(R.id.rm_end_date);
 
-        btnstarttime = (Button)view.findViewById(R.id.rm_start_time);
-        btnendtime = (Button)view.findViewById(R.id.rm_end_time);
-
         et_before_after_1 = (TextView) view.findViewById(R.id.rm_before_after_1);
         et_number_1 = (TextView) view.findViewById(R.id.rm_number_1);
         et_type_date_1 = (TextView)view.findViewById(R.id.rm_type_date_1);
@@ -208,9 +174,6 @@ public class AddReminderFragment extends Fragment {
         et_addsubtaskname = (TextView) view.findViewById(R.id.rm_add_subtask_name);
         et_addplace = (EditText) view.findViewById(R.id.rm_add_place);
 
-        onOffSwitch = (Switch) view.findViewById(R.id.rm_switch_allday);
-        final boolean[] checkswitch = {false};
-
         ImageButton marker_maps = (ImageButton)view.findViewById(R.id.rm_marker_map);
 
         Button repeat = (Button)view.findViewById(R.id.rm_repeat);
@@ -224,38 +187,35 @@ public class AddReminderFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                final View rootview = getLayoutInflater().inflate(R.layout.sugguest_taskname, null);
-                getrootview = rootview;
+                final View rootview_taskname = getLayoutInflater().inflate(R.layout.sugguest_taskname, null);
+                getrootview = rootview_taskname;
 
-                listview = (ListView)rootview.findViewById(R.id.listview);
+                listview = (ListView) rootview_taskname.findViewById(R.id.listview);
                 mtaskname = new ArrayList<>();
 
-                taskname_popup = (EditText)rootview.findViewById(R.id.sugguest_addtaskname);
-                taskname_popup.setText(et_addtaskname.getText().toString());
+                taskname_other = (EditText) rootview_taskname.findViewById(R.id.other_taskname);
 
-                builder.setView(rootview);
-                final AlertDialog dialog = builder.create();
-                dialog.show();
+                builder.setView(rootview_taskname);
+                final AlertDialog dialog_update = builder.create();
+                dialog_update.show();
 
                 connection_taskname();
 
-                Button btn_save = (Button) rootview.findViewById(R.id.save);
+                Button btn_save = (Button) rootview_taskname.findViewById(R.id.save);
                 btn_save.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String str_taskname_popup = taskname_popup.getText().toString();
-                        et_addtaskname.setText(str_taskname_popup);
-
-                        dialog.cancel();
-                        connection_taskname_notification(str_taskname_popup);
+                        et_addtaskname.setText(taskname_other.getText().toString());
+                        dialog_update.cancel();
+                        connection_taskname_notification(taskname_other.getText().toString());
                     }
                 });
 
-                Button btn_close = (Button) rootview.findViewById(R.id.close);
+                Button btn_close = (Button) rootview_taskname.findViewById(R.id.close);
                 btn_close.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        dialog.cancel();
+                        dialog_update.cancel();
                     }
                 });
             }
@@ -268,38 +228,37 @@ public class AddReminderFragment extends Fragment {
                 get_tasknamefromfragment = tv_get_taskname.getText().toString();
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                final View rootview = getLayoutInflater().inflate(R.layout.sugguest_subtaskname, null);
-                getrootview = rootview;
+                final View rootview_subtaskname = getLayoutInflater().inflate(R.layout.sugguest_subtaskname, null);
+                getrootview = rootview_subtaskname;
 
-                listview = (ListView)rootview.findViewById(R.id.listview);
+                listview = (ListView)rootview_subtaskname.findViewById(R.id.listview);
                 msubtaskname = new ArrayList<>();
 
-                subtaskname_popup = (EditText)rootview.findViewById(R.id.sugguest_addsubtaskname);
-                subtaskname_popup.setText(et_addsubtaskname.getText().toString());
+                sugguest_taskname = (TextView) rootview_subtaskname.findViewById(R.id.sugguest_taskname);
+                sugguest_taskname.setText(et_addtaskname.getText().toString());
+                subtaskname_other = (EditText) rootview_subtaskname.findViewById(R.id.other_subtaskname);
 
-                builder.setView(rootview);
-                final AlertDialog dialog = builder.create();
-                dialog.show();
+                builder.setView(rootview_subtaskname);
+                final AlertDialog dialog_update = builder.create();
+                dialog_update.show();
 
                 connection_subtaskname();
 
-                Button btn_save = (Button) rootview.findViewById(R.id.save);
+                Button btn_save = (Button) rootview_subtaskname.findViewById(R.id.save);
                 btn_save.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String str_taskname_popup = taskname_popup.getText().toString();
-                        String str_subtaskname_popup = subtaskname_popup.getText().toString();
-                        et_addsubtaskname.setText(str_subtaskname_popup);
-                        dialog.cancel();
-                        connection_subtaskname_notification(str_taskname_popup, str_subtaskname_popup);
+                        et_addsubtaskname.setText(subtaskname_other.getText().toString());
+                        dialog_update.cancel();
+                        connection_subtaskname_notification(sugguest_taskname.getText().toString(), subtaskname_other.getText().toString());
                     }
                 });
 
-                Button btn_close = (Button) rootview.findViewById(R.id.close);
+                Button btn_close = (Button) rootview_subtaskname.findViewById(R.id.close);
                 btn_close.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        dialog.cancel();
+                        dialog_update.cancel();
                     }
                 });
             }
@@ -343,46 +302,6 @@ public class AddReminderFragment extends Fragment {
             }
         });
 
-        btnstarttime.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Calendar calendar = Calendar.getInstance();
-                int _hour = calendar.get(Calendar.HOUR);
-                int _minute = calendar.get(Calendar.MINUTE);
-
-                timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        btnstarttime.setText(hourOfDay + ":" + minute);
-                        con_str_starthour = String.valueOf(hourOfDay);
-                        con_str_startmin = String.valueOf(minute);
-                    }
-                }, _hour, _minute, true);
-                timePickerDialog.show();
-            }
-        });
-
-        btnendtime.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Calendar calendar = Calendar.getInstance();
-                int _hour = calendar.get(Calendar.HOUR);
-                int _minute = calendar.get(Calendar.MINUTE);
-
-                timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        btnendtime.setText(hourOfDay + ":" + minute);
-                        con_str_endhour = String.valueOf(hourOfDay);
-                        con_str_endmin = String.valueOf(minute);
-                    }
-                }, _hour, _minute, true);
-                timePickerDialog.show();
-            }
-        });
-
         marker_maps.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -392,25 +311,6 @@ public class AddReminderFragment extends Fragment {
             }
         });
 
-        onOffSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-                Log.v("Switch State", ""+isChecked);
-                if (isChecked == true) {
-                    checkswitch[0] = true;
-                    btnstarttime.setVisibility(View.GONE);
-                    btnendtime.setVisibility(View.GONE);
-
-                }
-                if (isChecked == false) {
-                    checkswitch[0] = false;
-                    btnstarttime.setVisibility(View.VISIBLE);
-                    btnendtime.setVisibility(View.VISIBLE);
-                }
-            }
-        });
 
         repeat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -460,17 +360,17 @@ public class AddReminderFragment extends Fragment {
                 button_done.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        str_number_1 = mNumber1.getText().toString();
-                        str_before_after_1 = spinner_before_after_1.getSelectedItem().toString();
-                        str_type_date_1 = spinner_type_date_1.getSelectedItem().toString();
+                        String str_number_1 = mNumber1.getText().toString();
+                        String str_before_after_1 = spinner_before_after_1.getSelectedItem().toString();
+                        String str_type_date_1 = spinner_type_date_1.getSelectedItem().toString();
 
-                        str_number_2 = mNumber2.getText().toString();
-                        str_before_after_2 = spinner_before_after_2.getSelectedItem().toString();
-                        str_type_date_2 = spinner_type_date_2.getSelectedItem().toString();
+                        String str_number_2 = mNumber2.getText().toString();
+                        String str_before_after_2 = spinner_before_after_2.getSelectedItem().toString();
+                        String str_type_date_2 = spinner_type_date_2.getSelectedItem().toString();
 
-                        str_number_3 = mNumber3.getText().toString();
-                        str_before_after_3 = spinner_before_after_3.getSelectedItem().toString();
-                        str_type_date_3 = spinner_type_date_3.getSelectedItem().toString();
+                        String str_number_3 = mNumber3.getText().toString();
+                        String str_before_after_3 = spinner_before_after_3.getSelectedItem().toString();
+                        String str_type_date_3 = spinner_type_date_3.getSelectedItem().toString();
 
                         View view = inflater.inflate(R.layout.fragment_add_reminder, container, false);
 
@@ -543,13 +443,7 @@ public class AddReminderFragment extends Fragment {
                 if(con_str_subtaskname.equals(null)) {
                     con_str_subtaskname = " ";
                 }
-                boolean bool_onoffswitch = onOffSwitch.isChecked();
-                String con_str_onoffswitch;
-                if(bool_onoffswitch) {
-                    con_str_onoffswitch = "1";
-                }else {
-                    con_str_onoffswitch = "0";
-                }
+
                 String con_str_placename = et_addplace.getText().toString();
                 con_str_taskname = et_addtaskname.getText().toString();
                 con_str_subtaskname = et_addsubtaskname.getText().toString();
@@ -569,41 +463,6 @@ public class AddReminderFragment extends Fragment {
         return view;
     }
 
-    private void checkswitch() {
-        boolean bool_onoffswitch = onOffSwitch.isChecked();
-        if(bool_onoffswitch) {
-            con_str_onoffswitch = "1";
-        }else {
-            con_str_onoffswitch = "0";
-        }
-    }
-
-    private boolean getstartdatetime() {
-        String startdate = (String) btnstartdate.getText();
-        String[] array_startdate = startdate.split("/");
-        if(array_startdate.length == 1) {
-            Toast.makeText(getActivity(), "Plase fill startdate", Toast.LENGTH_SHORT).show();
-            return false;
-        }else {
-            fn_con_str_startdate = array_startdate[0];
-            fn_con_str_startmonth = array_startdate[1];
-            int startyear = Integer.parseInt(array_startdate[2]) - 543;
-            fn_con_str_startyear = String.valueOf(startyear);
-        }
-
-
-        String starttime = (String) btnstarttime.getText();
-        String[] array_starttime = starttime.split(":");
-        if(array_starttime.length == 1) {
-            fn_con_str_starthour = "0";
-            fn_con_str_startmin = "0";
-        }else {
-            fn_con_str_starthour = array_starttime[0];
-            fn_con_str_startmin = array_starttime[1];
-        }
-        return true;
-    }
-
     private boolean getenddatetime() {
         String enddate = (String) btnenddate.getText();
         String[] array_enddate = enddate.split("/");
@@ -617,15 +476,6 @@ public class AddReminderFragment extends Fragment {
             fn_con_str_endyear = String.valueOf(endyear);
         }
 
-        String endtime = (String) btnendtime.getText();
-        String[] array_endtime = endtime.split(":");
-        if(array_endtime.length == 1) {
-            fn_con_str_endhour = "0";
-            fn_con_str_endmin = "0";
-        }else {
-            fn_con_str_endhour = array_endtime[0];
-            fn_con_str_endmin = array_endtime[1];
-        }
         return true;
     }
 
@@ -769,14 +619,6 @@ public class AddReminderFragment extends Fragment {
                                 if(msg_taskname.equals("suggestreminder/tasknamenotification : no before_after complete")) {
                                     JSONObject array_output = (JSONObject) json.getJSONObject("output");
 
-                                    String suggest_onoffswitch = (String) array_output.get("allday");
-                                    if(suggest_onoffswitch.equals("0")) {
-                                        onOffSwitch.setChecked(false);
-                                    }
-                                    if(suggest_onoffswitch.equals("1")) {
-                                        onOffSwitch.setChecked(true);
-                                    }
-
                                     str_startdate = (String) array_output.get("startdate");
                                     String[] split_start = str_startdate.split("/");
                                     String split_startyear = split_start[2];
@@ -818,11 +660,6 @@ public class AddReminderFragment extends Fragment {
                                     Log.e("Notification taskname", "dont have data");
                                     et_addsubtaskname.setText("");
                                     et_addsubtaskname.setHint("Add Subtask");
-                                    onOffSwitch.setChecked(false);
-                                    btnstartdate.setText("Start Date");
-                                    btnstarttime.setText("Start Time");
-                                    btnenddate.setText("End Date");
-                                    btnendtime.setText("End Time");
 
                                     et_before_after_1.setVisibility(View.VISIBLE);
                                     et_number_1.setVisibility(View.VISIBLE);
@@ -850,14 +687,6 @@ public class AddReminderFragment extends Fragment {
                                     JSONObject array_notification = (JSONObject) json.getJSONObject("notification");
                                     et_addsubtaskname.setText("");
                                     et_addsubtaskname.setHint("Add Subtask");
-
-                                    String suggest_onoffswitch = (String) array_output.get("allday");
-                                    if(suggest_onoffswitch.equals("0")) {
-                                        onOffSwitch.setChecked(false);
-                                    }
-                                    if(suggest_onoffswitch.equals("1")) {
-                                        onOffSwitch.setChecked(true);
-                                    }
 
                                     str_startdate = (String) array_output.get("startdate");
                                     String[] split_start = str_startdate.split("/");
@@ -888,7 +717,7 @@ public class AddReminderFragment extends Fragment {
                                         et_before_after_1.setText(before_after_1);
                                         et_number_1.setText(number_1);
                                         et_type_date_1.setText(type_date_1);
-                                        Log.e("Notification 1", str_before_after_1 + " " + str_number_1 + " " + str_type_date_1);
+                                        Log.e("Notification 1", et_before_after_1.getText().toString() + " " + et_number_1.getText().toString() + " " + et_type_date_1.getText().toString());
                                     }
 
                                     String noti_2 = (String) array_notification.get("notification_2");
@@ -904,7 +733,7 @@ public class AddReminderFragment extends Fragment {
                                         et_before_after_2.setText(before_after_2);
                                         et_number_2.setText(number_2);
                                         et_type_date_2.setText(type_date_2);
-                                        Log.e("Notification 2", str_before_after_2 + " " + str_number_2 + " " + str_type_date_2);
+                                        Log.e("Notification 2", et_before_after_2.getText().toString() + " " + et_number_2.getText().toString() + " " + et_type_date_2.getText().toString());
                                     }
                                 }
                             } catch (JSONException e) {
@@ -960,13 +789,6 @@ public class AddReminderFragment extends Fragment {
                                 if(msg_subtaskname.equals("suggestreminder/subtasknamenotification : no before_after complete")) {
                                     JSONObject array_output = (JSONObject) json.getJSONObject("output");
 
-                                    String suggest_onoffswitch = (String) array_output.get("allday");
-                                    if(suggest_onoffswitch.equals("0")) {
-                                        onOffSwitch.setChecked(false);
-                                    }
-                                    if(suggest_onoffswitch.equals("1")) {
-                                        onOffSwitch.setChecked(true);
-                                    }
 
                                     str_startdate = (String) array_output.get("startdate");
                                     String[] split_start = str_startdate.split("/");
@@ -1007,11 +829,6 @@ public class AddReminderFragment extends Fragment {
                                 }
                                 if (msg_subtaskname.equals("suggestreminder/subtasknamenotification : complete")) {
                                     Log.e("Notification taskname", "dont have data");
-                                    onOffSwitch.setChecked(false);
-                                    btnstartdate.setText("Start Date");
-                                    btnstarttime.setText("Start Time");
-                                    btnenddate.setText("End Date");
-                                    btnendtime.setText("End Time");
 
                                     et_before_after_1.setVisibility(View.VISIBLE);
                                     et_number_1.setVisibility(View.VISIBLE);
@@ -1037,14 +854,6 @@ public class AddReminderFragment extends Fragment {
                                 if (msg_subtaskname.equals("suggestreminder/subtasknamenotification : add data complete")) {
                                     JSONObject array_output = (JSONObject) json.getJSONObject("output");
                                     JSONObject array_notification = (JSONObject) json.getJSONObject("notification");
-
-                                    String suggest_onoffswitch = (String) array_output.get("allday");
-                                    if(suggest_onoffswitch.equals("0")) {
-                                        onOffSwitch.setChecked(false);
-                                    }
-                                    if(suggest_onoffswitch.equals("1")) {
-                                        onOffSwitch.setChecked(true);
-                                    }
 
                                     str_startdate = (String) array_output.get("startdate");
                                     String[] split_start = str_startdate.split("/");
@@ -1075,7 +884,7 @@ public class AddReminderFragment extends Fragment {
                                         et_before_after_1.setText(before_after_1);
                                         et_number_1.setText(number_1);
                                         et_type_date_1.setText(type_date_1);
-                                        Log.e("Notification 1", str_before_after_1 + " " + str_number_1 + " " + str_type_date_1);
+                                        Log.e("Notification 1", et_before_after_1.getText().toString() + " " + et_number_1.getText().toString() + " " + et_type_date_1.getText().toString());
                                     }
 
                                     String noti_2 = (String) array_notification.get("notification_2");
@@ -1091,7 +900,7 @@ public class AddReminderFragment extends Fragment {
                                         et_before_after_2.setText(before_after_2);
                                         et_number_2.setText(number_2);
                                         et_type_date_2.setText(type_date_2);
-                                        Log.e("Notification 2", str_before_after_2 + " " + str_number_2 + " " + str_type_date_2);
+                                        Log.e("Notification 1", et_before_after_2.getText().toString() + " " + et_number_2.getText().toString() + " " + et_type_date_2.getText().toString());
                                     }
                                 }
                             } catch (JSONException e) {
@@ -1127,36 +936,22 @@ public class AddReminderFragment extends Fragment {
     }
 
     private boolean connection_addreminder_reminder() {
-        boolean checkerror = true;
         final String[] msg = {"0"};
-        checkswitch();
-        boolean check = getstartdatetime();
-        if (check != checkerror) {
-            return false;
-        }
-        check = getenddatetime();
-        if (check != checkerror) {
-            return false;
-        }
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
             String URL = "http://161.246.5.195:3000/addreminder/reminder";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("token", str_token);
             jsonBody.put("type", "Reminder");
-            jsonBody.put("allday", con_str_onoffswitch);
+            jsonBody.put("allday", "");
 
             jsonBody.put("startdate", fn_con_str_startdate);
             jsonBody.put("startmonth", fn_con_str_startmonth);
             jsonBody.put("startyear", fn_con_str_startyear);
-            jsonBody.put("starthour", fn_con_str_starthour);
-            jsonBody.put("startmin", fn_con_str_startmin);
 
             jsonBody.put("enddate", fn_con_str_enddate);
             jsonBody.put("endmonth", fn_con_str_endmonth);
             jsonBody.put("endyear", fn_con_str_endyear);
-            jsonBody.put("endhour", fn_con_str_endhour);
-            jsonBody.put("endmin", fn_con_str_endmin);
 
             String get_con_str_placename = et_addplace.getText().toString();
             jsonBody.put("placename", get_con_str_placename);
@@ -1168,17 +963,17 @@ public class AddReminderFragment extends Fragment {
             jsonBody.put("subtaskname", get_subtaskname);
             jsonBody.put("complete", "0");
 
-            jsonBody.put("before_after_1", str_before_after_1);
-            jsonBody.put("num_notification_1", str_number_1);
-            jsonBody.put("type_num_1", str_type_date_1);
+            jsonBody.put("before_after_1", et_before_after_1.getText().toString());
+            jsonBody.put("num_notification_1", et_number_1.getText().toString());
+            jsonBody.put("type_num_1", et_type_date_1.getText().toString());
 
-            jsonBody.put("before_after_2", str_before_after_2);
-            jsonBody.put("num_notification_2", str_number_2);
-            jsonBody.put("type_num_2", str_type_date_2);
+            jsonBody.put("before_after_2", et_before_after_2.getText().toString());
+            jsonBody.put("num_notification_2", et_number_2.getText().toString());
+            jsonBody.put("type_num_2", et_type_date_2.getText().toString());
 
-            jsonBody.put("before_after_3", str_before_after_3);
-            jsonBody.put("num_notification_3", str_number_3);
-            jsonBody.put("type_num_3", str_type_date_3);
+            jsonBody.put("before_after_3", et_before_after_3.getText().toString());
+            jsonBody.put("num_notification_3", et_number_3.getText().toString());
+            jsonBody.put("type_num_3", et_type_date_3.getText().toString());
 
             final String requestBody = jsonBody.toString();
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
