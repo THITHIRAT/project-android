@@ -9,12 +9,13 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll"
             app:subtitleTextAppearance="@color/colornavy"
             app:subtitleTextColor="@color/colornavy" />
 
@@ -26,12 +27,12 @@
                 android:id="@+id/rm_add_task_name"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
-                android:gravity="center_vertical"
                 android:layout_margin="15dp"
                 android:background="@color/colorwhite"
                 android:drawableLeft="@drawable/ic_action_name_96px"
                 android:drawablePadding="10dp"
                 android:ems="10"
+                android:gravity="center_vertical"
                 android:hint="Add Task.."
                 android:inputType="text"
                 android:textColor="@color/colornavy"
@@ -44,13 +45,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_below="@+id/rm_add_task_name"
-                android:gravity="center_vertical"
                 android:layout_marginBottom="15dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:background="@color/colorwhite"
                 android:drawablePadding="10dp"
                 android:ems="10"
+                android:gravity="center_vertical"
                 android:hint="Add Subtask.."
                 android:inputType="text"
                 android:paddingLeft="42dp"
@@ -82,14 +83,16 @@
                 android:id="@+id/rm_start_date"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
-                android:layout_alignRight="@+id/rm_add_task_name"
                 android:layout_alignEnd="@+id/rm_add_task_name"
+                android:layout_alignRight="@+id/rm_add_task_name"
                 android:layout_alignTop="@+id/start_date"
                 android:layout_marginLeft="15dp"
-                android:gravity="right|center_vertical"
                 android:background="@null"
-                android:text="" />
-
+                android:gravity="right|center_vertical"
+                android:text=""
+                android:textAllCaps="false"
+                android:textColor="@color/colornavy"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/end_date"
@@ -114,25 +117,142 @@
                 android:id="@+id/rm_end_date"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/rm_start_date"
-                android:gravity="right|center_vertical"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
                 android:background="@null"
-                android:text="" />
+                android:gravity="right|center_vertical"
+                android:text=""
+                android:textAllCaps="false"
+                android:textColor="@color/colornavy"
+                android:textSize="16dp" />
 
+            <TextView
+                android:id="@+id/rm_repeat"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_alignLeft="@+id/rm_add_place"
+                android:layout_alignStart="@+id/rm_add_place"
+                android:layout_below="@+id/end_date"
+                android:layout_marginBottom="5dp"
+                android:background="@android:color/transparent"
+                android:drawableLeft="@drawable/ic_action_notification_navy_15"
+                android:drawablePadding="10dp"
+                android:ems="10"
+                android:gravity="center_vertical"
+                android:hint="Type Notification"
+                android:inputType="text"
+                android:text="Notification"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
+                android:textColor="@color/colornavy"
+                android:textColorHint="@color/colornavy"
+                android:textCursorDrawable="@color/colornavy"
+                android:textSize="16sp"
+                tools:ignore="DuplicateIds" />
 
-            <EditText
+            <RelativeLayout
+                android:id="@+id/relative_reminder_notification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="42dp"
+                android:layout_marginRight="15dp"
+                android:layout_below="@+id/rm_repeat">
+
+                <Spinner
+                    android:id="@+id/spinner_before_after"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:backgroundTint="@color/colornavy"
+                    android:dropDownWidth="100dp"
+                    android:popupBackground="@color/colorwhite" />
+
+                <EditText
+                    android:id="@+id/edittext_number"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@+id/spinner_before_after"
+                    android:layout_toRightOf="@+id/spinner_before_after"
+                    android:layout_centerVertical="true"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:maxLength="2"
+                    android:text="0"
+                    android:backgroundTint="@android:color/transparent"
+                    android:textAlignment="center"
+                    android:textColor="@color/colornavy"
+                    android:textSize="14sp" />
+
+                <Spinner
+                    android:id="@+id/spinner_type_date"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_gravity="center"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/edittext_number"
+                    android:layout_toRightOf="@+id/edittext_number"
+                    android:backgroundTint="@color/colornavy"
+                    android:layout_marginLeft="5dp"
+                    android:dropDownWidth="90dp"
+                    android:maxLines="1"
+                    android:popupBackground="@color/colorwhite" />
+
+                <Button
+                    android:id="@+id/add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:background="@null"
+                    android:textColor="@color/colornavy"
+                    android:text="add" />
+
+            </RelativeLayout>
+
+            <ListView
+                android:id="@+id/listview_notification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="42dp"
+                android:layout_marginRight="15dp"
+                android:layout_below="@+id/relative_reminder_notification" />
+
+            <TextView
+                android:id="@+id/when_location"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_below="@id/listview_notification"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/button_radius_darkwhite"
+                android:paddingLeft="10dp"
+                android:ems="10"
+                android:gravity="center_vertical"
+                android:text="When Arrive Location"
+                android:textColor="@color/colornavy"
+                android:textColorHint="@color/colordarkwhite"
+                android:textCursorDrawable="@color/colordarkblue"
+                android:textSize="16dp" />
+
+            <TextView
                 android:id="@+id/rm_add_place"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
+                android:layout_below="@id/when_location"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="15dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_below="@id/end_date"
+                android:gravity="center_vertical"
                 android:background="@color/colorwhite"
                 android:drawableLeft="@drawable/ic_action_location_navy_50px"
                 android:drawablePadding="10dp"
@@ -142,7 +262,7 @@
                 android:textColor="@color/colornavy"
                 android:textColorHint="@color/colordarkwhite"
                 android:textCursorDrawable="@color/colordarkblue"
-                android:textSize="16sp" />
+                android:textSize="16dp" />
 
             <ImageButton
                 android:id="@+id/rm_marker_map"
@@ -154,70 +274,44 @@
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_action_map_marker_navy_new" />
 
-            <Button
-                android:id="@+id/rm_repeat"
+            <TextView
+                android:id="@+id/when_time"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
-                android:layout_alignLeft="@+id/rm_add_place"
-                android:layout_alignStart="@+id/rm_add_place"
-                android:layout_below="@+id/rm_add_place"
-                android:background="@android:color/transparent"
-                android:drawableLeft="@drawable/ic_action_notification_navy_15"
-                android:drawablePadding="10dp"
+                android:layout_below="@id/rm_add_place"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/button_radius_darkwhite"
+                android:paddingLeft="10dp"
                 android:ems="10"
                 android:gravity="center_vertical"
-                android:hint="Type Notification"
+                android:text="When Arrive Location"
+                android:textColor="@color/colornavy"
+                android:textColorHint="@color/colordarkwhite"
+                android:textCursorDrawable="@color/colordarkblue"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/rm_time"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_below="@id/when_time"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:gravity="center_vertical"
+                android:background="@color/colorwhite"
+                android:drawableLeft="@drawable/ic_action_time_navy"
+                android:drawablePadding="10dp"
+                android:ems="10"
+                android:hint="Time"
                 android:inputType="text"
-                android:text="Repeat "
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
                 android:textColor="@color/colornavy"
-                android:textColorHint="@color/colornavy"
-                android:textCursorDrawable="@color/colornavy"
-                android:textSize="16sp"
-                tools:ignore="DuplicateIds" />
-
-            <TextView
-                android:id="@+id/rm_before_after_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/rm_number_1"
-                android:layout_below="@+id/rm_add_place"
-                android:layout_toLeftOf="@+id/rm_number_1"
-                android:layout_toStartOf="@+id/rm_number_1"
-                android:gravity="center_vertical"
-                android:paddingRight="5dp"
-                android:textAlignment="center"
-                android:textColor="@color/colornavy"
+                android:textColorHint="@color/colordarkwhite"
+                android:textCursorDrawable="@color/colordarkblue"
                 android:textSize="16dp" />
-
-            <TextView
-                android:id="@+id/rm_number_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/rm_repeat"
-                android:layout_below="@+id/rm_add_place"
-                android:layout_toLeftOf="@+id/rm_type_date_1"
-                android:layout_toStartOf="@+id/rm_type_date_1"
-                android:gravity="center_vertical"
-                android:paddingRight="5dp"
-                android:textAlignment="center"
-                android:textColor="@color/colornavy"
-                android:textSize="16dp" />
-
-            <TextView
-                android:id="@+id/rm_type_date_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/rm_number_1"
-                android:layout_alignEnd="@+id/rm_add_place"
-                android:layout_alignRight="@+id/rm_add_place"
-                android:layout_below="@+id/rm_add_place"
-                android:gravity="center_vertical"
-                android:paddingRight="5dp"
-                android:textAlignment="center"
-                android:textColor="@color/colornavy"
-                android:textSize="16dp" />
-
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fab_done"
@@ -233,93 +327,6 @@
                 app:layout_anchor="@+id/viewpager"
                 app:layout_anchorGravity="right|bottom"
                 app:pressedTranslationZ="10dp" />
-
-
-            <TextView
-                android:id="@+id/rm_before_after_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/rm_repeat"
-                android:layout_marginTop="10dp"
-                android:layout_toLeftOf="@+id/rm_number_2"
-                android:layout_toStartOf="@+id/rm_number_2"
-                android:gravity="center_vertical"
-                android:paddingRight="5dp"
-                android:textAlignment="center"
-                android:textColor="@color/colornavy"
-                android:textSize="16dp" />
-
-            <TextView
-                android:id="@+id/rm_number_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/rm_type_date_2"
-                android:layout_alignBottom="@+id/rm_type_date_2"
-                android:layout_marginTop="10dp"
-                android:layout_toLeftOf="@+id/rm_type_date_2"
-                android:layout_toStartOf="@+id/rm_type_date_2"
-                android:gravity="center_vertical"
-                android:paddingRight="5dp"
-                android:textAlignment="center"
-                android:textColor="@color/colornavy"
-                android:textSize="16dp" />
-
-            <TextView
-                android:id="@+id/rm_type_date_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/rm_type_date_1"
-                android:layout_alignRight="@+id/rm_type_date_1"
-                android:layout_below="@+id/rm_before_after_1"
-                android:layout_marginTop="10dp"
-                android:gravity="center_vertical"
-                android:paddingRight="5dp"
-                android:textAlignment="center"
-                android:textColor="@color/colornavy"
-                android:textSize="16dp" />
-
-            <TextView
-                android:id="@+id/rm_type_date_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/rm_type_date_2"
-                android:layout_alignRight="@+id/rm_type_date_2"
-                android:layout_below="@+id/rm_before_after_2"
-                android:layout_marginTop="15dp"
-                android:paddingRight="5dp"
-                android:textAlignment="center"
-                android:textColor="@color/colornavy"
-                android:textSize="16dp" />
-
-            <TextView
-                android:id="@+id/rm_number_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/rm_type_date_3"
-                android:layout_alignBottom="@+id/rm_type_date_3"
-                android:layout_marginTop="15dp"
-                android:layout_toLeftOf="@+id/rm_type_date_3"
-                android:layout_toStartOf="@+id/rm_type_date_3"
-                android:paddingRight="5dp"
-                android:textAlignment="center"
-                android:textColor="@color/colornavy"
-                android:textSize="16dp" />
-
-            <TextView
-                android:id="@+id/rm_before_after_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/rm_before_after_2"
-                android:layout_alignStart="@+id/rm_before_after_2"
-                android:layout_below="@+id/rm_before_after_2"
-                android:layout_marginTop="15dp"
-                android:layout_toLeftOf="@+id/rm_number_3"
-                android:layout_toStartOf="@+id/rm_number_3"
-                android:paddingRight="5dp"
-                android:textAlignment="center"
-                android:textColor="@color/colornavy"
-                android:textSize="16dp" />
-
 
         </RelativeLayout>
 

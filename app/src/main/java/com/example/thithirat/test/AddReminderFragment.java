@@ -55,7 +55,6 @@ public class AddReminderFragment extends Fragment {
 
     private static View getrootview;
     DatePickerDialog datePickerDialog;
-    TimePickerDialog timePickerDialog;
 
     ArrayAdapter<String> adapter;
 
@@ -67,8 +66,8 @@ public class AddReminderFragment extends Fragment {
 
     ListView listview;
 
-    Spinner spinner_before_after_1;
-    Spinner spinner_type_date_1;
+    Spinner spinner_before_after;
+    Spinner spinner_type_date;
 
     Spinner spinner_before_after_2;
     Spinner spinner_type_date_2;
@@ -76,7 +75,7 @@ public class AddReminderFragment extends Fragment {
     Spinner spinner_before_after_3;
     Spinner spinner_type_date_3;
 
-    static EditText et_addplace;
+    static TextView et_addplace;
 
     String str_token;
 
@@ -105,6 +104,8 @@ public class AddReminderFragment extends Fragment {
     Button btnenddate;
     String str_startdate;
     String str_enddate;
+
+    TextView time_notification;
 
     TextView et_before_after_1;
     TextView et_number_1;
@@ -158,6 +159,8 @@ public class AddReminderFragment extends Fragment {
         btnstartdate = (Button)view.findViewById(R.id.rm_start_date);
         btnenddate = (Button)view.findViewById(R.id.rm_end_date);
 
+        time_notification = (TextView) view.findViewById(R.id.rm_time);
+
         et_before_after_1 = (TextView) view.findViewById(R.id.rm_before_after_1);
         et_number_1 = (TextView) view.findViewById(R.id.rm_number_1);
         et_type_date_1 = (TextView)view.findViewById(R.id.rm_type_date_1);
@@ -172,11 +175,11 @@ public class AddReminderFragment extends Fragment {
 
         et_addtaskname = (TextView) view.findViewById(R.id.rm_add_task_name);
         et_addsubtaskname = (TextView) view.findViewById(R.id.rm_add_subtask_name);
-        et_addplace = (EditText) view.findViewById(R.id.rm_add_place);
+        et_addplace = (TextView) view.findViewById(R.id.rm_add_place);
 
         ImageButton marker_maps = (ImageButton)view.findViewById(R.id.rm_marker_map);
 
-        Button repeat = (Button)view.findViewById(R.id.rm_repeat);
+        TextView repeat = (TextView) view.findViewById(R.id.rm_repeat);
 
         Calendar calendar = Calendar.getInstance();
         final int _year = calendar.get(Calendar.YEAR);
@@ -311,126 +314,19 @@ public class AddReminderFragment extends Fragment {
             }
         });
 
-
-        repeat.setOnClickListener(new View.OnClickListener() {
+        time_notification.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(final View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                final View view = getLayoutInflater().inflate(R.layout.reminder_notification, null);
-
-                spinner_before_after_1 = (Spinner)view.findViewById(R.id.spinner_event_notification_before_after_1);
-                adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.types_event_notification_before_after));
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner_before_after_1.setAdapter(adapter);
-
-                spinner_type_date_1 = (Spinner)view.findViewById(R.id.spinner_event_notification_type_date_1);
-                adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.types_reminder_notification_type_date));
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner_type_date_1.setAdapter(adapter);
-
-                spinner_before_after_2 = (Spinner)view.findViewById(R.id.spinner_event_notification_before_after_2);
-                adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.types_event_notification_before_after));
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner_before_after_2.setAdapter(adapter);
-
-                spinner_type_date_2 = (Spinner)view.findViewById(R.id.spinner_event_notification_type_date_2);
-                adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.types_reminder_notification_type_date));
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner_type_date_2.setAdapter(adapter);
-
-                spinner_before_after_3 = (Spinner)view.findViewById(R.id.spinner_event_notification_before_after_3);
-                adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.types_event_notification_before_after));
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner_before_after_3.setAdapter(adapter);
-
-                spinner_type_date_3 = (Spinner)view.findViewById(R.id.spinner_event_notification_type_date_3);
-                adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.types_reminder_notification_type_date));
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner_type_date_3.setAdapter(adapter);
-
-                final EditText mNumber1 = (EditText)view.findViewById(R.id.edittext_number_1);
-                final EditText mNumber2 = (EditText)view.findViewById(R.id.edittext_number_2);
-                final EditText mNumber3 = (EditText)view.findViewById(R.id.edittext_number_3);
-
-                builder.setView(view);
-                final AlertDialog dialog = builder.create();
-                dialog.show();
-
-                Button button_done = (Button)view.findViewById(R.id.done_notification);
-                button_done.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Calendar time = Calendar.getInstance();
+                int _hour = time.get(Calendar.HOUR);
+                int _minute = time.get(Calendar.MINUTE);
+                TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
-                    public void onClick(View v) {
-                        String str_number_1 = mNumber1.getText().toString();
-                        String str_before_after_1 = spinner_before_after_1.getSelectedItem().toString();
-                        String str_type_date_1 = spinner_type_date_1.getSelectedItem().toString();
-
-                        String str_number_2 = mNumber2.getText().toString();
-                        String str_before_after_2 = spinner_before_after_2.getSelectedItem().toString();
-                        String str_type_date_2 = spinner_type_date_2.getSelectedItem().toString();
-
-                        String str_number_3 = mNumber3.getText().toString();
-                        String str_before_after_3 = spinner_before_after_3.getSelectedItem().toString();
-                        String str_type_date_3 = spinner_type_date_3.getSelectedItem().toString();
-
-                        View view = inflater.inflate(R.layout.fragment_add_reminder, container, false);
-
-                        if(str_number_1.equals("0")) {
-                            et_before_after_1.setVisibility(View.INVISIBLE);
-                            et_number_1.setVisibility(View.INVISIBLE);
-                            et_type_date_1.setVisibility(View.INVISIBLE);
-                            et_number_1.setText("0");
-                        }else {
-                            et_before_after_1.setVisibility(View.VISIBLE);
-                            et_number_1.setVisibility(View.VISIBLE);
-                            et_type_date_1.setVisibility(View.VISIBLE);
-                            et_before_after_1.setText(str_before_after_1);
-                            et_number_1.setText(str_number_1);
-                            et_type_date_1.setText(str_type_date_1);
-                        }
-
-                        if(str_number_2.equals("0")) {
-                            et_before_after_2.setVisibility(View.INVISIBLE);
-                            et_number_2.setVisibility(View.INVISIBLE);
-                            et_type_date_2.setVisibility(View.INVISIBLE);
-                            et_number_2.setText("0");
-                        }else {
-                            et_before_after_2.setVisibility(View.VISIBLE);
-                            et_number_2.setVisibility(View.VISIBLE);
-                            et_type_date_2.setVisibility(View.VISIBLE);
-                            et_before_after_2.setText(str_before_after_2);
-                            et_number_2.setText(str_number_2);
-                            et_type_date_2.setText(str_type_date_2);
-                        }
-
-                        if(str_number_3.equals("0")) {
-                            et_before_after_3.setVisibility(View.INVISIBLE);
-                            et_number_3.setVisibility(View.INVISIBLE);
-                            et_type_date_3.setVisibility(View.INVISIBLE);
-                            et_number_3.setText("0");
-                        }else {
-                            et_before_after_3.setVisibility(View.VISIBLE);
-                            et_number_3.setVisibility(View.VISIBLE);
-                            et_type_date_3.setVisibility(View.VISIBLE);
-                            et_before_after_3.setText(str_before_after_3);
-                            et_number_3.setText(str_number_3);
-                            et_type_date_3.setText(str_type_date_3);
-                        }
-
-                        Log.d("AddReminderNoti_1", str_before_after_1 + str_number_1 + str_type_date_1);
-                        Log.d("AddReminderNoti_2", str_before_after_2 + str_number_2 + str_type_date_2);
-                        Log.d("AddReminderNoti_3", str_before_after_3 + str_number_3 + str_type_date_3);
-
-                        dialog.cancel();
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        time_notification.setText(String.format("%02d:%02d", hourOfDay, minute));
                     }
-                });
-
-                Button button_close = (Button)view.findViewById(R.id.back_notification);
-                button_close.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.cancel();
-                    }
-                });
+                },_hour,_minute,true);
+                timePickerDialog.show();
             }
         });
 
@@ -438,15 +334,15 @@ public class AddReminderFragment extends Fragment {
         fab_done_reminder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String con_str_taskname = et_addtaskname.getText().toString();
-                String con_str_subtaskname = et_addsubtaskname.getText().toString();
-                if(con_str_subtaskname.equals(null)) {
-                    con_str_subtaskname = " ";
-                }
-
-                String con_str_placename = et_addplace.getText().toString();
-                con_str_taskname = et_addtaskname.getText().toString();
-                con_str_subtaskname = et_addsubtaskname.getText().toString();
+//                String con_str_taskname = et_addtaskname.getText().toString();
+//                String con_str_subtaskname = et_addsubtaskname.getText().toString();
+//                if(con_str_subtaskname.equals(null)) {
+//                    con_str_subtaskname = " ";
+//                }
+//
+//                String con_str_placename = et_addplace.getText().toString();
+//                con_str_taskname = et_addtaskname.getText().toString();
+//                con_str_subtaskname = et_addsubtaskname.getText().toString();
 
                 boolean check = connection_addreminder_reminder();
 
