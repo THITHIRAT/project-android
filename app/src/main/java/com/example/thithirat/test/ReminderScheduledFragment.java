@@ -123,10 +123,15 @@ public class ReminderScheduledFragment extends Fragment {
 
                                         start_date = (String) array.get("start_date");
                                         String[] start = start_date.split("-");
-                                        String start_year = start[0];
-                                        String start_month = start[1];
-                                        String start_day = start[2];
-                                        String start_DDMMYYYY = start_day + "/" + start_month + "/" + start_year;
+                                        String start_DDMMYYYY;
+                                        if(start.length == 1) {
+                                            start_DDMMYYYY = "dont have";
+                                        }else {
+                                            String start_year = start[0];
+                                            String start_month = start[1];
+                                            String start_day = start[2];
+                                            start_DDMMYYYY = start_day + "/" + start_month + "/" + start_year;
+                                        }
 //
                                         int reminder_id = (int) array.get("_id");
                                         int index = i+1;

@@ -1,6 +1,7 @@
 package com.example.thithirat.test;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -72,12 +73,17 @@ public class EventScheduledFragment extends Fragment {
         listview = (ListView)view.findViewById(R.id.list_view);
         mLocation = new ArrayList<>();
 
-        connection_task_event(str_token);
+        boolean check_msg = connection_task_event(str_token);
+        if(check_msg == false) {
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
+        }
 
         return view;
     }
 
-    private void connection_task_event(String str_token) {
+    private boolean connection_task_event(String str_token) {
+        final boolean[] check = {true};
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
             String URL = "http://161.246.5.195:3000/task/event";
@@ -116,6 +122,9 @@ public class EventScheduledFragment extends Fragment {
                                     LocationReminderAdapter locationadapter = new LocationReminderAdapter(getContext().getApplicationContext(), mLocation);
                                     listview.setAdapter(locationadapter);
                                 }
+                                if(msg_task_event.equals("task/event : dont have token")) {
+                                    check[0] = false;
+                                }
                             }catch (JSONException e){
                                 e.printStackTrace();
                             }
@@ -146,6 +155,6 @@ public class EventScheduledFragment extends Fragment {
         }catch (JSONException e) {
             e.printStackTrace();
         }
+        return check[0];
     }
-
 }

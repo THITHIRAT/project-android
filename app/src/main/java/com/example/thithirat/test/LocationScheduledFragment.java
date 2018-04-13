@@ -86,12 +86,17 @@ public class LocationScheduledFragment extends Fragment {
         listview = (ListView)view.findViewById(R.id.list_view);
         mLocation = new ArrayList<>();
 
-        connection_task_location(str_token);
+        boolean check_msg = connection_task_location(str_token);
+        if(check_msg == false) {
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
+        }
 
         return view;
     }
 
-    private void connection_task_location(String str_token) {
+    private boolean connection_task_location(String str_token) {
+        final boolean[] check = {true};
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
             String URL = "http://161.246.5.195:3000/task/location";
@@ -124,6 +129,9 @@ public class LocationScheduledFragment extends Fragment {
                                     locationadapter = new LocationReminderAdapter(getContext().getApplicationContext(), mLocation);
                                     listview.setAdapter(locationadapter);
                                 }
+                                if(msg_task_location.equals("task/location : dont have token")) {
+                                    check[0] = false;
+                                }
                             }catch (JSONException e){
                                 e.printStackTrace();
                             }
@@ -154,6 +162,7 @@ public class LocationScheduledFragment extends Fragment {
         }catch (JSONException e) {
             e.printStackTrace();
         }
+        return check[0];
     }
 
     public static String getValueToken() {

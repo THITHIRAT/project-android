@@ -67,6 +67,7 @@ public class AddReminderFragment extends Fragment {
 
     List<Notification> mnotification;
     NotificationAdapter mnotificationadapter;
+    NonScrollListView lv_notification;
 
     ListView listview;
 
@@ -156,7 +157,7 @@ public class AddReminderFragment extends Fragment {
 
         TextView repeat = (TextView) view.findViewById(R.id.rm_repeat);
 
-        Button add_notification = (Button) view.findViewById(R.id.add_notification);
+        final Button add_notification = (Button) view.findViewById(R.id.add_notification);
 
         spinner_before_after = (Spinner)view.findViewById(R.id.spinner_before_after);
         adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.types_event_notification_before_after));
@@ -170,7 +171,7 @@ public class AddReminderFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_type_date.setAdapter(adapter);
 
-        final NonScrollListView lv_notification = (NonScrollListView) view.findViewById(R.id.listview_notification);
+        lv_notification = (NonScrollListView) view.findViewById(R.id.listview_notification);
         mnotification = new ArrayList<>();
 
         Calendar calendar = Calendar.getInstance();
@@ -322,18 +323,22 @@ public class AddReminderFragment extends Fragment {
             }
         });
 
+
         add_notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int index = 1;
-                String before_after = spinner_before_after.getSelectedItem().toString();
-                String number = et_number.getText().toString();
-                String type = spinner_type_date.getSelectedItem().toString();
-                mnotification.add(new Notification(index, before_after, number, type));
-                mnotificationadapter = new NotificationAdapter(getContext().getApplicationContext(), mnotification);
-                lv_notification.setAdapter(mnotificationadapter);
+                if(mnotificationadapter == null || mnotificationadapter.getCount() < 3 ) {
+                    int index = 1;
+                    String before_after = spinner_before_after.getSelectedItem().toString();
+                    String number = et_number.getText().toString();
+                    String type = spinner_type_date.getSelectedItem().toString();
+                    mnotification.add(new Notification(index, before_after, number, type));
+                    mnotificationadapter = new NotificationAdapter(getContext().getApplicationContext(), mnotification);
+                    lv_notification.setAdapter(mnotificationadapter);
+                }
             }
         });
+
 
         FloatingActionButton fab_done_reminder = (FloatingActionButton)view.findViewById(R.id.fab_done);
         fab_done_reminder.setOnClickListener(new View.OnClickListener() {
@@ -562,6 +567,9 @@ public class AddReminderFragment extends Fragment {
                                         String before_after_1 = split_noti1[0];
                                         String number_1 = split_noti1[1];
                                         String type_date_1 = split_noti1[2];
+                                        mnotification.add(new Notification(0, before_after_1, number_1, type_date_1));
+                                        mnotificationadapter = new NotificationAdapter(getContext().getApplicationContext(), mnotification);
+                                        lv_notification.setAdapter(mnotificationadapter);
                                     }
 
                                     String noti_2 = (String) array_notification.get("notification_2");
@@ -570,6 +578,9 @@ public class AddReminderFragment extends Fragment {
                                         String before_after_2 = split_noti2[0];
                                         String number_2 = split_noti2[1];
                                         String type_date_2 = split_noti2[2];
+                                        mnotification.add(new Notification(0, before_after_2, number_2, type_date_2));
+                                        mnotificationadapter = new NotificationAdapter(getContext().getApplicationContext(), mnotification);
+                                        lv_notification.setAdapter(mnotificationadapter);
                                     }
                                 }
                             } catch (JSONException e) {
@@ -614,6 +625,7 @@ public class AddReminderFragment extends Fragment {
             final String requestBody = jsonBody.toString();
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
                     new Response.Listener<String>() {
+                        @SuppressLint("LongLogTag")
                         @Override
                         public void onResponse(String response) {
                             Log.i("VOLLEY", response);
@@ -666,12 +678,21 @@ public class AddReminderFragment extends Fragment {
                                     String str_enddate_show = split_enddate + "/" + split_endmonth + "/" + split_endyear;
                                     btnenddate.setText(str_enddate_show);
 
+                                    if(mnotificationadapter.getCount() != 0) {
+                                        Log.e("Count Notification Sugguest", String.valueOf(mnotificationadapter.getCount()));
+                                        mnotification.clear();
+                                        mnotificationadapter.notifyDataSetChanged();
+                                    }
+
                                     String noti_1 = (String) array_notification.get("notification_1");
                                     if(noti_1 != null) {
                                         String[] split_noti1 = noti_1.split(" ");
                                         String before_after_1 = split_noti1[0];
                                         String number_1 = split_noti1[1];
                                         String type_date_1 = split_noti1[2];
+                                        mnotification.add(new Notification(0, before_after_1, number_1, type_date_1));
+                                        mnotificationadapter = new NotificationAdapter(getContext().getApplicationContext(), mnotification);
+                                        lv_notification.setAdapter(mnotificationadapter);
 
                                     }
 
@@ -681,6 +702,9 @@ public class AddReminderFragment extends Fragment {
                                         String before_after_2 = split_noti2[0];
                                         String number_2 = split_noti2[1];
                                         String type_date_2 = split_noti2[2];
+                                        mnotification.add(new Notification(0, before_after_2, number_2, type_date_2));
+                                        mnotificationadapter = new NotificationAdapter(getContext().getApplicationContext(), mnotification);
+                                        lv_notification.setAdapter(mnotificationadapter);
 
                                     }
                                 }
@@ -724,15 +748,37 @@ public class AddReminderFragment extends Fragment {
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("token", str_token);
             jsonBody.put("type", "Reminder");
-            jsonBody.put("allday", "");
 
-            jsonBody.put("startdate", fn_con_str_startdate);
-            jsonBody.put("startmonth", fn_con_str_startmonth);
-            jsonBody.put("startyear", fn_con_str_startyear);
+            String[] split_startdate = btnstartdate.getText().toString().split("/");
+            if(split_startdate.length == 1) {
+                con_str_startdate = null;
+                con_str_startmonth = null;
+                con_str_startyear = null;
+            }else {
+                con_str_startdate = split_startdate[0];
+                con_str_startmonth = split_startdate[1];
+                int int_str_startyear = Integer.parseInt(split_startdate[2]) - 543;
+                con_str_startyear = String.valueOf(int_str_startyear);
+            }
+            jsonBody.put("startdate", con_str_startdate);
+            jsonBody.put("startmonth", con_str_startmonth);
+            jsonBody.put("startyear", con_str_startyear);
 
-            jsonBody.put("enddate", fn_con_str_enddate);
-            jsonBody.put("endmonth", fn_con_str_endmonth);
-            jsonBody.put("endyear", fn_con_str_endyear);
+            String[] split_enddate = btnenddate.getText().toString().split("/");
+            if(split_enddate.length == 1) {
+                con_str_enddate = null;
+                con_str_endmonth = null;
+                con_str_endyear = null;
+            }else {
+                con_str_enddate = split_enddate[0];
+                con_str_endmonth = split_enddate[1];
+                int int_str_endyear = Integer.parseInt(split_enddate[2]) - 543;
+                con_str_endyear = String.valueOf(int_str_endyear);
+            }
+            Log.e("Enddate" , con_str_enddate + "/" + con_str_endmonth + "/" + con_str_endyear);
+            jsonBody.put("enddate", con_str_enddate);
+            jsonBody.put("endmonth", con_str_endmonth);
+            jsonBody.put("endyear", con_str_endyear);
 
             String get_con_str_placename = et_addplace.getText().toString();
             jsonBody.put("placename", get_con_str_placename);
@@ -744,6 +790,48 @@ public class AddReminderFragment extends Fragment {
             jsonBody.put("subtaskname", get_subtaskname);
             jsonBody.put("complete", "0");
 
+            Log.e("Reminder", con_str_enddate + "/" + con_str_endmonth + "/" + con_str_endyear + " placename : " + get_con_str_placename + " taskname : " + get_taskname);
+
+            String before_after_1 = null, number_notification_1 = null, type_num_1 = null;
+            String before_after_2 = null, number_notification_2 = null, type_num_2 = null;
+            String before_after_3 = null, number_notification_3 = null, type_num_3 = null;
+            int count = mnotificationadapter.getCount();
+            if(count > 0) {
+                before_after_1 = mnotification.get(0).getBefore_after();
+                number_notification_1 = mnotification.get(0).getNumber();
+                type_num_1 = mnotification.get(0).getType();
+                Log.e("get data notification 1", "Count " + count + " : " + before_after_1 + number_notification_1 + type_num_1);
+                if(count > 1) {
+                    before_after_2 = mnotification.get(1).getBefore_after();
+                    number_notification_2 = mnotification.get(1).getNumber();
+                    type_num_2 = mnotification.get(1).getType();
+                    Log.e("get data notification 2", "Count " + count + " : " + before_after_2 + number_notification_2 + type_num_2);
+                    if(count > 2) {
+                        before_after_3 = mnotification.get(2).getBefore_after();
+                        number_notification_3 = mnotification.get(2).getNumber();
+                        type_num_3 = mnotification.get(2).getType();
+                        Log.e("get data notification 3", "Count " + count + " : " + before_after_3 + number_notification_3 + type_num_3);
+                    }else {
+                        number_notification_3 = "0";
+                    }
+                }else {
+                    number_notification_2 = "0";
+                }
+            }else {
+                number_notification_1 = "0";
+            }
+
+            jsonBody.put("before_after_1", before_after_1);
+            jsonBody.put("num_notification_1", number_notification_1);
+            jsonBody.put("type_num_1", type_num_1);
+
+            jsonBody.put("before_after_2", before_after_2);
+            jsonBody.put("num_notification_2", number_notification_2);
+            jsonBody.put("type_num_2", type_num_2);
+
+            jsonBody.put("before_after_3", before_after_3);
+            jsonBody.put("num_notification_3", number_notification_3);
+            jsonBody.put("type_num_3", type_num_3);
 
             final String requestBody = jsonBody.toString();
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
@@ -757,7 +845,7 @@ public class AddReminderFragment extends Fragment {
                                 String msg_reminder = json.getString("msg");
                                 int status_reminder = json.getInt("status");
                                 Log.i("VOLLEY", msg_reminder);
-                                if (msg_reminder.equals("addreminder reminder : data not enough")) {
+                                if (msg_reminder.equals("addreminder/reminder : data not enough")) {
                                     Toast.makeText(getActivity(), "Please fill data", Toast.LENGTH_SHORT).show();
                                     msg[0] = "addreminder reminder : data not enough";
                                 }
