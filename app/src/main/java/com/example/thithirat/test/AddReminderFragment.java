@@ -22,6 +22,7 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -64,16 +65,14 @@ public class AddReminderFragment extends Fragment {
     List<Taskname> msubtaskname;
     SubtasknameAdapter msubtasknameAdapter;
 
+    List<Notification> mnotification;
+    NotificationAdapter mnotificationadapter;
+
     ListView listview;
 
     Spinner spinner_before_after;
+    EditText et_number;
     Spinner spinner_type_date;
-
-    Spinner spinner_before_after_2;
-    Spinner spinner_type_date_2;
-
-    Spinner spinner_before_after_3;
-    Spinner spinner_type_date_3;
 
     static TextView et_addplace;
 
@@ -106,18 +105,6 @@ public class AddReminderFragment extends Fragment {
     String str_enddate;
 
     TextView time_notification;
-
-    TextView et_before_after_1;
-    TextView et_number_1;
-    TextView et_type_date_1;
-
-    TextView et_before_after_2;
-    TextView et_number_2;
-    TextView et_type_date_2;
-
-    TextView et_before_after_3;
-    TextView et_number_3;
-    TextView et_type_date_3;
 
     EditText subtaskname_other;
     EditText taskname_other;
@@ -161,18 +148,6 @@ public class AddReminderFragment extends Fragment {
 
         time_notification = (TextView) view.findViewById(R.id.rm_time);
 
-        et_before_after_1 = (TextView) view.findViewById(R.id.rm_before_after_1);
-        et_number_1 = (TextView) view.findViewById(R.id.rm_number_1);
-        et_type_date_1 = (TextView)view.findViewById(R.id.rm_type_date_1);
-
-        et_before_after_2 = (TextView) view.findViewById(R.id.rm_before_after_2);
-        et_number_2 = (TextView) view.findViewById(R.id.rm_number_2);
-        et_type_date_2 = (TextView)view.findViewById(R.id.rm_type_date_2);
-
-        et_before_after_3 = (TextView) view.findViewById(R.id.rm_before_after_3);
-        et_number_3 = (TextView) view.findViewById(R.id.rm_number_3);
-        et_type_date_3 = (TextView)view.findViewById(R.id.rm_type_date_3);
-
         et_addtaskname = (TextView) view.findViewById(R.id.rm_add_task_name);
         et_addsubtaskname = (TextView) view.findViewById(R.id.rm_add_subtask_name);
         et_addplace = (TextView) view.findViewById(R.id.rm_add_place);
@@ -180,6 +155,23 @@ public class AddReminderFragment extends Fragment {
         ImageButton marker_maps = (ImageButton)view.findViewById(R.id.rm_marker_map);
 
         TextView repeat = (TextView) view.findViewById(R.id.rm_repeat);
+
+        Button add_notification = (Button) view.findViewById(R.id.add_notification);
+
+        spinner_before_after = (Spinner)view.findViewById(R.id.spinner_before_after);
+        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.types_event_notification_before_after));
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_before_after.setAdapter(adapter);
+
+        et_number = (EditText) view.findViewById(R.id.edittext_number);
+
+        spinner_type_date = (Spinner)view.findViewById(R.id.spinner_type_date);
+        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.types_reminder_notification_type_date));
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_type_date.setAdapter(adapter);
+
+        final NonScrollListView lv_notification = (NonScrollListView) view.findViewById(R.id.listview_notification);
+        mnotification = new ArrayList<>();
 
         Calendar calendar = Calendar.getInstance();
         final int _year = calendar.get(Calendar.YEAR);
@@ -330,19 +322,23 @@ public class AddReminderFragment extends Fragment {
             }
         });
 
+        add_notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int index = 1;
+                String before_after = spinner_before_after.getSelectedItem().toString();
+                String number = et_number.getText().toString();
+                String type = spinner_type_date.getSelectedItem().toString();
+                mnotification.add(new Notification(index, before_after, number, type));
+                mnotificationadapter = new NotificationAdapter(getContext().getApplicationContext(), mnotification);
+                lv_notification.setAdapter(mnotificationadapter);
+            }
+        });
+
         FloatingActionButton fab_done_reminder = (FloatingActionButton)view.findViewById(R.id.fab_done);
         fab_done_reminder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                String con_str_taskname = et_addtaskname.getText().toString();
-//                String con_str_subtaskname = et_addsubtaskname.getText().toString();
-//                if(con_str_subtaskname.equals(null)) {
-//                    con_str_subtaskname = " ";
-//                }
-//
-//                String con_str_placename = et_addplace.getText().toString();
-//                con_str_taskname = et_addtaskname.getText().toString();
-//                con_str_subtaskname = et_addsubtaskname.getText().toString();
 
                 boolean check = connection_addreminder_reminder();
 
@@ -531,52 +527,12 @@ public class AddReminderFragment extends Fragment {
                                     String str_enddate_show = split_enddate + "/" + split_endmonth + "/" + split_endyear;
                                     btnenddate.setText(str_enddate_show);
 
-                                    et_before_after_1.setVisibility(View.VISIBLE);
-                                    et_number_1.setVisibility(View.VISIBLE);
-                                    et_type_date_1.setVisibility(View.VISIBLE);
-                                    et_before_after_1.setText("");
-                                    et_number_1.setText("");
-                                    et_type_date_1.setText("");
-
-                                    et_before_after_2.setVisibility(View.VISIBLE);
-                                    et_number_2.setVisibility(View.VISIBLE);
-                                    et_type_date_2.setVisibility(View.VISIBLE);
-                                    et_before_after_2.setText("");
-                                    et_number_2.setText("");
-                                    et_type_date_2.setText("");
-
-                                    et_before_after_3.setVisibility(View.VISIBLE);
-                                    et_number_3.setVisibility(View.VISIBLE);
-                                    et_type_date_3.setVisibility(View.VISIBLE);
-                                    et_before_after_3.setText("");
-                                    et_number_3.setText("");
-                                    et_type_date_3.setText("");
                                 }
                                 if (msg_taskname.equals("suggestreminder/tasknamenotification : complete")) {
                                     Log.e("Notification taskname", "dont have data");
                                     et_addsubtaskname.setText("");
                                     et_addsubtaskname.setHint("Add Subtask");
 
-                                    et_before_after_1.setVisibility(View.VISIBLE);
-                                    et_number_1.setVisibility(View.VISIBLE);
-                                    et_type_date_1.setVisibility(View.VISIBLE);
-                                    et_before_after_1.setText("");
-                                    et_number_1.setText("");
-                                    et_type_date_1.setText("");
-
-                                    et_before_after_2.setVisibility(View.VISIBLE);
-                                    et_number_2.setVisibility(View.VISIBLE);
-                                    et_type_date_2.setVisibility(View.VISIBLE);
-                                    et_before_after_2.setText("");
-                                    et_number_2.setText("");
-                                    et_type_date_2.setText("");
-
-                                    et_before_after_3.setVisibility(View.VISIBLE);
-                                    et_number_3.setVisibility(View.VISIBLE);
-                                    et_type_date_3.setVisibility(View.VISIBLE);
-                                    et_before_after_3.setText("");
-                                    et_number_3.setText("");
-                                    et_type_date_3.setText("");
                                 }
                                 if (msg_taskname.equals("suggestreminder/tasknamenotification : add data complete")) {
                                     JSONObject array_output = (JSONObject) json.getJSONObject("output");
@@ -606,14 +562,6 @@ public class AddReminderFragment extends Fragment {
                                         String before_after_1 = split_noti1[0];
                                         String number_1 = split_noti1[1];
                                         String type_date_1 = split_noti1[2];
-
-                                        et_before_after_1.setVisibility(View.VISIBLE);
-                                        et_number_1.setVisibility(View.VISIBLE);
-                                        et_type_date_1.setVisibility(View.VISIBLE);
-                                        et_before_after_1.setText(before_after_1);
-                                        et_number_1.setText(number_1);
-                                        et_type_date_1.setText(type_date_1);
-                                        Log.e("Notification 1", et_before_after_1.getText().toString() + " " + et_number_1.getText().toString() + " " + et_type_date_1.getText().toString());
                                     }
 
                                     String noti_2 = (String) array_notification.get("notification_2");
@@ -622,14 +570,6 @@ public class AddReminderFragment extends Fragment {
                                         String before_after_2 = split_noti2[0];
                                         String number_2 = split_noti2[1];
                                         String type_date_2 = split_noti2[2];
-
-                                        et_before_after_2.setVisibility(View.VISIBLE);
-                                        et_number_2.setVisibility(View.VISIBLE);
-                                        et_type_date_2.setVisibility(View.VISIBLE);
-                                        et_before_after_2.setText(before_after_2);
-                                        et_number_2.setText(number_2);
-                                        et_type_date_2.setText(type_date_2);
-                                        Log.e("Notification 2", et_before_after_2.getText().toString() + " " + et_number_2.getText().toString() + " " + et_type_date_2.getText().toString());
                                     }
                                 }
                             } catch (JSONException e) {
@@ -701,51 +641,10 @@ public class AddReminderFragment extends Fragment {
                                     String split_enddate = split_end[0];
                                     String str_enddate_show = split_enddate + "/" + split_endmonth + "/" + split_endyear;
                                     btnenddate.setText(str_enddate_show);
-
-                                    et_before_after_1.setVisibility(View.VISIBLE);
-                                    et_number_1.setVisibility(View.VISIBLE);
-                                    et_type_date_1.setVisibility(View.VISIBLE);
-                                    et_before_after_1.setText("");
-                                    et_number_1.setText("");
-                                    et_type_date_1.setText("");
-
-                                    et_before_after_2.setVisibility(View.VISIBLE);
-                                    et_number_2.setVisibility(View.VISIBLE);
-                                    et_type_date_2.setVisibility(View.VISIBLE);
-                                    et_before_after_2.setText("");
-                                    et_number_2.setText("");
-                                    et_type_date_2.setText("");
-
-                                    et_before_after_3.setVisibility(View.VISIBLE);
-                                    et_number_3.setVisibility(View.VISIBLE);
-                                    et_type_date_3.setVisibility(View.VISIBLE);
-                                    et_before_after_3.setText("");
-                                    et_number_3.setText("");
-                                    et_type_date_3.setText("");
                                 }
                                 if (msg_subtaskname.equals("suggestreminder/subtasknamenotification : complete")) {
                                     Log.e("Notification taskname", "dont have data");
 
-                                    et_before_after_1.setVisibility(View.VISIBLE);
-                                    et_number_1.setVisibility(View.VISIBLE);
-                                    et_type_date_1.setVisibility(View.VISIBLE);
-                                    et_before_after_1.setText("");
-                                    et_number_1.setText("");
-                                    et_type_date_1.setText("");
-
-                                    et_before_after_2.setVisibility(View.VISIBLE);
-                                    et_number_2.setVisibility(View.VISIBLE);
-                                    et_type_date_2.setVisibility(View.VISIBLE);
-                                    et_before_after_2.setText("");
-                                    et_number_2.setText("");
-                                    et_type_date_2.setText("");
-
-                                    et_before_after_3.setVisibility(View.VISIBLE);
-                                    et_number_3.setVisibility(View.VISIBLE);
-                                    et_type_date_3.setVisibility(View.VISIBLE);
-                                    et_before_after_3.setText("");
-                                    et_number_3.setText("");
-                                    et_type_date_3.setText("");
                                 }
                                 if (msg_subtaskname.equals("suggestreminder/subtasknamenotification : add data complete")) {
                                     JSONObject array_output = (JSONObject) json.getJSONObject("output");
@@ -774,13 +673,6 @@ public class AddReminderFragment extends Fragment {
                                         String number_1 = split_noti1[1];
                                         String type_date_1 = split_noti1[2];
 
-                                        et_before_after_1.setVisibility(View.VISIBLE);
-                                        et_number_1.setVisibility(View.VISIBLE);
-                                        et_type_date_1.setVisibility(View.VISIBLE);
-                                        et_before_after_1.setText(before_after_1);
-                                        et_number_1.setText(number_1);
-                                        et_type_date_1.setText(type_date_1);
-                                        Log.e("Notification 1", et_before_after_1.getText().toString() + " " + et_number_1.getText().toString() + " " + et_type_date_1.getText().toString());
                                     }
 
                                     String noti_2 = (String) array_notification.get("notification_2");
@@ -790,13 +682,6 @@ public class AddReminderFragment extends Fragment {
                                         String number_2 = split_noti2[1];
                                         String type_date_2 = split_noti2[2];
 
-                                        et_before_after_2.setVisibility(View.VISIBLE);
-                                        et_number_2.setVisibility(View.VISIBLE);
-                                        et_type_date_2.setVisibility(View.VISIBLE);
-                                        et_before_after_2.setText(before_after_2);
-                                        et_number_2.setText(number_2);
-                                        et_type_date_2.setText(type_date_2);
-                                        Log.e("Notification 1", et_before_after_2.getText().toString() + " " + et_number_2.getText().toString() + " " + et_type_date_2.getText().toString());
                                     }
                                 }
                             } catch (JSONException e) {
@@ -859,17 +744,6 @@ public class AddReminderFragment extends Fragment {
             jsonBody.put("subtaskname", get_subtaskname);
             jsonBody.put("complete", "0");
 
-            jsonBody.put("before_after_1", et_before_after_1.getText().toString());
-            jsonBody.put("num_notification_1", et_number_1.getText().toString());
-            jsonBody.put("type_num_1", et_type_date_1.getText().toString());
-
-            jsonBody.put("before_after_2", et_before_after_2.getText().toString());
-            jsonBody.put("num_notification_2", et_number_2.getText().toString());
-            jsonBody.put("type_num_2", et_type_date_2.getText().toString());
-
-            jsonBody.put("before_after_3", et_before_after_3.getText().toString());
-            jsonBody.put("num_notification_3", et_number_3.getText().toString());
-            jsonBody.put("type_num_3", et_type_date_3.getText().toString());
 
             final String requestBody = jsonBody.toString();
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
@@ -934,5 +808,4 @@ public class AddReminderFragment extends Fragment {
         Log.d("Value place ", placename);
         et_addplace.setText(placename);
     }
-
 }

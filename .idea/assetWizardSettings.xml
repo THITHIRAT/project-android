@@ -44,9 +44,9 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="outputName" value="ic_action_remove_navy" />
+                                      <entry key="outputName" value="ic_action_remove_red" />
                                       <entry key="theme" value="CUSTOM" />
-                                      <entry key="themeColor" value="2c3e50" />
+                                      <entry key="themeColor" value="e74c3c" />
                                     </map>
                                   </option>
                                 </PersistentState>

@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:background="@color/colorwhite"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="50dp">
 
     <TextView
         android:id="@+id/lv_before_after"
@@ -18,7 +18,7 @@
         android:padding="5dp"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="5dp"
-        android:textColor="@color/colornavy"
+        android:textColor="@color/colordarkblue"
         android:text="lv_before_after" />
 
     <TextView
@@ -31,7 +31,7 @@
         android:gravity="center_vertical"
         android:padding="5dp"
         android:layout_marginTop="5dp"
-        android:textColor="@color/colornavy"
+        android:textColor="@color/colordarkblue"
         android:text="lv_number" />
 
     <TextView
@@ -43,17 +43,21 @@
         android:gravity="center_vertical"
         android:padding="5dp"
         android:layout_marginTop="5dp"
-        android:textColor="@color/colornavy"
+        android:textColor="@color/colordarkblue"
         android:text="lv_type" />
 
-    <ImageView
-        android:id="@+id/imageView3"
+    <TextView
+        android:id="@+id/lv_remove"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:padding="5dp"
+        android:background="@null"
+        android:gravity="center_vertical"
         android:layout_marginTop="5dp"
-        app:srcCompat="@drawable/ic_action_remove_navy" />
+        android:layout_marginRight="25dp"
+        android:padding="5dp"
+        android:text="remove"
+        android:textColor="@color/colorred" />
 </RelativeLayout>
