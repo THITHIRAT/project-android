@@ -168,7 +168,7 @@ public class UpdateEventFragment extends Fragment {
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         month = month + 1;
                         int yyyy = year + 543;
-                        btnstartdate.setText(dayOfMonth + "/" + month + "/" + yyyy );
+                        btnstartdate.setText(String.format("%02d/%02d/%04d", dayOfMonth, month, yyyy));
                         con_str_startdate = String.valueOf(dayOfMonth);
                         con_str_startmonth = String.valueOf(month);
                         con_str_startyear = String.valueOf(year);
@@ -188,7 +188,7 @@ public class UpdateEventFragment extends Fragment {
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         month = _month + 1;
                         int yyyy = year + 543;
-                        btnenddate.setText(dayOfMonth + "/" + month + "/" + yyyy );
+                        btnenddate.setText(String.format("%02d/%02d/%04d", dayOfMonth, month, yyyy));
                         con_str_enddate = String.valueOf(dayOfMonth);
                         con_str_endmonth = String.valueOf(month);
                         con_str_endyear = String.valueOf(year);
@@ -209,7 +209,7 @@ public class UpdateEventFragment extends Fragment {
                 timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        btnstarttime.setText(hourOfDay + ":" + minute);
+                        btnstarttime.setText(String.format("%02d:%02d", hourOfDay, minute));
                         con_str_starthour = String.valueOf(hourOfDay);
                         con_str_startmin = String.valueOf(minute);
                     }
@@ -229,7 +229,7 @@ public class UpdateEventFragment extends Fragment {
                 timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        btnendtime.setText(hourOfDay + ":" + minute);
+                        btnendtime.setText(String.format("%02d:%02d", hourOfDay, minute));
                         con_str_endhour = String.valueOf(hourOfDay);
                         con_str_endmin = String.valueOf(minute);
                     }
@@ -297,8 +297,8 @@ public class UpdateEventFragment extends Fragment {
                                 @Override
                                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                                     month = _month + 1;
-                                    int year_25 = year + 543;
-                                    button_date_allday.setText(dayOfMonth + "/" + month + "/" + year_25);
+                                    int yyyy = year + 543;
+                                    button_date_allday.setText(String.format("%02d/%02d/%04d", dayOfMonth, month, yyyy));
                                     con_str_alldaydate = String.valueOf(dayOfMonth);
                                     con_str_alldaymonth = String.valueOf(month);
                                     con_str_alldayyear = String.valueOf(year);
@@ -320,7 +320,7 @@ public class UpdateEventFragment extends Fragment {
                             timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
                                 @Override
                                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                    button_time_allday.setText(hourOfDay + ":" + minute);
+                                    button_time_allday.setText(String.format("%02d:%02d", hourOfDay, minute));
                                     con_str_alldayhour = String.valueOf(hourOfDay);
                                     con_str_alldaymin = String.valueOf(minute);
                                 }
@@ -413,13 +413,34 @@ public class UpdateEventFragment extends Fragment {
         Button delete =  (Button) view.findViewById(R.id.delete);
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                connection_delete(reminder_id);
-                ScheduledFragment scheduled_fragment = new ScheduledFragment();
-                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.frag, scheduled_fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+            public void onClick(View v) {AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                final View rootview = getLayoutInflater().inflate(R.layout.confirm_delete, null);
+
+                builder.setView(rootview);
+                final AlertDialog dialog_delete = builder.create();
+                dialog_delete.show();
+
+                Button ok = (Button) rootview.findViewById(R.id.ok);
+                ok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        connection_delete(reminder_id);
+                        ScheduledFragment scheduled_fragment = new ScheduledFragment();
+                        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.frag, scheduled_fragment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
+                        dialog_delete.cancel();
+                    }
+                });
+
+                Button cancel = (Button) rootview.findViewById(R.id.cancel);
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog_delete.cancel();
+                    }
+                });
             }
         });
 
@@ -427,12 +448,34 @@ public class UpdateEventFragment extends Fragment {
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                connection_update(reminder_id);
-                ScheduledFragment scheduled_fragment = new ScheduledFragment();
-                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.frag, scheduled_fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                final View rootview = getLayoutInflater().inflate(R.layout.confirm_update, null);
+
+                builder.setView(rootview);
+                final AlertDialog dialog_update = builder.create();
+                dialog_update.show();
+
+                Button ok = (Button) rootview.findViewById(R.id.ok);
+                ok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        connection_update(reminder_id);
+                        ScheduledFragment scheduled_fragment = new ScheduledFragment();
+                        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.frag, scheduled_fragment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
+                        dialog_update.cancel();
+                    }
+                });
+
+                Button cancel = (Button) rootview.findViewById(R.id.cancel);
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog_update.cancel();
+                    }
+                });
             }
         });
 
@@ -453,7 +496,8 @@ public class UpdateEventFragment extends Fragment {
         String[] array_startdate = startdate.split("/");
         con_str_startdate = array_startdate[0];
         con_str_startmonth = array_startdate[1];
-        con_str_startyear = array_startdate[2];
+        int int_startyear = Integer.parseInt(array_startdate[2]) - 543;
+        con_str_startyear = String.valueOf(int_startyear);
 
         String starttime = (String) btnstarttime.getText();
 
@@ -472,7 +516,8 @@ public class UpdateEventFragment extends Fragment {
         String[] array_startdate = enddate.split("/");
         con_str_enddate = array_startdate[0];
         con_str_endmonth = array_startdate[1];
-        con_str_endyear = array_startdate[2];
+        int int_endyear = Integer.parseInt(array_startdate[2]) - 543;
+        con_str_endyear = String.valueOf(int_endyear);
 
         String endtime = (String) btnendtime.getText();
         String[] array_endtime = endtime.split(":");
@@ -490,13 +535,15 @@ public class UpdateEventFragment extends Fragment {
         String[] array_d = date.split("/");
         con_str_alldaydate = array_d[0];
         con_str_alldaymonth = array_d[1];
-        con_str_alldayyear = array_d[2];
+        int allday_year = Integer.parseInt(array_d[2]) - 543;
+        con_str_alldayyear = String.valueOf(allday_year);
 
         String time = (String) et_type_date.getText();
         String[] array_t = time.split(":");
         con_str_alldayhour = array_t[0];
         con_str_alldaymin = array_t[1];
     }
+
     private void connection_show() {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());

@@ -50,6 +50,7 @@ public class EventScheduledFragment extends Fragment {
 
     String task;
     String start_date;
+    String end_date;
 
     public EventScheduledFragment() {
         // Required empty public constructor
@@ -114,9 +115,16 @@ public class EventScheduledFragment extends Fragment {
                                         String start_day = start[2];
                                         String start_DDMMYYYY = start_day + "/" + start_month + "/" + start_year;
 
+                                        end_date = (String) array.get("end_date");
+                                        String[] end = start_date.split("-");
+                                        String end_year = end[0];
+                                        String end_month = end[1];
+                                        String end_day = end[2];
+                                        String end_DDMMYYYY = end_day + "/" + end_month + "/" + end_year;
+
                                         int reminder_id = (int) array.get("_id");
                                         int index = i+1;
-                                        mLocation.add(new LocationReminder(index, reminder_id, " ", start_DDMMYYYY, task, "Event"));
+                                        mLocation.add(new LocationReminder(index, reminder_id, " ", start_DDMMYYYY + " - " + end_DDMMYYYY , task, "Event"));
                                         Log.e("Event Value", task + " / " + start_DDMMYYYY);
                                     }
                                     LocationReminderAdapter locationadapter = new LocationReminderAdapter(getContext().getApplicationContext(), mLocation);

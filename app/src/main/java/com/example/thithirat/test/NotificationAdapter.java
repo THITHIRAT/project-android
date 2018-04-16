@@ -53,7 +53,6 @@ public class NotificationAdapter extends BaseAdapter {
         remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("Hello", "remove" + position);
                 notification.remove(position);
                 notifyDataSetChanged();
             }

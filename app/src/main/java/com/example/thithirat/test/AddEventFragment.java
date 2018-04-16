@@ -137,7 +137,7 @@ public class AddEventFragment extends Fragment {
                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                        month = month + 1;
                        int yyyy = year + 543;
-                       btnstartdate.setText(dayOfMonth + "/" + month + "/" + yyyy );
+                       btnstartdate.setText(String.format("%02d/%02d/%04d", dayOfMonth, month, yyyy));
                        con_str_startdate = String.valueOf(dayOfMonth);
                        con_str_startmonth = String.valueOf(month);
                        con_str_startyear = String.valueOf(year);
@@ -157,7 +157,7 @@ public class AddEventFragment extends Fragment {
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         month = _month + 1;
                         int yyyy = year + 543;
-                        btnenddate.setText(dayOfMonth + "/" + month + "/" + yyyy );
+                        btnenddate.setText(String.format("%02d/%02d/%04d", dayOfMonth, month, yyyy));
                         con_str_enddate = String.valueOf(dayOfMonth);
                         con_str_endmonth = String.valueOf(month);
                         con_str_endyear = String.valueOf(year);
@@ -178,7 +178,7 @@ public class AddEventFragment extends Fragment {
                 timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        btnstarttime.setText(hourOfDay + ":" + minute);
+                        btnstarttime.setText(String.format("%02d:%02d", hourOfDay, minute));
                         con_str_starthour = String.valueOf(hourOfDay);
                         con_str_startmin = String.valueOf(minute);
                     }
@@ -198,7 +198,7 @@ public class AddEventFragment extends Fragment {
                 timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        btnendtime.setText(hourOfDay + ":" + minute);
+                        btnendtime.setText(String.format("%02d:%02d", hourOfDay, minute));
                         con_str_endhour = String.valueOf(hourOfDay);
                         con_str_endmin = String.valueOf(minute);
                     }

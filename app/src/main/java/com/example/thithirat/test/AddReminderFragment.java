@@ -87,10 +87,6 @@ public class AddReminderFragment extends Fragment {
     String con_str_endmonth = null;
     String con_str_endyear = null;
 
-    String fn_con_str_startdate = null;
-    String fn_con_str_startmonth = null;
-    String fn_con_str_startyear = null;
-
     String fn_con_str_enddate = null;
     String fn_con_str_endmonth = null;
     String fn_con_str_endyear = null;
@@ -269,7 +265,7 @@ public class AddReminderFragment extends Fragment {
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         month = month + 1;
                         int yyyy = year + 543;
-                        btnstartdate.setText(dayOfMonth + "/" + month + "/" + yyyy );
+                        btnstartdate.setText(String.format("%02d/%02d/%04d", dayOfMonth, month, yyyy));
                         con_str_startdate = String.valueOf(dayOfMonth);
                         con_str_startmonth = String.valueOf(month);
                         con_str_startyear = String.valueOf(year);
@@ -288,7 +284,7 @@ public class AddReminderFragment extends Fragment {
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         month = month + 1;
                         int yyyy = year + 543;
-                        btnenddate.setText(dayOfMonth + "/" + month + "/" + yyyy );
+                        btnenddate.setText(String.format("%02d/%02d/%04d", dayOfMonth, month, yyyy));
                         con_str_enddate = String.valueOf(dayOfMonth);
                         con_str_endmonth = String.valueOf(month);
                         con_str_endyear = String.valueOf(year);
@@ -637,7 +633,6 @@ public class AddReminderFragment extends Fragment {
                                 if(msg_subtaskname.equals("suggestreminder/subtasknamenotification : no before_after complete")) {
                                     JSONObject array_output = (JSONObject) json.getJSONObject("output");
 
-
                                     str_startdate = (String) array_output.get("startdate");
                                     String[] split_start = str_startdate.split("/");
                                     String split_startyear = split_start[2];
@@ -678,7 +673,9 @@ public class AddReminderFragment extends Fragment {
                                     String str_enddate_show = split_enddate + "/" + split_endmonth + "/" + split_endyear;
                                     btnenddate.setText(str_enddate_show);
 
-                                    if(mnotificationadapter.getCount() != 0) {
+                                    if(mnotificationadapter == null || mnotificationadapter.getCount() == 0) {
+
+                                    }else {
                                         Log.e("Count Notification Sugguest", String.valueOf(mnotificationadapter.getCount()));
                                         mnotification.clear();
                                         mnotificationadapter.notifyDataSetChanged();
@@ -780,6 +777,8 @@ public class AddReminderFragment extends Fragment {
             jsonBody.put("endmonth", con_str_endmonth);
             jsonBody.put("endyear", con_str_endyear);
 
+            jsonBody.put("time", time_notification.getText().toString());
+
             String get_con_str_placename = et_addplace.getText().toString();
             jsonBody.put("placename", get_con_str_placename);
 
@@ -795,6 +794,7 @@ public class AddReminderFragment extends Fragment {
             String before_after_1 = null, number_notification_1 = null, type_num_1 = null;
             String before_after_2 = null, number_notification_2 = null, type_num_2 = null;
             String before_after_3 = null, number_notification_3 = null, type_num_3 = null;
+
             int count = mnotificationadapter.getCount();
             if(count > 0) {
                 before_after_1 = mnotification.get(0).getBefore_after();

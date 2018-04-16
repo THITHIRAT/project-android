@@ -1,6 +1,7 @@
 package com.example.thithirat.test;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -95,12 +96,33 @@ public class UpdateLocationFragment extends Fragment {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                connection_delete(reminder_id);
-                ScheduledFragment scheduled_fragment = new ScheduledFragment();
-                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.frag, scheduled_fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                final View rootview = getLayoutInflater().inflate(R.layout.confirm_delete, null);
+
+                builder.setView(rootview);
+                final AlertDialog dialog_delete = builder.create();
+                dialog_delete.show();
+
+                Button ok = (Button) rootview.findViewById(R.id.ok);
+                ok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        connection_delete(reminder_id);
+                        ScheduledFragment scheduled_fragment = new ScheduledFragment();
+                        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.frag, scheduled_fragment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
+                    }
+                });
+
+                Button cancel = (Button) rootview.findViewById(R.id.cancel);
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog_delete.cancel();
+                    }
+                });
             }
         });
 
@@ -108,15 +130,34 @@ public class UpdateLocationFragment extends Fragment {
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                str_notification = spinner.getSelectedItem().toString();
-                str_taskname = editstrtaskname.getText().toString();
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                final View rootview = getLayoutInflater().inflate(R.layout.confirm_update, null);
 
-                connection_update(reminder_id);
-                ScheduledFragment scheduled_fragment = new ScheduledFragment();
-                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.frag, scheduled_fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                builder.setView(rootview);
+                final AlertDialog dialog_update = builder.create();
+                dialog_update.show();
+
+                Button ok = (Button) rootview.findViewById(R.id.ok);
+                ok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        connection_update(reminder_id);
+                        ScheduledFragment scheduled_fragment = new ScheduledFragment();
+                        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.frag, scheduled_fragment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
+                        dialog_update.cancel();
+                    }
+                });
+
+                Button cancel = (Button) rootview.findViewById(R.id.cancel);
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog_update.cancel();
+                    }
+                });
             }
         });
 
@@ -203,9 +244,12 @@ public class UpdateLocationFragment extends Fragment {
             String URL = "http://161.246.5.195:3000/updatereminder/task";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("id", reminder_id);
-            jsonBody.put("notification", str_notification);
-            jsonBody.put("placename", str_placename);
-            jsonBody.put("taskname", str_taskname);
+            jsonBody.put("type", "Location");
+            jsonBody.put("notification", spinner.getSelectedItem().toString());
+            jsonBody.put("placename", editstrplacename.getText().toString());
+            jsonBody.put("taskname", editstrtaskname.getText().toString());
+
+            Log.e("Update location", spinner.getSelectedItem().toString() + " " + editstrplacename.getText().toString() + " " + editstrtaskname.getText().toString());
 
             final String requestBody = jsonBody.toString();
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,

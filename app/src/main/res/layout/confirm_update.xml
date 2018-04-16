@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/colorwhite"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:padding="10dp"
+        android:text="Do you want to update this task ?"
+        android:textColor="@color/colornavy"
+        android:textSize="18dp" />
+
+    <Button
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
+        android:layout_toStartOf="@+id/ok"
+        android:layout_toLeftOf="@+id/ok"
+        android:background="@null"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:text="Cancel"
+        android:textSize="16dp"
+        android:textColor="@color/colorred" />
+
+    <Button
+        android:id="@+id/ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/textView"
+        android:layout_alignRight="@+id/textView"
+        android:layout_below="@+id/textView"
+        android:background="@null"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:text="update"
+        android:textSize="16dp"
+        android:textColor="@color/colordarkblue" />
+</RelativeLayout>

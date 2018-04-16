@@ -52,6 +52,7 @@ public class ReminderScheduledFragment extends Fragment {
     String task;
     String subtask;
     String start_date;
+    String end_date;
 
     public ReminderScheduledFragment() {
         // Required empty public constructor
@@ -132,10 +133,17 @@ public class ReminderScheduledFragment extends Fragment {
                                             String start_day = start[2];
                                             start_DDMMYYYY = start_day + "/" + start_month + "/" + start_year;
                                         }
+
+                                        end_date = (String) array.get("end_date");
+                                        String[] end = start_date.split("-");
+                                        String end_year = end[0];
+                                        String end_month = end[1];
+                                        String end_day = end[2];
+                                        String end_DDMMYYYY = end_day + "/" + end_month + "/" + end_year;
 //
                                         int reminder_id = (int) array.get("_id");
                                         int index = i+1;
-                                        mLocation.add(new LocationReminder(index, reminder_id, " ", start_date, output, "Reminder"));
+                                        mLocation.add(new LocationReminder(index, reminder_id, " ", end_DDMMYYYY, output, "Reminder"));
                                         Log.e("Reminder Value", output + " / " + start_DDMMYYYY);
 
                                     }

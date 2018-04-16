@@ -44,6 +44,7 @@ public class ReminderCompleteFragment extends Fragment {
     String task;
     String subtask;
     String start_date;
+    String end_date;
 
     public ReminderCompleteFragment() {
         // Required empty public constructor
@@ -106,14 +107,31 @@ public class ReminderCompleteFragment extends Fragment {
 
                                         start_date = (String) array.get("start_date");
                                         String[] start = start_date.split("-");
-                                        String start_year = start[0];
-                                        String start_month = start[1];
-                                        String start_day = start[2];
-                                        String start_DDMMYYYY = start_day + "/" + start_month + "/" + start_year;
+                                        String start_DDMMYYYY;
+                                        if(start.length == 1) {
+                                            start_DDMMYYYY = "dont have";
+                                        }else {
+                                            String start_year = start[0];
+                                            String start_month = start[1];
+                                            String start_day = start[2];
+                                            start_DDMMYYYY = start_day + "/" + start_month + "/" + start_year;
+                                        }
+
+                                        end_date = (String) array.get("end_date");
+                                        String[] end = start_date.split("-");
+                                        String end_DDMMYYYY;
+                                        if(end.length == 1) {
+                                            end_DDMMYYYY = "dont have";
+                                        }else {
+                                            String end_year = end[0];
+                                            String end_month = end[1];
+                                            String end_day = end[2];
+                                            end_DDMMYYYY = end_day + "/" + end_month + "/" + end_year;
+                                        }
 
                                         int reminder_id = (int) array.get("_id");
                                         int index = i+1;
-                                        mLocation.add(new LocationReminderComplete(index, reminder_id, " ", start_DDMMYYYY, output, "Reminder"));
+                                        mLocation.add(new LocationReminderComplete(index, reminder_id, " ", end_DDMMYYYY, output, "Reminder"));
                                         Log.e("Location Value", output + " / " + start_DDMMYYYY);
                                     }
                                     locationadapter = new LocationReminderCompleteAdapter(getContext().getApplicationContext(), mLocation);
