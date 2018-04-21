@@ -266,8 +266,8 @@ public class AddEventFragment extends Fragment {
                             @Override
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                                 month = _month + 1;
-                                int year_25 = year + 543;
-                                button_date_allday.setText(dayOfMonth + "/" + month + "/" + year_25);
+                                int yyyy = year + 543;
+                                button_date_allday.setText(String.format("%02d/%02d/%04d", dayOfMonth, month, yyyy));
                                 con_str_alldaydate = String.valueOf(dayOfMonth);
                                 con_str_alldaymonth = String.valueOf(month);
                                 con_str_alldayyear = String.valueOf(year);
@@ -289,7 +289,7 @@ public class AddEventFragment extends Fragment {
                         timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                button_time_allday.setText(hourOfDay + ":" + minute);
+                                button_time_allday.setText(String.format("%02d:%02d", hourOfDay, minute));
                                 con_str_alldayhour = String.valueOf(hourOfDay);
                                 con_str_alldaymin = String.valueOf(minute);
                             }
@@ -413,7 +413,7 @@ public class AddEventFragment extends Fragment {
     private void connection_addreminder_event(String con_str_taskname, String con_str_onoffswitch, String con_str_startdate, String con_str_startmonth, String con_str_startyear, String con_str_starthour, String con_str_startmin, String con_str_enddate, String con_str_endmonth, String con_str_endyear, String con_str_endhour, String con_str_endmin, String con_str_alldaydate, String con_str_alldaymonth, String con_str_alldayyear, String con_str_alldayhour, String con_str_alldaymin, String con_str_placename, String con_str_before_after, String con_str_number, String con_str_type_num) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-            String URL = "http://161.246.5.195:3000/addreminder/event";
+            String URL = ConnectAPI.getUrl() + "addreminder/event";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("token", str_token);
             jsonBody.put("type", "Event");

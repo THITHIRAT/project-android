@@ -117,7 +117,7 @@ public class AddReminderMapsReminderActivity extends FragmentActivity implements
     private void connect_location(double latitudefromselect, double longtitudefromselect, String placename) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(AddReminderMapsReminderActivity.this);
-            String URL = "http://161.246.5.195:3000/place/location";
+            String URL = ConnectAPI.getUrl() + "place/location";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("latitude", latitudefromselect);
             jsonBody.put("longtitude", longtitudefromselect);

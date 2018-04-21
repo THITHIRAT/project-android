@@ -2,7 +2,9 @@ package com.example.thithirat.test;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -30,7 +33,23 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+
+import static android.app.PendingIntent.getActivity;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -53,6 +72,13 @@ public class HomeActivity extends AppCompatActivity {
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        //preference
+        String token_name = "PUTGET_TOKEN";
+        SharedPreferences prefs = getApplication().getSharedPreferences(token_name, Context.MODE_PRIVATE);
+        String str_token = prefs.getString("TOKEN", "null");
+        Log.e("HOME_ACT TOKEN", str_token);
+
+        connect_detail_user(str_token);
 
         fragmentmanager = getSupportFragmentManager();
         fragmenttransaction = fragmentmanager.beginTransaction();
@@ -91,7 +117,7 @@ public class HomeActivity extends AppCompatActivity {
                 {
                     setTitle("Settings");
                     FragmentTransaction fragmentTransaction1=fragmentmanager.beginTransaction();
-                    fragmentTransaction1.replace(R.id.frag,new SettingFragment()).commit();
+                    fragmentTransaction1.replace(R.id.frag,new MainSettingFragment()).commit();
                     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                     drawer.closeDrawer(GravityCompat.START);
                 }
@@ -148,4 +174,68 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    void connect_detail_user(String str_token) {
+        try {
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            String URL = ConnectAPI.getUrl() + "users/detail";
+            JSONObject jsonBody = new JSONObject();
+            jsonBody.put("token", str_token);
+            final String requestBody = jsonBody.toString();
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.i("VOLLEY", response);
+                            JSONObject json = null;
+                            try {
+                                json = new JSONObject(response);
+                                String msg_users = json.getString("msg");
+                                Log.i("VOLLEY HOME_ACT", msg_users);
+                                if (msg_users.equals("users/detail : permission denied")) {
+                                    Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                }
+                                if (msg_users.equals("users/detail : complete")) {
+                                    JSONArray data = json.getJSONArray("data");
+                                    JSONObject array = (JSONObject) data.get(0);
+                                    String username = (String) array.get("username");
+                                    String email = (String) array.get("email");
+                                    TextView tv_username = (TextView) findViewById(R.id.username_nav_header);
+                                    TextView tv_email = (TextView) findViewById(R.id.email_nav_header);
+
+                                    tv_username.setText(username);
+                                    tv_email.setText(email);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("VOLLEY", error.toString());
+                        }
+                    }) {
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
+
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        return requestBody == null ? null : requestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                        return null;
+                    }
+                }
+            };
+            requestQueue.add(stringRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 }
+

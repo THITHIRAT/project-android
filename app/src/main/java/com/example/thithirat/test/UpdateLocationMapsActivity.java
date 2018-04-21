@@ -116,7 +116,7 @@ public class UpdateLocationMapsActivity extends FragmentActivity implements OnMa
     private void connect_location(double latitudefromselect, double longtitudefromselect, String placename) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(UpdateLocationMapsActivity.this);
-            String URL = "http://161.246.5.195:3000/place/location";
+            String URL = ConnectAPI.getUrl() + "place/location";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("latitude", latitudefromselect);
             jsonBody.put("longtitude", longtitudefromselect);

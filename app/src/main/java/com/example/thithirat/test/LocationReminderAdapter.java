@@ -140,7 +140,7 @@ public class LocationReminderAdapter extends BaseAdapter{
 
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(mContext.getApplicationContext());
-            String URL = "http://161.246.5.195:3000/complete/task";
+            String URL = ConnectAPI.getUrl() + "complete/task";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("reminder_id", reminder_id);;
             final String requestBody = jsonBody.toString();
@@ -193,7 +193,7 @@ public class LocationReminderAdapter extends BaseAdapter{
 
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(mContext.getApplicationContext());
-            String URL = "http://161.246.5.195:3000/incomplete/location";
+            String URL = ConnectAPI.getUrl() + "incomplete/location";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("reminder_id", reminder_id);;
             final String requestBody = jsonBody.toString();

@@ -118,7 +118,7 @@ public class AddLocationFragment extends Fragment {
     private void connect_addreminder_location(String str_token, String strtype, String strnoti, String strplace, String strtask, int complete) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-            String URL = "http://161.246.5.195:3000/addreminder/location";
+            String URL = ConnectAPI.getUrl() + "addreminder/location";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("token", str_token);
             jsonBody.put("type", strtype);

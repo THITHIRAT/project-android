@@ -81,7 +81,7 @@ public class RegisterActivity extends Activity {
     private void connect_register(String str_username, String str_password, String str_confirmpassword, String str_email) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(RegisterActivity.this);
-            String URL = "http://161.246.5.195:3000/users/register";
+            String URL = ConnectAPI.getUrl() + "users/register";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("username", str_username);
             jsonBody.put("email", str_email);

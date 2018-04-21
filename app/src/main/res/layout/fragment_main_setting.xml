@@ -46,25 +46,25 @@
                 android:layout_below="@+id/img_user"
                 android:layout_centerHorizontal="true"
                 android:padding="0dp"
-                android:text="Android Studio"
+                android:text=""
                 android:textColor="@color/colornavy"
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/name"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="2dp"
-                android:text="android.studio@android.com"
+                android:text=""
                 android:textColor="@color/colornavy" />
 
             <Button
                 android:id="@+id/edit_account"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/textView4"
+                android:layout_below="@+id/email"
                 android:layout_marginBottom="1dp"
                 android:layout_marginTop="15dp"
                 android:background="@color/colorwhite"

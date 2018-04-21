@@ -440,7 +440,7 @@ public class UpdateReminderFragment extends Fragment {
 
     private void connection_taskname() {
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-        String URL = "http://161.246.5.195:3000/sugguestreminder/taskname";
+        String URL = ConnectAPI.getUrl() + "sugguestreminder/taskname";
         JSONObject jsonBody = new JSONObject();
 
         final String requestBody = jsonBody.toString();
@@ -499,7 +499,7 @@ public class UpdateReminderFragment extends Fragment {
     private void connection_subtaskname() {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-            String URL = "http://161.246.5.195:3000/sugguestreminder/subtaskname";
+            String URL = ConnectAPI.getUrl() + "sugguestreminder/subtaskname";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("type", get_tasknamefromfragment);
             final String requestBody = jsonBody.toString();
@@ -561,7 +561,7 @@ public class UpdateReminderFragment extends Fragment {
     private void connection_taskname_notification(String string) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-            String URL = "http://161.246.5.195:3000/sugguestreminder/tasknamenotification";
+            String URL = ConnectAPI.getUrl() + "sugguestreminder/tasknamenotification";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("taskname", string);
             final String requestBody = jsonBody.toString();
@@ -596,12 +596,18 @@ public class UpdateReminderFragment extends Fragment {
 
                                 }
                                 if (msg_taskname.equals("suggestreminder/tasknamenotification : complete")) {
-                                    Log.e("Notification taskname", "dont have data");
+                                    Log.e("Notification taskname", "dont have data - UpdateReminder");
                                     et_addsubtaskname.setText("");
                                     et_addsubtaskname.setHint("Add Subtask");
 
                                     btnstartdate.setText("Start Date");
                                     btnenddate.setText("End Date");
+
+                                    btnstartdate.setText("Start Date");
+                                    btnenddate.setText("End Date");
+
+                                    mnotification.clear();
+                                    mnotificationadapter.notifyDataSetChanged();
                                 }
                                 if (msg_taskname.equals("suggestreminder/tasknamenotification : add data complete")) {
                                     JSONObject array_output = (JSONObject) json.getJSONObject("output");
@@ -624,6 +630,14 @@ public class UpdateReminderFragment extends Fragment {
                                     String split_enddate = split_end[0];
                                     String str_enddate_show = split_enddate + "/" + split_endmonth + "/" + split_endyear;
                                     btnenddate.setText(str_enddate_show);
+
+                                    if(mnotificationadapter == null || mnotificationadapter.getCount() == 0) {
+
+                                    }else {
+                                        Log.e("Count Notification Sugguest", String.valueOf(mnotificationadapter.getCount()));
+                                        mnotification.clear();
+                                        mnotificationadapter.notifyDataSetChanged();
+                                    }
 
                                     String noti_1 = (String) array_notification.get("notification_1");
                                     if(noti_1 != null) {
@@ -684,7 +698,7 @@ public class UpdateReminderFragment extends Fragment {
     private void connection_subtaskname_notification(String taskname, String subtaskname) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-            String URL = "http://161.246.5.195:3000/sugguestreminder/subtasknamenotification";
+            String URL = ConnectAPI.getUrl() + "sugguestreminder/subtasknamenotification";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("taskname", taskname);
             jsonBody.put("subtaskname", subtaskname);
@@ -720,11 +734,16 @@ public class UpdateReminderFragment extends Fragment {
 
                                 }
                                 if (msg_subtaskname.equals("suggestreminder/subtasknamenotification : complete")) {
+                                    Log.e("Notification taskname", "dont have data - UpdateReminder");
+
                                     btnstartdate.setText("Start Date");
                                     btnenddate.setText("End Date");
 
                                     btnstartdate.setText("Start Date");
                                     btnenddate.setText("End Date");
+
+                                    mnotification.clear();
+                                    mnotificationadapter.notifyDataSetChanged();
                                 }
                                 if (msg_subtaskname.equals("suggestreminder/subtasknamenotification : add data complete")) {
                                     JSONObject array_output = (JSONObject) json.getJSONObject("output");
@@ -745,6 +764,14 @@ public class UpdateReminderFragment extends Fragment {
                                     String split_enddate = split_end[0];
                                     String str_enddate_show = split_enddate + "/" + split_endmonth + "/" + split_endyear;
                                     btnenddate.setText(str_enddate_show);
+
+                                    if(mnotificationadapter == null || mnotificationadapter.getCount() == 0) {
+
+                                    }else {
+                                        Log.e("Count Notification Sugguest", String.valueOf(mnotificationadapter.getCount()));
+                                        mnotification.clear();
+                                        mnotificationadapter.notifyDataSetChanged();
+                                    }
 
                                     String noti_1 = (String) array_notification.get("notification_1");
                                     if(noti_1 != null) {
@@ -803,7 +830,7 @@ public class UpdateReminderFragment extends Fragment {
     private void connection_show() {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-            String URL = "http://161.246.5.195:3000/detailreminder/task";
+            String URL = ConnectAPI.getUrl() + "detailreminder/task";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("id", reminder_id);
             jsonBody.put("type", "Reminder");
@@ -935,7 +962,7 @@ public class UpdateReminderFragment extends Fragment {
     private boolean connection_update(int reminder_id) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-            String URL = "http://161.246.5.195:3000/updatereminder/task";
+            String URL = ConnectAPI.getUrl() + "updatereminder/task";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("id", reminder_id);
             jsonBody.put("type", "Reminder");
@@ -1073,7 +1100,7 @@ public class UpdateReminderFragment extends Fragment {
     private void connection_delete(int reminder_id) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-            String URL = "http://161.246.5.195:3000/deletereminder/task";
+            String URL = ConnectAPI.getUrl() + "deletereminder/task";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("id", reminder_id);
 

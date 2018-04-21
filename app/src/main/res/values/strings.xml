@@ -47,8 +47,6 @@
     </string-array>
 
     <string-array name="types_reminder_notification_type_date">
-        <item>Mins</item>
-        <item>Hrs</item>
         <item>Days</item>
         <item>Mths</item>
         <item>Yrs</item>

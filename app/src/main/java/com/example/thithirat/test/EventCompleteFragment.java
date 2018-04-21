@@ -73,7 +73,7 @@ public class EventCompleteFragment extends Fragment {
     private void connection_task_event_complete(String str_token) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-            String URL = "http://161.246.5.195:3000/taskcomplete/event";
+            String URL = ConnectAPI.getUrl() + "taskcomplete/event";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("token", str_token);
             final String requestBody = jsonBody.toString();

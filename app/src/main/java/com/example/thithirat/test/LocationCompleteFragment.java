@@ -74,7 +74,7 @@ public class LocationCompleteFragment extends Fragment {
     private void connection_task_location_complete(String str_token) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-            String URL = "http://161.246.5.195:3000/taskcomplete/location";
+            String URL = ConnectAPI.getUrl() + "taskcomplete/location";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("token", str_token);
             final String requestBody = jsonBody.toString();

@@ -90,7 +90,7 @@ public class ReminderScheduledFragment extends Fragment {
         final boolean[] check_msg = {true};
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-            String URL = "http://161.246.5.195:3000/task/reminder";
+            String URL = ConnectAPI.getUrl() + "task/reminder";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("token", str_token);
             final String requestBody = jsonBody.toString();

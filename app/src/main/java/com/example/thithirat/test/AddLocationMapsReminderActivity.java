@@ -6,6 +6,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -14,6 +15,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.akexorcist.googledirection.DirectionCallback;
+import com.akexorcist.googledirection.GoogleDirection;
+import com.akexorcist.googledirection.constant.AvoidType;
+import com.akexorcist.googledirection.constant.TransportMode;
+import com.akexorcist.googledirection.model.Direction;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -51,6 +57,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.List;
 
 public class AddLocationMapsReminderActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -125,10 +132,12 @@ public class AddLocationMapsReminderActivity extends FragmentActivity implements
         mapFragment.getMapAsync(this);
     }
 
+
+
     private void connect_location(double latitudefromselect, double longtitudefromselect, String placename) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(AddLocationMapsReminderActivity.this);
-            String URL = "http://161.246.5.195:3000/place/location";
+            String URL = ConnectAPI.getUrl() + "place/location";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("latitude", latitudefromselect);
             jsonBody.put("longtitude", longtitudefromselect);

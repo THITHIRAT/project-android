@@ -87,7 +87,7 @@ public class EventScheduledFragment extends Fragment {
         final boolean[] check = {true};
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-            String URL = "http://161.246.5.195:3000/task/event";
+            String URL = ConnectAPI.getUrl() + "task/event";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("token", str_token);
             final String requestBody = jsonBody.toString();
@@ -116,7 +116,7 @@ public class EventScheduledFragment extends Fragment {
                                         String start_DDMMYYYY = start_day + "/" + start_month + "/" + start_year;
 
                                         end_date = (String) array.get("end_date");
-                                        String[] end = start_date.split("-");
+                                        String[] end = end_date .split("-");
                                         String end_year = end[0];
                                         String end_month = end[1];
                                         String end_day = end[2];

@@ -211,13 +211,13 @@
 
                     <Button
                         android:id="@+id/add_notification"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="55dp"
+                        android:layout_height="40dp"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:background="@null"
+                        android:background="@drawable/buttion_radius_white_borderblue"
                         android:textColor="@color/colornavy"
                         android:text="add" />
 

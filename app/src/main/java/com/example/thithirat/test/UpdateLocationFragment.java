@@ -167,7 +167,7 @@ public class UpdateLocationFragment extends Fragment {
     private void connection_show() {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-            String URL = "http://161.246.5.195:3000/detailreminder/task";
+            String URL = ConnectAPI.getUrl() + "detailreminder/task";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("id", reminder_id);
 
@@ -241,7 +241,7 @@ public class UpdateLocationFragment extends Fragment {
     private void connection_update(int reminder_id) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-            String URL = "http://161.246.5.195:3000/updatereminder/task";
+            String URL = ConnectAPI.getUrl() + "updatereminder/task";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("id", reminder_id);
             jsonBody.put("type", "Location");
@@ -297,7 +297,7 @@ public class UpdateLocationFragment extends Fragment {
     private void connection_delete(int reminder_id) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-            String URL = "http://161.246.5.195:3000/deletereminder/task";
+            String URL = ConnectAPI.getUrl() + "deletereminder/task";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("id", reminder_id);
 

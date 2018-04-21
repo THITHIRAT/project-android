@@ -547,7 +547,7 @@ public class UpdateEventFragment extends Fragment {
     private void connection_show() {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-            String URL = "http://161.246.5.195:3000/detailreminder/task";
+            String URL = ConnectAPI.getUrl() + "detailreminder/task";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("id", reminder_id);
             jsonBody.put("type", "Event");
@@ -604,13 +604,15 @@ public class UpdateEventFragment extends Fragment {
                                         //allday
                                     }else {
                                         str_starttime = (String) array.get("start_time");
-                                        btnstarttime.setText(str_starttime);
+                                        String[] split_starttime = str_starttime.split(":");
+                                        btnstarttime.setText(split_starttime[0] + ":" + split_starttime[1]);
                                     }
                                     if(array.get("end_time").equals(null)) {
                                         //allday
                                     }else {
                                         str_endtime = (String) array.get("end_time");
-                                        btnendtime.setText(str_endtime);
+                                        String[] split_endtime = str_endtime.split(":");
+                                        btnendtime.setText(split_endtime[0] + ":" + split_endtime[1]);
                                     }
 
                                     reminder_id = (int) array.get("_id");
@@ -688,7 +690,7 @@ public class UpdateEventFragment extends Fragment {
     private void connection_update(int reminder_id) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-            String URL = "http://161.246.5.195:3000/updatereminder/task";
+            String URL = ConnectAPI.getUrl() + "updatereminder/task";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("id", reminder_id);
             jsonBody.put("type", "Event");
@@ -726,12 +728,16 @@ public class UpdateEventFragment extends Fragment {
             }
 
             if(con_str_onoffswitch == "1") {
-                getallday();
-                jsonBody.put("allday_date", con_str_alldaydate);
-                jsonBody.put("allday_month", con_str_alldaymonth);
-                jsonBody.put("allday_year", con_str_alldayyear);
-                jsonBody.put("allday_hrs", con_str_alldayhour);
-                jsonBody.put("allday_mins", con_str_alldaymin);
+                if(et_number.getText().toString() == "") {
+                    Log.e("All Day", et_number.getText().toString() + " : empty text");
+                }else {
+                    getallday();
+                    jsonBody.put("allday_date", con_str_alldaydate);
+                    jsonBody.put("allday_month", con_str_alldaymonth);
+                    jsonBody.put("allday_year", con_str_alldayyear);
+                    jsonBody.put("allday_hrs", con_str_alldayhour);
+                    jsonBody.put("allday_mins", con_str_alldaymin);
+                }
             }
 
             final String requestBody = jsonBody.toString();
@@ -780,7 +786,7 @@ public class UpdateEventFragment extends Fragment {
     private void connection_delete(int reminder_id) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-            String URL = "http://161.246.5.195:3000/deletereminder/task";
+            String URL = ConnectAPI.getUrl() + "deletereminder/task";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("id", reminder_id);
 

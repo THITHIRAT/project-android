@@ -102,7 +102,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void connection_picker_location(String str_token) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(MapsActivity.this);
-            String URL = "http://161.246.5.195:3000/task/location";
+            String URL = ConnectAPI.getUrl() + "task/location";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("token", str_token);
             final String requestBody = jsonBody.toString();

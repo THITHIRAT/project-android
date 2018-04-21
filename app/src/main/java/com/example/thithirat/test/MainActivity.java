@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
     private void connect_login(String str_email, String str_password) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
-            String URL = "http://161.246.5.195:3000/users/login";
+            String URL = ConnectAPI.getUrl() + "users/login";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("email", str_email);
             jsonBody.put("password", str_password);
