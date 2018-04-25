@@ -128,18 +128,18 @@ public class ReminderScheduledFragment extends Fragment {
                                         if(start.length == 1) {
                                             start_DDMMYYYY = "dont have";
                                         }else {
-                                            String start_year = start[0];
-                                            String start_month = start[1];
-                                            String start_day = start[2];
-                                            start_DDMMYYYY = start_day + "/" + start_month + "/" + start_year;
+                                            int start_year = Integer.parseInt(start[0]);
+                                            int start_month = Integer.parseInt(start[1]);
+                                            int start_day = Integer.parseInt(start[2]);
+                                            start_DDMMYYYY = String.format("%02d/%02d/%04d", start_day, start_month, start_year);
                                         }
 
                                         end_date = (String) array.get("end_date");
                                         String[] end = start_date.split("-");
-                                        String end_year = end[0];
-                                        String end_month = end[1];
-                                        String end_day = end[2];
-                                        String end_DDMMYYYY = end_day + "/" + end_month + "/" + end_year;
+                                        int end_year = Integer.parseInt(end[0]);
+                                        int end_month = Integer.parseInt(end[1]);
+                                        int end_day = Integer.parseInt(end[2]);
+                                        String end_DDMMYYYY = String.format("%02d/%02d/%04d", end_day, end_month, end_year);
 //
                                         int reminder_id = (int) array.get("_id");
                                         int index = i+1;

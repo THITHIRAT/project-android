@@ -203,8 +203,13 @@ public class HomeActivity extends AppCompatActivity {
                                     TextView tv_username = (TextView) findViewById(R.id.username_nav_header);
                                     TextView tv_email = (TextView) findViewById(R.id.email_nav_header);
 
-                                    tv_username.setText(username);
-                                    tv_email.setText(email);
+                                    if(tv_username == null) {
+                                        Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                    }else {
+                                        tv_username.setText(username);
+                                        tv_email.setText(email);
+                                    }
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

@@ -515,18 +515,18 @@ public class AddReminderFragment extends Fragment {
 
                                     str_startdate = (String) array_output.get("startdate");
                                     String[] split_start = str_startdate.split("/");
-                                    String split_startyear = split_start[2];
-                                    String split_startmonth = split_start[1];
-                                    String split_startdate = split_start[0];
-                                    String str_startdate_show = split_startdate + "/" + split_startmonth + "/" + split_startyear;
+                                    int split_startyear = Integer.parseInt(split_start[2]);
+                                    int split_startmonth = Integer.parseInt(split_start[1]);
+                                    int split_startdate = Integer.parseInt(split_start[0]);
+                                    String str_startdate_show = String.format("%02d/%02d/%04d", split_startdate, split_startmonth, split_startyear);
                                     btnstartdate.setText(str_startdate_show);
 
                                     str_enddate = (String) array_output.get("enddate");
                                     String[] split_end = str_enddate.split("/");
-                                    String split_endyear = split_end[2];
-                                    String split_endmonth = split_end[1];
-                                    String split_enddate = split_end[0];
-                                    String str_enddate_show = split_enddate + "/" + split_endmonth + "/" + split_endyear;
+                                    int split_endyear = Integer.parseInt(split_end[2]);
+                                    int split_endmonth = Integer.parseInt(split_end[1]);
+                                    int split_enddate = Integer.parseInt(split_end[0]);
+                                    String str_enddate_show = String.format("%02d/%02d/%04d", split_enddate, split_endmonth, split_endyear);
                                     btnenddate.setText(str_enddate_show);
 
                                 }
@@ -543,8 +543,12 @@ public class AddReminderFragment extends Fragment {
                                     btnstartdate.setText("Start Date");
                                     btnenddate.setText("End Date");
 
-                                    mnotification.clear();
-                                    mnotificationadapter.notifyDataSetChanged();
+                                    if(mnotificationadapter == null) {
+
+                                    }else {
+                                        mnotification.clear();
+                                        mnotificationadapter.notifyDataSetChanged();
+                                    }
 
                                 }
                                 if (msg_taskname.equals("suggestreminder/tasknamenotification : add data complete")) {
@@ -555,18 +559,18 @@ public class AddReminderFragment extends Fragment {
 
                                     str_startdate = (String) array_output.get("startdate");
                                     String[] split_start = str_startdate.split("/");
-                                    String split_startyear = split_start[2];
-                                    String split_startmonth = split_start[1];
-                                    String split_startdate = split_start[0];
-                                    String str_startdate_show = split_startdate + "/" + split_startmonth + "/" + split_startyear;
+                                    int split_startyear = Integer.parseInt(split_start[2]);
+                                    int split_startmonth = Integer.parseInt(split_start[1]);
+                                    int split_startdate = Integer.parseInt(split_start[0]);
+                                    String str_startdate_show = String.format("%02d/%02d/%04d", split_startdate, split_startmonth, split_startyear);
                                     btnstartdate.setText(str_startdate_show);
 
                                     str_enddate = (String) array_output.get("enddate");
                                     String[] split_end = str_enddate.split("/");
-                                    String split_endyear = split_end[2];
-                                    String split_endmonth = split_end[1];
-                                    String split_enddate = split_end[0];
-                                    String str_enddate_show = split_enddate + "/" + split_endmonth + "/" + split_endyear;
+                                    int split_endyear = Integer.parseInt(split_end[2]);
+                                    int split_endmonth = Integer.parseInt(split_end[1]);
+                                    int split_enddate = Integer.parseInt(split_end[0]);
+                                    String str_enddate_show = String.format("%02d/%02d/%04d", split_enddate, split_endmonth, split_endyear);
                                     btnenddate.setText(str_enddate_show);
 
                                     if(mnotificationadapter == null || mnotificationadapter.getCount() == 0) {

@@ -45,7 +45,11 @@ import java.io.UnsupportedEncodingException;
 public class EditAccountFragment extends Fragment {
 
     EditText et_newusername;
+    EditText et_oldpassword;
+    EditText et_newpassword;
     EditText et_newemail;
+
+    AlertDialog dialog_change_password;
 
     public EditAccountFragment() {
         // Required empty public constructor
@@ -139,19 +143,28 @@ public class EditAccountFragment extends Fragment {
                 final View rootview = getLayoutInflater().inflate(R.layout.changepassword, null);
 
                 builder.setView(rootview);
-                final AlertDialog dialog_change_password = builder.create();
+                dialog_change_password = builder.create();
                 dialog_change_password.show();
 
-                Button save = (Button) rootview.findViewById(R.id.save_email);
+                et_newpassword = (EditText) rootview.findViewById(R.id.new_password);
+                et_oldpassword = (EditText) rootview.findViewById(R.id.current_password);
+                final EditText et_confirmpassword = (EditText) rootview.findViewById(R.id.confirm_password);
+
+                Button save = (Button) rootview.findViewById(R.id.save_password);
                 save.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        connection_update_password(str_token, view);
-                        dialog_change_password.cancel();
+                        String newpasssword = et_newpassword.getText().toString();
+                        String confirmpassword = et_confirmpassword.getText().toString();
+                        if(newpasssword.equals(confirmpassword)) {
+                            connection_update_password(str_token, view);
+                        }else {
+                            Toast.makeText(getActivity(),"Confirm password Incorrect", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
 
-                Button cancel = (Button) rootview.findViewById(R.id.cancel_email);
+                Button cancel = (Button) rootview.findViewById(R.id.cancel_password);
                 cancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -165,6 +178,63 @@ public class EditAccountFragment extends Fragment {
     }
 
     private void connection_update_password(String str_token, View view) {
+        try {
+            final RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+            String URL = ConnectAPI.getUrl() + "users/resetpassword";
+            JSONObject jsonBody = new JSONObject();
+            jsonBody.put("token", str_token);
+            final String str_oldpassword = et_oldpassword.getText().toString();
+            jsonBody.put("password", str_oldpassword);
+            String str_newpassword = et_newpassword.getText().toString();
+            jsonBody.put("newpassword", str_newpassword);
+            final String requestBody = jsonBody.toString();
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.i("VOLLEY", response);
+                            JSONObject json = null;
+                            try {
+                                json = new JSONObject(response);
+                                String msg_users = json.getString("msg");
+                                Log.i("VOLLEY HOME_ACT", msg_users);
+                                if(msg_users.equals("users/resetpassword : update new password")) {
+                                    Toast.makeText(getActivity(), "Change Password Complete", Toast.LENGTH_SHORT).show();
+                                    dialog_change_password.cancel();
+                                }
+                                else {
+                                    Toast.makeText(getActivity(), "Try Again", Toast.LENGTH_SHORT).show();
+                                }
+                            }catch (JSONException e){
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("VOLLEY", error.toString());
+                        }
+                    }) {
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
+
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        return requestBody == null ? null : requestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                        return null;
+                    }
+                }
+            };
+            requestQueue.add(stringRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void connection_update_username(String str_token, final View view) {

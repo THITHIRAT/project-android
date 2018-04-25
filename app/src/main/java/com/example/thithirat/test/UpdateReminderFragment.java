@@ -567,6 +567,7 @@ public class UpdateReminderFragment extends Fragment {
             final String requestBody = jsonBody.toString();
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
                     new Response.Listener<String>() {
+                        @SuppressLint("LongLogTag")
                         @Override
                         public void onResponse(String response) {
                             Log.i("VOLLEY", response);
@@ -705,6 +706,7 @@ public class UpdateReminderFragment extends Fragment {
             final String requestBody = jsonBody.toString();
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
                     new Response.Listener<String>() {
+                        @SuppressLint("LongLogTag")
                         @Override
                         public void onResponse(String response) {
                             Log.i("VOLLEY", response);
@@ -867,11 +869,10 @@ public class UpdateReminderFragment extends Fragment {
                                     if(split_start.length == 1) {
                                         btnstartdate.setText("Start Date");
                                     }else {
-                                        String split_startyear = split_start[0];
-                                        String split_startmonth = split_start[1];
-                                        String split_startdate = split_start[2];
-                                        String str_startdate_show = split_startdate + "/" + split_startmonth + "/" + split_startyear;
-                                        btnstartdate.setText(str_startdate_show);
+                                        int split_startyear = Integer.parseInt(split_start[0]);
+                                        int split_startmonth = Integer.parseInt(split_start[1]);
+                                        int split_startdate = Integer.parseInt(split_start[2]);
+                                        btnstartdate.setText(String.format("%02d/%02d/%04d", split_startdate, split_startmonth, split_startyear));
                                     }
 
                                     str_enddate = (String) array.get("end_date");
@@ -879,11 +880,10 @@ public class UpdateReminderFragment extends Fragment {
                                     if(split_end.length == 1) {
                                         btnstartdate.setText("Start Date");
                                     }else {
-                                        String split_endyear = split_end[0];
-                                        String split_endmonth = split_end[1];
-                                        String split_enddate = split_end[2];
-                                        String str_enddate_show = split_enddate + "/" + split_endmonth + "/" + split_endyear;
-                                        btnenddate.setText(str_enddate_show);
+                                        int split_endyear = Integer.parseInt(split_end[0]);
+                                        int split_endmonth = Integer.parseInt(split_end[1]);
+                                        int split_enddate = Integer.parseInt(split_end[2]);
+                                        btnenddate.setText(String.format("%02d/%02d/%04d", split_enddate, split_endmonth, split_endyear));
                                     }
 
                                     reminder_id = (int) array.get("_id");
@@ -895,7 +895,8 @@ public class UpdateReminderFragment extends Fragment {
                                     for (int i=0; i < notification.length(); i++) {
                                         JSONObject array_notification = (JSONObject) notification.get(i);
                                         if(array_notification.get("time").equals(null)) {
-
+                                            time_notification.setText("");
+                                            time_notification.setHint("Time");
                                         }else {
                                             String time = (String) array_notification.get("time");
                                             String[] split_time = time.split(":");

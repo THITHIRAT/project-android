@@ -25,6 +25,7 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -82,6 +83,8 @@ public class AddEventFragment extends Fragment {
 
     String con_str_alldayhour = null;
     String con_str_alldaymin = null;
+
+    String check_msg = "error";
 
     public AddEventFragment() {
         // Required empty public constructor
@@ -398,16 +401,29 @@ public class AddEventFragment extends Fragment {
                         con_str_alldayhour, con_str_alldaymin, con_str_placename, con_str_before_after, con_str_number, con_str_type_num);
 
                 Log.e("Event FloatingButton", con_str_placename);
-
-                ScheduledFragment scheduled_fragment = new ScheduledFragment();
-                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.frag, scheduled_fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
             }
         });
 
         return view;
+    }
+
+    private void goScheduledFragment() {
+        ScheduledFragment scheduled_fragment = new ScheduledFragment();
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frag, scheduled_fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+    private void goDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        final View traffic_rootview = getLayoutInflater().inflate(R.layout.showtraffic, null);
+
+        builder.setView(traffic_rootview);
+        final AlertDialog dialog_update = builder.create();
+        dialog_update.show();
+
+
     }
 
     private void connection_addreminder_event(String con_str_taskname, String con_str_onoffswitch, String con_str_startdate, String con_str_startmonth, String con_str_startyear, String con_str_starthour, String con_str_startmin, String con_str_enddate, String con_str_endmonth, String con_str_endyear, String con_str_endhour, String con_str_endmin, String con_str_alldaydate, String con_str_alldaymonth, String con_str_alldayyear, String con_str_alldayhour, String con_str_alldaymin, String con_str_placename, String con_str_before_after, String con_str_number, String con_str_type_num) {
@@ -456,6 +472,39 @@ public class AddEventFragment extends Fragment {
                                 json = new JSONObject(response);
                                 String msg_event = json.getString("msg");
                                 Log.i("VOLLEY", msg_event);
+                                if(msg_event.equals("addreminder/event : allday = 0 : can add event")) {
+                                    check_msg = "complete";
+                                    Toast.makeText(getActivity(),"Complete", Toast.LENGTH_SHORT).show();
+                                    goScheduledFragment();
+                                }else if(msg_event.equals("addreminder/event : allday = 1 : insert notification complete")) {
+                                    check_msg = "complete";
+                                    Toast.makeText(getActivity(),"Complete", Toast.LENGTH_SHORT).show();
+                                    goScheduledFragment();
+                                }else if(msg_event.equals("addreminder/event : allday = 0 : insert notification complete")) {
+                                    check_msg = "complete";
+                                    Toast.makeText(getActivity(),"Complete", Toast.LENGTH_SHORT).show();
+                                    goScheduledFragment();
+                                }else if(msg_event.equals("addreminder/event : allday = 0 : complete")) {
+                                    check_msg = "complete";
+                                    Toast.makeText(getActivity(),"Complete", Toast.LENGTH_SHORT).show();
+                                    goScheduledFragment();
+                                }else if(msg_event.equals("addreminder/event : allday = 0 : cannot add this event")) {
+                                    check_msg = "show";
+                                    JSONObject data = json.getJSONObject("data");
+                                    String distance = data.getString("distance");
+                                    String time = data.getString("time");
+                                    goDialog();
+                                }else if(msg_event.equals("addreminder/event : allday = 0 : incorrect start and end date time")) {
+                                    check_msg = "start date & end date incorrect";
+                                    Toast.makeText(getActivity(),"Start Date & End Date is incorrect", Toast.LENGTH_SHORT).show();
+                                }else if(msg_event.equals("addreminder event : date not enough")) {
+                                    check_msg = "fill data";
+                                    Toast.makeText(getActivity(),"Plase fill data", Toast.LENGTH_SHORT).show();
+                                }else {
+                                    check_msg = "error";
+                                    Toast.makeText(getActivity(),"Error", Toast.LENGTH_SHORT).show();
+                                }
+                                Log.e("MSG_conn", check_msg);
                             }catch (JSONException e){
                                 e.printStackTrace();
                             }
