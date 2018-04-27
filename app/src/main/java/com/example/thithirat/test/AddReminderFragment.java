@@ -2,6 +2,7 @@ package com.example.thithirat.test;
 
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -344,11 +345,8 @@ public class AddReminderFragment extends Fragment {
                 boolean check = connection_addreminder_reminder();
 
                 if(check == true) {
-                    ScheduledFragment scheduled_fragment = new ScheduledFragment();
-                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.frag, scheduled_fragment);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
+                    Intent intent = new Intent(getActivity(), HomeActivity.class);
+                    startActivity(intent);
                 }
             }
         });

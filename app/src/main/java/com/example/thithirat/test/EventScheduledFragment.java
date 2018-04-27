@@ -127,8 +127,10 @@ public class EventScheduledFragment extends Fragment {
                                         mLocation.add(new LocationReminder(index, reminder_id, " ", start_DDMMYYYY + " - " + end_DDMMYYYY , task, "Event"));
                                         Log.e("Event Value", task + " / " + start_DDMMYYYY);
                                     }
-                                    LocationReminderAdapter locationadapter = new LocationReminderAdapter(getContext().getApplicationContext(), mLocation);
-                                    listview.setAdapter(locationadapter);
+                                    if(listview != null) {
+                                        LocationReminderAdapter locationadapter = new LocationReminderAdapter(getContext().getApplicationContext(), mLocation);
+                                        listview.setAdapter(locationadapter);
+                                    }
                                 }
                                 if(msg_task_event.equals("task/event : dont have token")) {
                                     check[0] = false;

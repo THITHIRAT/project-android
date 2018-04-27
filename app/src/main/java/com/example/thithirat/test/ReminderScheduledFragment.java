@@ -147,8 +147,10 @@ public class ReminderScheduledFragment extends Fragment {
                                         Log.e("Reminder Value", output + " / " + start_DDMMYYYY);
 
                                     }
-                                    locationadapter = new LocationReminderAdapter(getContext().getApplicationContext(), mLocation);
-                                    listview.setAdapter(locationadapter);
+                                    if(listview != null) {
+                                        LocationReminderAdapter locationadapter = new LocationReminderAdapter(getContext().getApplicationContext(), mLocation);
+                                        listview.setAdapter(locationadapter);
+                                    }
                                 }
                             }catch (JSONException e){
                                 e.printStackTrace();

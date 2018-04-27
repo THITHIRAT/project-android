@@ -126,8 +126,10 @@ public class LocationScheduledFragment extends Fragment {
                                         mLocation.add(new LocationReminder(index, reminder_id, placename, notification, task, "Location"));
                                         Log.e("Location Value", placename + " / " + notification + " / " + task);
                                     }
-                                    locationadapter = new LocationReminderAdapter(getContext().getApplicationContext(), mLocation);
-                                    listview.setAdapter(locationadapter);
+                                    if(listview != null) {
+                                        LocationReminderAdapter locationadapter = new LocationReminderAdapter(getContext().getApplicationContext(), mLocation);
+                                        listview.setAdapter(locationadapter);
+                                    };
                                 }
                                 if(msg_task_location.equals("task/location : dont have token")) {
                                     check[0] = false;

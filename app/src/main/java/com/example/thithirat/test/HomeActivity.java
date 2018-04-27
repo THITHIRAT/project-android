@@ -2,11 +2,16 @@ package com.example.thithirat.test;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
@@ -17,6 +22,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -47,6 +53,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import static android.app.PendingIntent.getActivity;
@@ -58,6 +65,8 @@ public class HomeActivity extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
+
+    String str_realdatetime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,10 +84,13 @@ public class HomeActivity extends AppCompatActivity {
         //preference
         String token_name = "PUTGET_TOKEN";
         SharedPreferences prefs = getApplication().getSharedPreferences(token_name, Context.MODE_PRIVATE);
-        String str_token = prefs.getString("TOKEN", "null");
+        final String str_token = prefs.getString("TOKEN", "null");
         Log.e("HOME_ACT TOKEN", str_token);
 
         connect_detail_user(str_token);
+
+        checktime(str_token);
+        checklocation(str_token);
 
         fragmentmanager = getSupportFragmentManager();
         fragmenttransaction = fragmentmanager.beginTransaction();
@@ -171,6 +183,156 @@ public class HomeActivity extends AppCompatActivity {
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
+        }
+    }
+
+    private void checklocation(String str_token) {
+        Thread t_location = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    while (!isInterrupted()) {
+                        Thread.sleep(60000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                GPSTracker gpsTracker = new GPSTracker(getApplicationContext());;
+                                Location mLocation = gpsTracker.getLocation();
+                                double realtime_latitude = mLocation.getLatitude();
+                                double realtime_longtitude = mLocation.getLongitude();
+                                Log.e("Realtime location", "Latititude : " + realtime_latitude + ", Longtitude : " + realtime_longtitude);
+                            }
+                        });
+                    }
+                }catch (InterruptedException e) {
+
+                }
+                super.run();
+            }
+        };
+        t_location.start();
+    }
+
+    private void checktime(final String str_token) {
+        Thread t_time = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    while (!isInterrupted()) {
+                        Thread.sleep(1000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                long date = System.currentTimeMillis();
+                                SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+                                str_realdatetime = datetime.format(date);
+                                String[] split_str_realdatetime = str_realdatetime.split(" ");
+                                String[] split_sec = split_str_realdatetime[1].split(":");
+
+                                if(split_sec[2].equals("00")) {
+                                    Log.e("Realtime", str_realdatetime);
+                                    connection_checktime(str_realdatetime, str_token);
+                                }
+                            }
+                        });
+                    }
+                }catch (InterruptedException e) {
+
+                }
+                super.run();
+            }
+        };
+        t_time.start();
+    }
+
+    private void connection_checktime(String str_realdatetime, String str_token) {
+        try {
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            String URL = ConnectAPI.getUrl() + "checktime/notification";
+            JSONObject jsonBody = new JSONObject();
+            jsonBody.put("token", str_token);
+            jsonBody.put("datetime", str_realdatetime);
+            final String requestBody = jsonBody.toString();
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.i("VOLLEY", response);
+                            JSONObject json = null;
+                            try {
+                                json = new JSONObject(response);
+                                String msg_notification = json.getString("msg");
+                                Log.i("VOLLEY", msg_notification);
+                                if(msg_notification.equals("checktime/notification : permission denied")) {
+                                    Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                }
+                                else if(msg_notification.equals("checktime/notification : dont have token")) {
+                                    Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                }
+                                else if(msg_notification.equals("checktime/notification : notification")) {
+                                }else {
+                                    Log.e("Notification", "Complete");
+                                    Log.e("error", "asdfghj");
+                                    Intent notificationIntent = new Intent(getApplicationContext(), HomeActivity.class);
+                                    PendingIntent notificationPendingIntent = PendingIntent.getActivity(getApplicationContext(), 1, notificationIntent, 0);
+
+                                    Intent showToastIntent = new Intent(getApplicationContext(), HomeActivity.class);
+                                    PendingIntent showToastPendingIntent = PendingIntent.getService(getApplicationContext(), 2, showToastIntent, 0);
+
+                                    String taskname_notification = json.getString("taskname");
+                                    String date_notification = json.getString("date");
+
+                                    NotificationCompat.Builder notification = (NotificationCompat.Builder) new NotificationCompat.Builder(getApplicationContext())
+                                            .setContentTitle(taskname_notification)
+                                            .setContentText("End Date : " + date_notification)
+                                            .setSmallIcon(R.drawable.ic_launcher_foreground)
+                                            //.setLargeIcon(BitmapFactory.decodeResource(R.drawable.xyz))
+                                            .setColor(getResources().getColor(R.color.colorAccent))
+                                            .setVibrate(new long[]{0, 300, 300, 300})
+                                            //.setSound()
+                                            .setLights(Color.WHITE, 1000, 5000)
+                                            //.setWhen(System.currentTimeMillis())
+                                            .setContentIntent(notificationPendingIntent)
+                                            .setAutoCancel(true)
+                                            .setPriority(NotificationCompat.PRIORITY_HIGH)
+                                            .setColor(getApplication().getResources().getColor(R.color.colornavy))
+                                            .addAction(R.drawable.ic_action_complete_navy ,"Done", notificationPendingIntent)
+                                            .addAction(R.drawable.ic_action_remove_navy, "Ignore", showToastPendingIntent);
+
+                                    NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                                    notificationManager.notify(1, notification.build());
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("VOLLEY", error.toString());
+                        }
+                    }) {
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
+
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        return requestBody == null ? null : requestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                        return null;
+                    }
+                }
+            };
+            requestQueue.add(stringRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 
