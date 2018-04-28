@@ -135,7 +135,7 @@ public class ReminderScheduledFragment extends Fragment {
                                         }
 
                                         end_date = (String) array.get("end_date");
-                                        String[] end = start_date.split("-");
+                                        String[] end = end_date.split("-");
                                         int end_year = Integer.parseInt(end[0]);
                                         int end_month = Integer.parseInt(end[1]);
                                         int end_day = Integer.parseInt(end[2]);

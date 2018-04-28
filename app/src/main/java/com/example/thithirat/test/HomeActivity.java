@@ -53,8 +53,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import static android.app.PendingIntent.getActivity;
 
@@ -89,7 +91,7 @@ public class HomeActivity extends AppCompatActivity {
 
         connect_detail_user(str_token);
 
-        checktime(str_token);
+        checktime(str_token, prefs);
         checklocation(str_token);
 
         fragmentmanager = getSupportFragmentManager();
@@ -186,13 +188,14 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    private void checklocation(String str_token) {
+    private void checklocation(final String str_token) {
         Thread t_location = new Thread() {
             @Override
             public void run() {
                 try {
                     while (!isInterrupted()) {
-                        Thread.sleep(60000);
+                        int sec = 30*1000;
+                        Thread.sleep(sec);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -201,6 +204,8 @@ public class HomeActivity extends AppCompatActivity {
                                 double realtime_latitude = mLocation.getLatitude();
                                 double realtime_longtitude = mLocation.getLongitude();
                                 Log.e("Realtime location", "Latititude : " + realtime_latitude + ", Longtitude : " + realtime_longtitude);
+                                connect_checklocation_reminder(realtime_latitude, realtime_longtitude, str_token);
+                                connect_checklocation_location(realtime_latitude, realtime_longtitude, str_token);
                             }
                         });
                     }
@@ -213,7 +218,171 @@ public class HomeActivity extends AppCompatActivity {
         t_location.start();
     }
 
-    private void checktime(final String str_token) {
+    private void connect_checklocation_location(double realtime_latitude, double realtime_longtitude, String str_token) {
+        try {
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            String URL = ConnectAPI.getUrl() + "checklocation_forlocation/notification";
+            JSONObject jsonBody = new JSONObject();
+            jsonBody.put("token", str_token);
+            jsonBody.put("latitude", realtime_latitude);
+            jsonBody.put("longtitude", realtime_longtitude);
+            final String requestBody = jsonBody.toString();
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.i("VOLLEY", response);
+                            JSONObject json = null;
+                            try {
+                                json = new JSONObject(response);
+                                String msg_notification = json.getString("msg");
+                                Log.i("VOLLEY", msg_notification);
+                                if(msg_notification.equals("checklocation_forlocation/notification : notification")) {
+                                    JSONArray taskname_notification = (JSONArray) json.get("taskname");
+                                    int length_taskname = taskname_notification.length();
+                                    for (int i=0; i<length_taskname; i++) {
+                                        String array_taskname = (String) taskname_notification.get(i);
+                                        NotificationCompat.Builder notification = (NotificationCompat.Builder) new NotificationCompat.Builder(getApplicationContext())
+                                                .setContentTitle(array_taskname)
+                                                .setContentText("Tap for more information")
+                                                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                                                //.setLargeIcon(BitmapFactory.decodeResource(R.drawable.xyz))
+                                                .setColor(getResources().getColor(R.color.colorAccent))
+                                                .setVibrate(new long[]{0, 300, 300, 300})
+                                                //.setSound()
+                                                .setLights(Color.WHITE, 1000, 5000)
+                                                //.setWhen(System.currentTimeMillis())
+//                                            .setContentIntent(notificationPendingIntent)
+                                                .setAutoCancel(true)
+                                                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                                                .setColor(getApplication().getResources().getColor(R.color.colornavy));
+//                                            .addAction(R.drawable.ic_action_complete_navy ,"Done", notificationPendingIntent)
+//                                            .addAction(R.drawable.ic_action_remove_navy, "Ignore", showToastPendingIntent);
+
+                                        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                                        notificationManager.notify(1, notification.build());
+                                    }
+                                }else {
+
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("VOLLEY", error.toString());
+                        }
+                    }) {
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
+
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        return requestBody == null ? null : requestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                        return null;
+                    }
+                }
+            };
+            requestQueue.add(stringRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void connect_checklocation_reminder(double realtime_latitude, double realtime_longtitude, String str_token) {
+        SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+        long date = System.currentTimeMillis();
+        str_realdatetime = datetime.format(date);
+        String[] split_str_realdatetime = str_realdatetime.split(" ");
+        String str_realdate = split_str_realdatetime[0];
+        try {
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            String URL = ConnectAPI.getUrl() + "checklocation/notification";
+            JSONObject jsonBody = new JSONObject();
+            jsonBody.put("token", str_token);
+            jsonBody.put("date", str_realdate);
+            jsonBody.put("latitude", realtime_latitude);
+            jsonBody.put("longtitude", realtime_longtitude);
+            final String requestBody = jsonBody.toString();
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.i("VOLLEY", response);
+                            JSONObject json = null;
+                            try {
+                                json = new JSONObject(response);
+                                String msg_notification = json.getString("msg");
+                                Log.i("VOLLEY", msg_notification);
+                                if(msg_notification.equals("checklocation/notification : notification")) {
+                                    JSONArray taskname_notification = (JSONArray) json.get("taskname");
+                                    int length_taskname = taskname_notification.length();
+                                    for (int i=0; i<length_taskname; i++) {
+                                        String array_taskname = (String) taskname_notification.get(i);
+                                        NotificationCompat.Builder notification = (NotificationCompat.Builder) new NotificationCompat.Builder(getApplicationContext())
+                                                .setContentTitle(array_taskname)
+                                                .setContentText("Tap for more information")
+                                                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                                                //.setLargeIcon(BitmapFactory.decodeResource(R.drawable.xyz))
+                                                .setColor(getResources().getColor(R.color.colorAccent))
+                                                .setVibrate(new long[]{0, 300, 300, 300})
+                                                //.setSound()
+                                                .setLights(Color.WHITE, 1000, 5000)
+                                                //.setWhen(System.currentTimeMillis())
+//                                            .setContentIntent(notificationPendingIntent)
+                                                .setAutoCancel(true)
+                                                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                                                .setColor(getApplication().getResources().getColor(R.color.colornavy));
+//                                            .addAction(R.drawable.ic_action_complete_navy ,"Done", notificationPendingIntent)
+//                                            .addAction(R.drawable.ic_action_remove_navy, "Ignore", showToastPendingIntent);
+
+                                        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                                        notificationManager.notify(2, notification.build());
+                                    }
+                                }else {
+
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("VOLLEY", error.toString());
+                        }
+                    }) {
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
+
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        return requestBody == null ? null : requestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                        return null;
+                    }
+                }
+            };
+            requestQueue.add(stringRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void checktime(final String str_token, final SharedPreferences prefs) {
         Thread t_time = new Thread() {
             @Override
             public void run() {
@@ -231,7 +400,7 @@ public class HomeActivity extends AppCompatActivity {
 
                                 if(split_sec[2].equals("00")) {
                                     Log.e("Realtime", str_realdatetime);
-                                    connection_checktime(str_realdatetime, str_token);
+                                    connection_checktime(str_realdatetime, str_token, prefs);
                                 }
                             }
                         });
@@ -245,7 +414,7 @@ public class HomeActivity extends AppCompatActivity {
         t_time.start();
     }
 
-    private void connection_checktime(String str_realdatetime, String str_token) {
+    private void connection_checktime(String str_realdatetime, final String str_token, final SharedPreferences prefs) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
             String URL = ConnectAPI.getUrl() + "checktime/notification";
@@ -268,25 +437,23 @@ public class HomeActivity extends AppCompatActivity {
                                     startActivity(intent);
                                 }
                                 else if(msg_notification.equals("checktime/notification : dont have token")) {
-                                    Intent intent = new Intent(HomeActivity.this, MainActivity.class);
-                                    startActivity(intent);
+//                                    Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+//                                    startActivity(intent);
+//                                    prefs.edit().clear().commit();
                                 }
                                 else if(msg_notification.equals("checktime/notification : notification")) {
-                                }else {
-                                    Log.e("Notification", "Complete");
-                                    Log.e("error", "asdfghj");
-                                    Intent notificationIntent = new Intent(getApplicationContext(), HomeActivity.class);
-                                    PendingIntent notificationPendingIntent = PendingIntent.getActivity(getApplicationContext(), 1, notificationIntent, 0);
-
-                                    Intent showToastIntent = new Intent(getApplicationContext(), HomeActivity.class);
-                                    PendingIntent showToastPendingIntent = PendingIntent.getService(getApplicationContext(), 2, showToastIntent, 0);
+//                                    Intent notificationIntent = new Intent(getApplicationContext(), HomeActivity.class);
+//                                    PendingIntent notificationPendingIntent = PendingIntent.getActivity(getApplicationContext(), 1, notificationIntent, 0);
+//
+//                                    Intent showToastIntent = new Intent(getApplicationContext(), HomeActivity.class);
+//                                    PendingIntent showToastPendingIntent = PendingIntent.getService(getApplicationContext(), 2, showToastIntent, 0);
 
                                     String taskname_notification = json.getString("taskname");
-                                    String date_notification = json.getString("date");
+//                                    String date_notification = json.getString("date");
 
                                     NotificationCompat.Builder notification = (NotificationCompat.Builder) new NotificationCompat.Builder(getApplicationContext())
                                             .setContentTitle(taskname_notification)
-                                            .setContentText("End Date : " + date_notification)
+                                            .setContentText("Tap for more information")
                                             .setSmallIcon(R.drawable.ic_launcher_foreground)
                                             //.setLargeIcon(BitmapFactory.decodeResource(R.drawable.xyz))
                                             .setColor(getResources().getColor(R.color.colorAccent))
@@ -294,15 +461,17 @@ public class HomeActivity extends AppCompatActivity {
                                             //.setSound()
                                             .setLights(Color.WHITE, 1000, 5000)
                                             //.setWhen(System.currentTimeMillis())
-                                            .setContentIntent(notificationPendingIntent)
+//                                            .setContentIntent(notificationPendingIntent)
                                             .setAutoCancel(true)
                                             .setPriority(NotificationCompat.PRIORITY_HIGH)
-                                            .setColor(getApplication().getResources().getColor(R.color.colornavy))
-                                            .addAction(R.drawable.ic_action_complete_navy ,"Done", notificationPendingIntent)
-                                            .addAction(R.drawable.ic_action_remove_navy, "Ignore", showToastPendingIntent);
+                                            .setColor(getApplication().getResources().getColor(R.color.colornavy));
+//                                            .addAction(R.drawable.ic_action_complete_navy ,"Done", notificationPendingIntent)
+//                                            .addAction(R.drawable.ic_action_remove_navy, "Ignore", showToastPendingIntent);
 
-                                    NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                                    notificationManager.notify(1, notification.build());
+                                    NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);;
+                                    notificationManager.notify(3, notification.build());
+                                }else {
+                                    Log.e("Notification", "Complete");
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

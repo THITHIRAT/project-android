@@ -585,7 +585,7 @@ public class UpdateReminderFragment extends Fragment {
                                     String split_startmonth = split_start[1];
                                     String split_startdate = split_start[0];
                                     String str_startdate_show = split_startdate + "/" + split_startmonth + "/" + split_startyear;
-                                    btnstartdate.setText(str_startdate_show);
+                                    btnstartdate.setText("MFG Date");
 
                                     str_enddate = (String) array_output.get("enddate");
                                     String[] split_end = str_enddate.split("/");
@@ -601,10 +601,7 @@ public class UpdateReminderFragment extends Fragment {
                                     et_addsubtaskname.setText("");
                                     et_addsubtaskname.setHint("Add Subtask");
 
-                                    btnstartdate.setText("Start Date");
-                                    btnenddate.setText("End Date");
-
-                                    btnstartdate.setText("Start Date");
+                                    btnstartdate.setText("MFG Date");
                                     btnenddate.setText("End Date");
 
                                     mnotification.clear();
@@ -724,7 +721,7 @@ public class UpdateReminderFragment extends Fragment {
                                     String split_startmonth = split_start[1];
                                     String split_startdate = split_start[0];
                                     String str_startdate_show = split_startdate + "/" + split_startmonth + "/" + split_startyear;
-                                    btnstartdate.setText(str_startdate_show);
+                                    btnstartdate.setText("MFG Date");
 
                                     str_enddate = (String) array_output.get("enddate");
                                     String[] split_end = str_enddate.split("/");
@@ -738,10 +735,7 @@ public class UpdateReminderFragment extends Fragment {
                                 if (msg_subtaskname.equals("suggestreminder/subtasknamenotification : complete")) {
                                     Log.e("Notification taskname", "dont have data - UpdateReminder");
 
-                                    btnstartdate.setText("Start Date");
-                                    btnenddate.setText("End Date");
-
-                                    btnstartdate.setText("Start Date");
+                                    btnstartdate.setText("MFG Date");
                                     btnenddate.setText("End Date");
 
                                     mnotification.clear();
@@ -757,7 +751,7 @@ public class UpdateReminderFragment extends Fragment {
                                     String split_startmonth = split_start[1];
                                     String split_startdate = split_start[0];
                                     String str_startdate_show = split_startdate + "/" + split_startmonth + "/" + split_startyear;
-                                    btnstartdate.setText(str_startdate_show);
+                                    btnstartdate.setText("MFG Date");
 
                                     str_enddate = (String) array_output.get("enddate");
                                     String[] split_end = str_enddate.split("/");
@@ -867,7 +861,7 @@ public class UpdateReminderFragment extends Fragment {
                                     str_startdate = (String) array.get("start_date");
                                     String[] split_start = str_startdate.split("-");
                                     if(split_start.length == 1) {
-                                        btnstartdate.setText("Start Date");
+                                        btnstartdate.setText("MFG Date");
                                     }else {
                                         int split_startyear = Integer.parseInt(split_start[0]);
                                         int split_startmonth = Integer.parseInt(split_start[1]);
@@ -878,7 +872,7 @@ public class UpdateReminderFragment extends Fragment {
                                     str_enddate = (String) array.get("end_date");
                                     String[] split_end = str_enddate.split("-");
                                     if(split_end.length == 1) {
-                                        btnstartdate.setText("Start Date");
+                                        btnstartdate.setText("MFG Date");
                                     }else {
                                         int split_endyear = Integer.parseInt(split_end[0]);
                                         int split_endmonth = Integer.parseInt(split_end[1]);

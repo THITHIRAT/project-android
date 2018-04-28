@@ -517,7 +517,7 @@ public class AddReminderFragment extends Fragment {
                                     int split_startmonth = Integer.parseInt(split_start[1]);
                                     int split_startdate = Integer.parseInt(split_start[0]);
                                     String str_startdate_show = String.format("%02d/%02d/%04d", split_startdate, split_startmonth, split_startyear);
-                                    btnstartdate.setText(str_startdate_show);
+                                    btnstartdate.setText("MFG Date");
 
                                     str_enddate = (String) array_output.get("enddate");
                                     String[] split_end = str_enddate.split("/");
@@ -535,10 +535,7 @@ public class AddReminderFragment extends Fragment {
                                     et_addsubtaskname.setText("");
                                     et_addsubtaskname.setHint("Add Subtask");
 
-                                    btnstartdate.setText("Start Date");
-                                    btnenddate.setText("End Date");
-
-                                    btnstartdate.setText("Start Date");
+                                    btnstartdate.setText("MFG Date");
                                     btnenddate.setText("End Date");
 
                                     if(mnotificationadapter == null) {
@@ -561,7 +558,7 @@ public class AddReminderFragment extends Fragment {
                                     int split_startmonth = Integer.parseInt(split_start[1]);
                                     int split_startdate = Integer.parseInt(split_start[0]);
                                     String str_startdate_show = String.format("%02d/%02d/%04d", split_startdate, split_startmonth, split_startyear);
-                                    btnstartdate.setText(str_startdate_show);
+                                    btnstartdate.setText("MFG Date");
 
                                     str_enddate = (String) array_output.get("enddate");
                                     String[] split_end = str_enddate.split("/");
