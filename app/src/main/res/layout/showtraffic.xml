@@ -1,155 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/colorwhite"
-    android:layout_margin="30dp"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_margin="30dp"
+    android:background="@color/colorwhite">
 
     <TextView
         android:id="@+id/Warning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:padding="5dp"
-        android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
-        android:textSize="18dp"
-        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:padding="5dp"
+        android:text="Warning"
         android:textColor="@color/colornavy"
-        android:text="Warning" />
+        android:textSize="18dp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tv_taskname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/Warning"
         android:layout_alignStart="@+id/Warning"
         android:layout_below="@+id/Warning"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="10dp"
+        android:maxLength="10"
         android:paddingLeft="5dp"
         android:text="Taskname"
         android:textColor="@color/colornavy"
-        android:textSize="16sp"
-        android:maxLength="10"
-        android:layout_alignLeft="@+id/Warning" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tv_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/Warning"
         android:layout_alignStart="@+id/Warning"
         android:layout_below="@+id/tv_taskname"
         android:layout_marginBottom="5dp"
         android:paddingLeft="5dp"
         android:text="Start Date"
         android:textColor="@color/colornavy"
-        android:textSize="16sp"
-        android:layout_alignLeft="@+id/Warning" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tv_end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/Warning"
         android:layout_alignStart="@+id/Warning"
         android:layout_below="@+id/tv_start"
         android:layout_marginBottom="5dp"
         android:paddingLeft="5dp"
         android:text="End Date"
         android:textColor="@color/colornavy"
-        android:textSize="16sp"
-        android:layout_alignLeft="@+id/Warning" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tv_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/Warning"
         android:layout_alignStart="@+id/Warning"
         android:layout_below="@+id/tv_end"
         android:layout_marginBottom="5dp"
+        android:maxLength="10"
         android:paddingLeft="5dp"
         android:text="Location"
         android:textColor="@color/colornavy"
-        android:textSize="16sp"
-        android:maxLength="10"
-        android:layout_alignLeft="@+id/Warning" />
-
-    <TextView
-        android:id="@+id/tv_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/Warning"
-        android:layout_below="@+id/tv_distance"
-        android:paddingLeft="5dp"
-        android:text="Time"
-        android:textColor="@color/colornavy"
-        android:textSize="16sp"
-        android:layout_alignLeft="@+id/Warning" />
-
-    <TextView
-        android:id="@+id/tv_distance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/Warning"
-        android:layout_below="@+id/tv_location"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="0dp"
-        android:paddingLeft="5dp"
-        android:text="Distance"
-        android:textColor="@color/colornavy"
-        android:textSize="16sp"
-        android:layout_alignLeft="@+id/Warning" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tv_taskname_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ok"
         android:layout_alignStart="@+id/ok"
         android:layout_alignTop="@+id/tv_taskname"
+        android:maxLength="10"
         android:paddingLeft="5dp"
         android:text="Taskname"
         android:textColor="@color/colornavy"
-        android:textSize="16sp"
-        android:maxLength="10"
-        android:layout_alignLeft="@+id/ok" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tv_start_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ok"
         android:layout_alignStart="@+id/ok"
         android:layout_alignTop="@+id/tv_start"
         android:paddingLeft="5dp"
         android:text="Start Date"
         android:textColor="@color/colornavy"
-        android:textSize="16sp"
-        android:layout_alignLeft="@+id/ok" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tv_end_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ok"
         android:layout_alignStart="@+id/ok"
         android:layout_alignTop="@+id/tv_end"
         android:paddingLeft="5dp"
         android:text="End Date"
         android:textColor="@color/colornavy"
-        android:textSize="16sp"
-        android:layout_alignLeft="@+id/ok" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tv_location_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ok"
         android:layout_alignStart="@+id/ok"
         android:layout_alignTop="@+id/tv_location"
+        android:maxLength="10"
         android:paddingLeft="5dp"
         android:text="Location"
         android:textColor="@color/colornavy"
-        android:textSize="16sp"
-        android:maxLength="10" />
+        android:textSize="16sp" />
 
     <Button
         android:id="@+id/ok"
@@ -157,26 +131,26 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/tv_time"
+        android:layout_below="@+id/tv_location_list"
+        android:layout_marginBottom="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp"
         android:background="@null"
-        android:textColor="@color/colordarkblue"
-        android:text="save" />
+        android:text="save"
+        android:textColor="@color/colordarkblue" />
 
     <Button
         android:id="@+id/cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_time"
-        android:layout_toStartOf="@+id/ok"
-        android:layout_toLeftOf="@+id/ok"
-        android:layout_marginTop="10dp"
+        android:layout_below="@+id/tv_location_list"
         android:layout_marginBottom="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_toLeftOf="@+id/ok"
+        android:layout_toStartOf="@+id/ok"
         android:background="@null"
-        android:textColor="@color/colorred"
-        android:text="cancel" />
+        android:text="cancel"
+        android:textColor="@color/colorred" />
 
     <TextView
         android:id="@+id/to"
@@ -184,7 +158,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/tv_taskname"
         android:layout_centerHorizontal="true"
-        android:text="TO"
+        android:text="-"
         android:textColor="@color/colordarkblue"
         android:textStyle="bold" />
 

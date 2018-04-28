@@ -36,8 +36,10 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
@@ -86,6 +88,14 @@ public class AddEventFragment extends Fragment {
 
     String check_msg = "error";
 
+    Button btnstartdate;
+    Button btnenddate;
+
+    Button btnstarttime;
+    Button btnendtime;
+
+    EditText et_addtaskname;
+
     public AddEventFragment() {
         // Required empty public constructor
     }
@@ -105,17 +115,17 @@ public class AddEventFragment extends Fragment {
         str_token = prefs.getString("TOKEN", "null");
         Log.e("Event TOKEN", str_token);
 
-        final Button btnstartdate = (Button)view.findViewById(R.id.start_date);
-        final Button btnenddate = (Button)view.findViewById(R.id.end_date);
+        btnstartdate = (Button)view.findViewById(R.id.start_date);
+        btnenddate = (Button)view.findViewById(R.id.end_date);
 
-        final Button btnstarttime = (Button)view.findViewById(R.id.start_time);
-        final Button btnendtime = (Button)view.findViewById(R.id.end_time);
+        btnstarttime = (Button)view.findViewById(R.id.start_time);
+        btnendtime = (Button)view.findViewById(R.id.end_time);
 
         final TextView et_before_after = (TextView) view.findViewById(R.id.before_after);
         final TextView et_number = (TextView) view.findViewById(R.id.number);
         final TextView et_type_date = (TextView)view.findViewById(R.id.type_date);
 
-        final EditText et_addtaskname = (EditText) view.findViewById(R.id.add_task_name);
+        et_addtaskname = (EditText) view.findViewById(R.id.add_task_name);
         et_addplace = (EditText) view.findViewById(R.id.add_place);
 
         final Switch onOffSwitch = (Switch) view.findViewById(R.id.switch_allday);
@@ -415,7 +425,7 @@ public class AddEventFragment extends Fragment {
         fragmentTransaction.commit();
     }
 
-    private void goDialog() {
+    private void goDialog(String taskname, String startdate_output, String starttime_output, String enddate_output, String endtime_output, String placename) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         final View traffic_rootview = getLayoutInflater().inflate(R.layout.showtraffic, null);
 
@@ -423,7 +433,26 @@ public class AddEventFragment extends Fragment {
         final AlertDialog dialog_update = builder.create();
         dialog_update.show();
 
+        TextView tv_taskname = (TextView) traffic_rootview.findViewById(R.id.tv_taskname);
+        TextView tv_start = (TextView) traffic_rootview.findViewById(R.id.tv_start);
+        TextView tv_end = (TextView) traffic_rootview.findViewById(R.id.tv_end);
+        TextView tv_location = (TextView) traffic_rootview.findViewById(R.id.tv_location);
 
+        tv_taskname.setText(et_addtaskname.getText().toString());
+        tv_start.setText(btnstartdate.getText().toString() + " " + btnstarttime.getText().toString());
+        tv_end.setText(btnenddate.getText().toString() + " " + btnendtime.getText().toString());
+        tv_location.setText(et_addplace.getText().toString());
+
+        TextView tv_taskname_list = (TextView) traffic_rootview.findViewById(R.id.tv_taskname_list);
+        TextView tv_start_list = (TextView) traffic_rootview.findViewById(R.id.tv_start_list);
+        TextView tv_end_list = (TextView) traffic_rootview.findViewById(R.id.tv_end_list);
+        TextView tv_location_list = (TextView) traffic_rootview.findViewById(R.id.tv_location_list);
+
+        tv_taskname_list.setText(taskname);
+        tv_start_list.setText(startdate_output + " " + starttime_output);
+        tv_end_list.setText(enddate_output + " " + endtime_output);
+        tv_location_list.setText(placename
+        );
     }
 
     private void connection_addreminder_event(String con_str_taskname, String con_str_onoffswitch, String con_str_startdate, String con_str_startmonth, String con_str_startyear, String con_str_starthour, String con_str_startmin, String con_str_enddate, String con_str_endmonth, String con_str_endyear, String con_str_endhour, String con_str_endmin, String con_str_alldaydate, String con_str_alldaymonth, String con_str_alldayyear, String con_str_alldayhour, String con_str_alldaymin, String con_str_placename, String con_str_before_after, String con_str_number, String con_str_type_num) {
@@ -472,34 +501,90 @@ public class AddEventFragment extends Fragment {
                                 json = new JSONObject(response);
                                 String msg_event = json.getString("msg");
                                 Log.i("VOLLEY", msg_event);
-                                if(msg_event.equals("addreminder/event : allday = 0 : can add event")) {
+                                if(msg_event.equals("addreminder/event : allday = 1 : insert notification complete")) {
                                     check_msg = "complete";
                                     Toast.makeText(getActivity(),"Complete", Toast.LENGTH_SHORT).show();
                                     goScheduledFragment();
-                                }else if(msg_event.equals("addreminder/event : allday = 1 : insert notification complete")) {
+                                }else if(msg_event.equals("addreminder/event : allday = 1 : dont have allday > date, month, year, hrs, mins")) {
                                     check_msg = "complete";
                                     Toast.makeText(getActivity(),"Complete", Toast.LENGTH_SHORT).show();
                                     goScheduledFragment();
-                                }else if(msg_event.equals("addreminder/event : allday = 0 : insert notification complete")) {
+                                }else if(msg_event.equals("addreminder/event : allday = 0 : can add event when reminder_event.length = 0")) {
                                     check_msg = "complete";
                                     Toast.makeText(getActivity(),"Complete", Toast.LENGTH_SHORT).show();
                                     goScheduledFragment();
-                                }else if(msg_event.equals("addreminder/event : allday = 0 : complete")) {
+                                }else if(msg_event.equals("aaddreminder/event : allday = 0 : can add event when then loop")) {
                                     check_msg = "complete";
                                     Toast.makeText(getActivity(),"Complete", Toast.LENGTH_SHORT).show();
                                     goScheduledFragment();
-                                }else if(msg_event.equals("addreminder/event : allday = 0 : cannot add this event")) {
+                                }else if(msg_event.equals("addreminder/event : allday = 0 : warnning time")) {
                                     check_msg = "show";
-                                    JSONObject data = json.getJSONObject("data");
-                                    String distance = data.getString("distance");
-                                    String time = data.getString("time");
-                                    goDialog();
-                                }else if(msg_event.equals("addreminder/event : allday = 0 : incorrect start and end date time")) {
-                                    check_msg = "start date & end date incorrect";
-                                    Toast.makeText(getActivity(),"Start Date & End Date is incorrect", Toast.LENGTH_SHORT).show();
-                                }else if(msg_event.equals("addreminder event : date not enough")) {
-                                    check_msg = "fill data";
-                                    Toast.makeText(getActivity(),"Plase fill data", Toast.LENGTH_SHORT).show();
+                                    JSONArray data = json.getJSONArray("data");
+                                    JSONObject array = (JSONObject) data.get(0);
+                                    String taskname = (String) array.get("taskname");
+
+                                    String start_date = (String) array.get("start_date");
+                                    String[] split_start_date = start_date.split("-");
+                                    String str_start_yaer = split_start_date[0];
+                                    String str_start_month = split_start_date[1];
+                                    String str_start_day = split_start_date[2];
+                                    String startdate_output = str_start_day + "/" + str_start_month + "/" + str_start_yaer;
+
+                                    String start_time = (String) array.get("start_time");
+                                    String[] split_start_time = start_time.split(":");
+                                    String str_start_hour = split_start_time[0];
+                                    String str_start_min = split_start_time[1];
+                                    String starttime_output = str_start_hour + ":" + str_start_min;
+
+                                    String end_date = (String) array.get("end_date");
+                                    String[] split_end_date = end_date.split("-");
+                                    String str_end_yaer = split_end_date[0];
+                                    String str_end_month = split_end_date[1];
+                                    String str_end_day = split_end_date[2];
+                                    String enddate_output = str_end_day + "/" + str_end_month + "/" + str_end_yaer;
+
+                                    String end_time = (String) array.get("end_time");
+                                    String[] split_end_time = end_time.split(":");
+                                    String str_end_hour = split_end_time[0];
+                                    String str_end_min = split_end_time[1];
+                                    String endtime_output = str_end_hour + ":" + str_end_min;
+
+                                    String placename = (String) array.get("placename");
+                                    goDialog(taskname, startdate_output, starttime_output, enddate_output, endtime_output, placename);
+                                }else if(msg_event.equals("addreminder/event : allday = 0 : warning traffic")) {
+                                    check_msg = "show";
+                                    JSONArray data = json.getJSONArray("data");
+                                    JSONObject array = (JSONObject) data.get(0);
+                                    String taskname = (String) array.get("taskname");
+
+                                    String start_date = (String) array.get("start_date");
+                                    String[] split_start_date = start_date.split("-");
+                                    String str_start_yaer = split_start_date[0];
+                                    String str_start_month = split_start_date[1];
+                                    String str_start_day = split_start_date[2];
+                                    String startdate_output = str_start_day + "/" + str_start_month + "/" + str_start_yaer;
+
+                                    String start_time = (String) array.get("start_time");
+                                    String[] split_start_time = start_time.split(":");
+                                    String str_start_hour = split_start_time[0];
+                                    String str_start_min = split_start_time[1];
+                                    String starttime_output = str_start_hour + ":" + str_start_min;
+
+                                    String end_date = (String) array.get("end_date");
+                                    String[] split_end_date = end_date.split("-");
+                                    String str_end_yaer = split_end_date[0];
+                                    String str_end_month = split_end_date[1];
+                                    String str_end_day = split_end_date[2];
+                                    String enddate_output = str_end_day + "/" + str_end_month + "/" + str_end_yaer;
+
+                                    String end_time = (String) array.get("end_time");
+                                    String[] split_end_time = end_time.split(":");
+                                    String str_end_hour = split_end_time[0];
+                                    String str_end_min = split_end_time[1];
+                                    String endtime_output = str_end_hour + ":" + str_end_min;
+
+                                    String placename = (String) array.get("placename");
+                                    goDialog(taskname, startdate_output, starttime_output, enddate_output, endtime_output, placename);
                                 }else {
                                     check_msg = "error";
                                     Toast.makeText(getActivity(),"Error", Toast.LENGTH_SHORT).show();

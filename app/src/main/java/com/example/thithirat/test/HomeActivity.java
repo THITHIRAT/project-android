@@ -194,7 +194,7 @@ public class HomeActivity extends AppCompatActivity {
             public void run() {
                 try {
                     while (!isInterrupted()) {
-                        int sec = 30*1000;
+                        int sec = 10*1000;
                         Thread.sleep(sec);
                         runOnUiThread(new Runnable() {
                             @Override
