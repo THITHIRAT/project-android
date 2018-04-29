@@ -50,7 +50,7 @@ public class MainSettingFragment extends Fragment {
         getActivity().setTitle("Setting my account");
 
         Button button_account = (Button)view.findViewById(R.id.edit_account);
-        Button button_location = (Button)view.findViewById(R.id.edit_location);
+//        Button button_location = (Button)view.findViewById(R.id.edit_location);
 
         //preference
         String token_name = "PUTGET_TOKEN";
@@ -71,16 +71,16 @@ public class MainSettingFragment extends Fragment {
             }
         });
 
-        button_location.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EditLocationFragment location_Fragment = new EditLocationFragment();
-                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.frag, location_Fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-            }
-        });
+//        button_location.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                EditLocationFragment location_Fragment = new EditLocationFragment();
+//                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+//                fragmentTransaction.replace(R.id.frag, location_Fragment);
+//                fragmentTransaction.addToBackStack(null);
+//                fragmentTransaction.commit();
+//            }
+//        });
         return view;
     }
 

@@ -110,13 +110,13 @@ public class HomeActivity extends AppCompatActivity {
                     drawer.closeDrawer(GravityCompat.START);
                 }
 
-                if (item.getItemId()== R.id.nav_calendar) {
-                    setTitle("Calendar");
-                    FragmentTransaction fragmentTransaction= fragmentmanager.beginTransaction();
-                    fragmentTransaction.replace(R.id.frag, new CalendarFragment()).commit();
-                    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-                    drawer.closeDrawer(GravityCompat.START);
-                }
+//                if (item.getItemId()== R.id.nav_calendar) {
+//                    setTitle("Calendar");
+//                    FragmentTransaction fragmentTransaction= fragmentmanager.beginTransaction();
+//                    fragmentTransaction.replace(R.id.frag, new CalendarFragment()).commit();
+//                    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//                    drawer.closeDrawer(GravityCompat.START);
+//                }
 
                 if (item.getItemId()==R.id.nav_complete)
                 {
@@ -194,7 +194,7 @@ public class HomeActivity extends AppCompatActivity {
             public void run() {
                 try {
                     while (!isInterrupted()) {
-                        int sec = 10*1000;
+                        int sec = 30*1000;
                         Thread.sleep(sec);
                         runOnUiThread(new Runnable() {
                             @Override
@@ -242,6 +242,9 @@ public class HomeActivity extends AppCompatActivity {
                                     int length_taskname = taskname_notification.length();
                                     for (int i=0; i<length_taskname; i++) {
                                         String array_taskname = (String) taskname_notification.get(i);
+                                        Intent notificationIntent = new Intent(getApplicationContext(), HomeActivity.class);
+                                        PendingIntent notificationPendingIntent = PendingIntent.getActivity(getApplicationContext(), 1, notificationIntent, 0);
+
                                         NotificationCompat.Builder notification = (NotificationCompat.Builder) new NotificationCompat.Builder(getApplicationContext())
                                                 .setContentTitle(array_taskname)
                                                 .setContentText("Tap for more information")
@@ -252,7 +255,7 @@ public class HomeActivity extends AppCompatActivity {
                                                 //.setSound()
                                                 .setLights(Color.WHITE, 1000, 5000)
                                                 //.setWhen(System.currentTimeMillis())
-//                                            .setContentIntent(notificationPendingIntent)
+                                                .setContentIntent(notificationPendingIntent)
                                                 .setAutoCancel(true)
                                                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                                                 .setColor(getApplication().getResources().getColor(R.color.colornavy));
@@ -327,6 +330,9 @@ public class HomeActivity extends AppCompatActivity {
                                     int length_taskname = taskname_notification.length();
                                     for (int i=0; i<length_taskname; i++) {
                                         String array_taskname = (String) taskname_notification.get(i);
+                                        Intent notificationIntent = new Intent(getApplicationContext(), HomeActivity.class);
+                                        PendingIntent notificationPendingIntent = PendingIntent.getActivity(getApplicationContext(), 1, notificationIntent, 0);
+//
                                         NotificationCompat.Builder notification = (NotificationCompat.Builder) new NotificationCompat.Builder(getApplicationContext())
                                                 .setContentTitle(array_taskname)
                                                 .setContentText("Tap for more information")
@@ -337,7 +343,7 @@ public class HomeActivity extends AppCompatActivity {
                                                 //.setSound()
                                                 .setLights(Color.WHITE, 1000, 5000)
                                                 //.setWhen(System.currentTimeMillis())
-//                                            .setContentIntent(notificationPendingIntent)
+                                                .setContentIntent(notificationPendingIntent)
                                                 .setAutoCancel(true)
                                                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                                                 .setColor(getApplication().getResources().getColor(R.color.colornavy));
@@ -442,8 +448,8 @@ public class HomeActivity extends AppCompatActivity {
 //                                    prefs.edit().clear().commit();
                                 }
                                 else if(msg_notification.equals("checktime/notification : notification")) {
-//                                    Intent notificationIntent = new Intent(getApplicationContext(), HomeActivity.class);
-//                                    PendingIntent notificationPendingIntent = PendingIntent.getActivity(getApplicationContext(), 1, notificationIntent, 0);
+                                    Intent notificationIntent = new Intent(getApplicationContext(), HomeActivity.class);
+                                    PendingIntent notificationPendingIntent = PendingIntent.getActivity(getApplicationContext(), 1, notificationIntent, 0);
 //
 //                                    Intent showToastIntent = new Intent(getApplicationContext(), HomeActivity.class);
 //                                    PendingIntent showToastPendingIntent = PendingIntent.getService(getApplicationContext(), 2, showToastIntent, 0);
@@ -461,14 +467,15 @@ public class HomeActivity extends AppCompatActivity {
                                             //.setSound()
                                             .setLights(Color.WHITE, 1000, 5000)
                                             //.setWhen(System.currentTimeMillis())
-//                                            .setContentIntent(notificationPendingIntent)
+                                            .setContentIntent(notificationPendingIntent)
                                             .setAutoCancel(true)
+//                                            .setContentIntent(pendingIntent)
                                             .setPriority(NotificationCompat.PRIORITY_HIGH)
                                             .setColor(getApplication().getResources().getColor(R.color.colornavy));
 //                                            .addAction(R.drawable.ic_action_complete_navy ,"Done", notificationPendingIntent)
 //                                            .addAction(R.drawable.ic_action_remove_navy, "Ignore", showToastPendingIntent);
 
-                                    NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);;
+                                    NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                                     notificationManager.notify(3, notification.build());
                                 }else {
                                     Log.e("Notification", "Complete");

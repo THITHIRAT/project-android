@@ -69,57 +69,7 @@
         android:layout_alignStart="@+id/Warning"
         android:layout_below="@+id/tv_end"
         android:layout_marginBottom="5dp"
-        android:maxLength="10"
-        android:paddingLeft="5dp"
-        android:text="Location"
-        android:textColor="@color/colornavy"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/tv_taskname_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/ok"
-        android:layout_alignStart="@+id/ok"
-        android:layout_alignTop="@+id/tv_taskname"
-        android:maxLength="10"
-        android:paddingLeft="5dp"
-        android:text="Taskname"
-        android:textColor="@color/colornavy"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/tv_start_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/ok"
-        android:layout_alignStart="@+id/ok"
-        android:layout_alignTop="@+id/tv_start"
-        android:paddingLeft="5dp"
-        android:text="Start Date"
-        android:textColor="@color/colornavy"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/tv_end_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/ok"
-        android:layout_alignStart="@+id/ok"
-        android:layout_alignTop="@+id/tv_end"
-        android:paddingLeft="5dp"
-        android:text="End Date"
-        android:textColor="@color/colornavy"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/tv_location_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/ok"
-        android:layout_alignStart="@+id/ok"
-        android:layout_alignTop="@+id/tv_location"
-        android:maxLength="10"
+        android:maxLines="1"
         android:paddingLeft="5dp"
         android:text="Location"
         android:textColor="@color/colornavy"
@@ -131,7 +81,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/tv_location_list"
+        android:layout_below="@+id/tv_location"
         android:layout_marginBottom="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
@@ -143,7 +93,7 @@
         android:id="@+id/cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_location_list"
+        android:layout_below="@+id/tv_location"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="10dp"
         android:layout_toLeftOf="@+id/ok"
@@ -151,15 +101,5 @@
         android:background="@null"
         android:text="cancel"
         android:textColor="@color/colorred" />
-
-    <TextView
-        android:id="@+id/to"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/tv_taskname"
-        android:layout_centerHorizontal="true"
-        android:text="-"
-        android:textColor="@color/colordarkblue"
-        android:textStyle="bold" />
 
 </RelativeLayout>

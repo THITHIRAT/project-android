@@ -96,6 +96,9 @@ public class AddEventFragment extends Fragment {
 
     EditText et_addtaskname;
 
+    TextView et_before_after;
+    TextView et_number;
+    TextView et_type_date;
     public AddEventFragment() {
         // Required empty public constructor
     }
@@ -121,9 +124,9 @@ public class AddEventFragment extends Fragment {
         btnstarttime = (Button)view.findViewById(R.id.start_time);
         btnendtime = (Button)view.findViewById(R.id.end_time);
 
-        final TextView et_before_after = (TextView) view.findViewById(R.id.before_after);
-        final TextView et_number = (TextView) view.findViewById(R.id.number);
-        final TextView et_type_date = (TextView)view.findViewById(R.id.type_date);
+        et_before_after = (TextView) view.findViewById(R.id.before_after);
+        et_number = (TextView) view.findViewById(R.id.number);
+        et_type_date = (TextView)view.findViewById(R.id.type_date);
 
         et_addtaskname = (EditText) view.findViewById(R.id.add_task_name);
         et_addplace = (EditText) view.findViewById(R.id.add_place);
@@ -168,7 +171,7 @@ public class AddEventFragment extends Fragment {
                 datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        month = _month + 1;
+                        month = month + 1;
                         int yyyy = year + 543;
                         btnenddate.setText(String.format("%02d/%02d/%04d", dayOfMonth, month, yyyy));
                         con_str_enddate = String.valueOf(dayOfMonth);
@@ -406,23 +409,16 @@ public class AddEventFragment extends Fragment {
                 String con_str_number = et_number.getText().toString();
                 String con_str_type_num = et_type_date.getText().toString();
 
-                connection_addreminder_event(con_str_taskname, con_str_onoffswitch, con_str_startdate, con_str_startmonth, con_str_startyear, con_str_starthour, con_str_startmin,
+                boolean connection = connection_addreminder_event(con_str_taskname, con_str_onoffswitch, con_str_startdate, con_str_startmonth, con_str_startyear, con_str_starthour, con_str_startmin,
                         con_str_enddate, con_str_endmonth, con_str_endyear, con_str_endhour, con_str_endmin, con_str_alldaydate, con_str_alldaymonth, con_str_alldayyear,
                         con_str_alldayhour, con_str_alldaymin, con_str_placename, con_str_before_after, con_str_number, con_str_type_num);
 
                 Log.e("Event FloatingButton", con_str_placename);
+
             }
         });
 
         return view;
-    }
-
-    private void goScheduledFragment() {
-        ScheduledFragment scheduled_fragment = new ScheduledFragment();
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frag, scheduled_fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
     }
 
     private void goDialog(String taskname, String startdate_output, String starttime_output, String enddate_output, String endtime_output, String placename) {
@@ -438,24 +434,122 @@ public class AddEventFragment extends Fragment {
         TextView tv_end = (TextView) traffic_rootview.findViewById(R.id.tv_end);
         TextView tv_location = (TextView) traffic_rootview.findViewById(R.id.tv_location);
 
-        tv_taskname.setText(et_addtaskname.getText().toString());
-        tv_start.setText(btnstartdate.getText().toString() + " " + btnstarttime.getText().toString());
-        tv_end.setText(btnenddate.getText().toString() + " " + btnendtime.getText().toString());
-        tv_location.setText(et_addplace.getText().toString());
+//        tv_taskname.setText(et_addtaskname.getText().toString());
+//        tv_start.setText(btnstartdate.getText().toString() + " " + btnstarttime.getText().toString());
+//        tv_end.setText(btnenddate.getText().toString() + " " + btnendtime.getText().toString());
+//        tv_location.setText(et_addplace.getText().toString());
+//
+//        TextView tv_taskname_list = (TextView) traffic_rootview.findViewById(R.id.tv_taskname_list);
+//        TextView tv_start_list = (TextView) traffic_rootview.findViewById(R.id.tv_start_list);
+//        TextView tv_end_list = (TextView) traffic_rootview.findViewById(R.id.tv_end_list);
+//        TextView tv_location_list = (TextView) traffic_rootview.findViewById(R.id.tv_location_list);
 
-        TextView tv_taskname_list = (TextView) traffic_rootview.findViewById(R.id.tv_taskname_list);
-        TextView tv_start_list = (TextView) traffic_rootview.findViewById(R.id.tv_start_list);
-        TextView tv_end_list = (TextView) traffic_rootview.findViewById(R.id.tv_end_list);
-        TextView tv_location_list = (TextView) traffic_rootview.findViewById(R.id.tv_location_list);
+        tv_taskname.setText(taskname);
+        tv_start.setText(startdate_output + " " + starttime_output);
+        tv_end.setText(enddate_output + " " + endtime_output);
+        tv_location.setText(placename);
 
-        tv_taskname_list.setText(taskname);
-        tv_start_list.setText(startdate_output + " " + starttime_output);
-        tv_end_list.setText(enddate_output + " " + endtime_output);
-        tv_location_list.setText(placename
-        );
+        Button ok = (Button) traffic_rootview.findViewById(R.id.ok);
+        Button cancel = (Button) traffic_rootview.findViewById(R.id.cancel);
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(),"Complete", Toast.LENGTH_SHORT).show();
+                dialog_update.cancel();
+                connect_add_event();
+                ScheduledFragment scheduled_fragment = new ScheduledFragment();
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.frag, scheduled_fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog_update.cancel();
+            }
+        });
+
     }
 
-    private void connection_addreminder_event(String con_str_taskname, String con_str_onoffswitch, String con_str_startdate, String con_str_startmonth, String con_str_startyear, String con_str_starthour, String con_str_startmin, String con_str_enddate, String con_str_endmonth, String con_str_endyear, String con_str_endhour, String con_str_endmin, String con_str_alldaydate, String con_str_alldaymonth, String con_str_alldayyear, String con_str_alldayhour, String con_str_alldaymin, String con_str_placename, String con_str_before_after, String con_str_number, String con_str_type_num) {
+    private void connect_add_event() {
+        try {
+            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+            String URL = ConnectAPI.getUrl() + "addevent_task/task";
+            JSONObject jsonBody = new JSONObject();
+            jsonBody.put("token", str_token);
+            jsonBody.put("type", "Event");
+            jsonBody.put("allday", "0");
+
+            jsonBody.put("startdate", con_str_startdate);
+            jsonBody.put("startmonth", con_str_startmonth);
+            jsonBody.put("startyear", con_str_startyear);
+            jsonBody.put("starthour", con_str_starthour);
+            jsonBody.put("startmin", con_str_startmin);
+
+            jsonBody.put("enddate", con_str_enddate);
+            jsonBody.put("endmonth", con_str_endmonth);
+            jsonBody.put("endyear", con_str_endyear);
+            jsonBody.put("endhour", con_str_endhour);
+            jsonBody.put("endmin", con_str_endmin);
+
+            jsonBody.put("placename", et_addplace.getText().toString());
+            jsonBody.put("taskname", et_addtaskname.getText().toString());
+            jsonBody.put("complete", "0");
+
+            jsonBody.put("before_after", et_before_after.getText().toString());
+            jsonBody.put("num_notification", et_number.getText().toString());
+            jsonBody.put("type_num", et_type_date.getText().toString());
+
+            final String requestBody = jsonBody.toString();
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.i("VOLLEY", response);
+                            JSONObject json = null;
+                            try {
+                                json = new JSONObject(response);
+                                String msg_addevent = json.getString("msg");
+                                Log.i("VOLLEY", msg_addevent);
+
+                            }catch (JSONException e){
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("VOLLEY", error.toString());
+                        }
+                    }) {
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
+
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        return requestBody == null ? null : requestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                        return null;
+                    }
+                }
+            };
+            requestQueue.add(stringRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean connection_addreminder_event(String con_str_taskname, String con_str_onoffswitch, String con_str_startdate, String con_str_startmonth, String con_str_startyear, String con_str_starthour, String con_str_startmin, String con_str_enddate, String con_str_endmonth, String con_str_endyear, String con_str_endhour, String con_str_endmin, String con_str_alldaydate, String con_str_alldaymonth, String con_str_alldayyear, String con_str_alldayhour, String con_str_alldaymin, String con_str_placename, String con_str_before_after, String con_str_number, String con_str_type_num) {
+        final boolean[] return_conn = {true};
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
             String URL = ConnectAPI.getUrl() + "addreminder/event";
@@ -504,21 +598,46 @@ public class AddEventFragment extends Fragment {
                                 if(msg_event.equals("addreminder/event : allday = 1 : insert notification complete")) {
                                     check_msg = "complete";
                                     Toast.makeText(getActivity(),"Complete", Toast.LENGTH_SHORT).show();
-                                    goScheduledFragment();
+                                    ScheduledFragment scheduled_fragment = new ScheduledFragment();
+                                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                                    fragmentTransaction.replace(R.id.frag, scheduled_fragment);
+                                    fragmentTransaction.addToBackStack(null);
+                                    fragmentTransaction.commit();
                                 }else if(msg_event.equals("addreminder/event : allday = 1 : dont have allday > date, month, year, hrs, mins")) {
                                     check_msg = "complete";
                                     Toast.makeText(getActivity(),"Complete", Toast.LENGTH_SHORT).show();
-                                    goScheduledFragment();
+                                    ScheduledFragment scheduled_fragment = new ScheduledFragment();
+                                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                                    fragmentTransaction.replace(R.id.frag, scheduled_fragment);
+                                    fragmentTransaction.addToBackStack(null);
+                                    fragmentTransaction.commit();
                                 }else if(msg_event.equals("addreminder/event : allday = 0 : can add event when reminder_event.length = 0")) {
                                     check_msg = "complete";
                                     Toast.makeText(getActivity(),"Complete", Toast.LENGTH_SHORT).show();
-                                    goScheduledFragment();
+                                    ScheduledFragment scheduled_fragment = new ScheduledFragment();
+                                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                                    fragmentTransaction.replace(R.id.frag, scheduled_fragment);
+                                    fragmentTransaction.addToBackStack(null);
+                                    fragmentTransaction.commit();
                                 }else if(msg_event.equals("aaddreminder/event : allday = 0 : can add event when then loop")) {
                                     check_msg = "complete";
                                     Toast.makeText(getActivity(),"Complete", Toast.LENGTH_SHORT).show();
-                                    goScheduledFragment();
+                                    ScheduledFragment scheduled_fragment = new ScheduledFragment();
+                                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                                    fragmentTransaction.replace(R.id.frag, scheduled_fragment);
+                                    fragmentTransaction.addToBackStack(null);
+                                    fragmentTransaction.commit();
+                                }else if(msg_event.equals("addreminder event : date not enough")) {
+                                    check_msg = "error";
+                                    return_conn[0] = false;
+                                    Toast.makeText(getActivity(),"Please fill data", Toast.LENGTH_SHORT).show();
+                                }else if(msg_event.equals("addreminder/event : allday = 0 : incorrect start and end date time")) {
+                                    check_msg = "error";
+                                    return_conn[0] = false;
+                                    Toast.makeText(getActivity(),"Start date and End date is incorrect", Toast.LENGTH_SHORT).show();
                                 }else if(msg_event.equals("addreminder/event : allday = 0 : warnning time")) {
                                     check_msg = "show";
+                                    return_conn[0] = false;
                                     JSONArray data = json.getJSONArray("data");
                                     JSONObject array = (JSONObject) data.get(0);
                                     String taskname = (String) array.get("taskname");
@@ -553,6 +672,7 @@ public class AddEventFragment extends Fragment {
                                     goDialog(taskname, startdate_output, starttime_output, enddate_output, endtime_output, placename);
                                 }else if(msg_event.equals("addreminder/event : allday = 0 : warning traffic")) {
                                     check_msg = "show";
+                                    return_conn[0] = false;
                                     JSONArray data = json.getJSONArray("data");
                                     JSONObject array = (JSONObject) data.get(0);
                                     String taskname = (String) array.get("taskname");
@@ -587,9 +707,9 @@ public class AddEventFragment extends Fragment {
                                     goDialog(taskname, startdate_output, starttime_output, enddate_output, endtime_output, placename);
                                 }else {
                                     check_msg = "error";
+                                    return_conn[0] = false;
                                     Toast.makeText(getActivity(),"Error", Toast.LENGTH_SHORT).show();
                                 }
-                                Log.e("MSG_conn", check_msg);
                             }catch (JSONException e){
                                 e.printStackTrace();
                             }
@@ -620,6 +740,7 @@ public class AddEventFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        return return_conn[0];
     }
 
     public static void putArguments(Bundle args) {

@@ -186,7 +186,7 @@ public class UpdateEventFragment extends Fragment {
                 datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        month = _month + 1;
+                        month = month + 1;
                         int yyyy = year + 543;
                         btnenddate.setText(String.format("%02d/%02d/%04d", dayOfMonth, month, yyyy));
                         con_str_enddate = String.valueOf(dayOfMonth);
