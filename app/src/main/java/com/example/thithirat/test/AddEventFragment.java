@@ -65,27 +65,6 @@ public class AddEventFragment extends Fragment {
 
     String str_token;
 
-    String con_str_startdate = null;
-    String con_str_startmonth = null;
-    String con_str_startyear = null;
-
-    String con_str_enddate = null;
-    String con_str_endmonth = null;
-    String con_str_endyear = null;
-
-    String con_str_starthour = null;
-    String con_str_startmin = null;
-
-    String con_str_endhour = null;
-    String con_str_endmin = null;
-
-    String con_str_alldaydate = null;
-    String con_str_alldaymonth = null;
-    String con_str_alldayyear = null;
-
-    String con_str_alldayhour = null;
-    String con_str_alldaymin = null;
-
     String check_msg = "error";
 
     Button btnstartdate;
@@ -94,11 +73,26 @@ public class AddEventFragment extends Fragment {
     Button btnstarttime;
     Button btnendtime;
 
+    Switch onOffSwitch;
+
     EditText et_addtaskname;
 
     TextView et_before_after;
     TextView et_number;
     TextView et_type_date;
+
+    //public
+    String con_str_startdate;
+    String con_str_startmonth;
+    String con_str_startyear;
+    String con_str_starthour;
+    String con_str_startmin;
+    String con_str_enddate;
+    String con_str_endmonth;
+    String con_str_endyear;
+    String con_str_endhour;
+    String con_str_endmin;
+
     public AddEventFragment() {
         // Required empty public constructor
     }
@@ -131,7 +125,7 @@ public class AddEventFragment extends Fragment {
         et_addtaskname = (EditText) view.findViewById(R.id.add_task_name);
         et_addplace = (EditText) view.findViewById(R.id.add_place);
 
-        final Switch onOffSwitch = (Switch) view.findViewById(R.id.switch_allday);
+        onOffSwitch = (Switch) view.findViewById(R.id.switch_allday);
         final boolean[] checkswitch = {false};
 
         ImageButton marker_maps = (ImageButton)view.findViewById(R.id.marker_map);
@@ -154,9 +148,6 @@ public class AddEventFragment extends Fragment {
                        month = month + 1;
                        int yyyy = year + 543;
                        btnstartdate.setText(String.format("%02d/%02d/%04d", dayOfMonth, month, yyyy));
-                       con_str_startdate = String.valueOf(dayOfMonth);
-                       con_str_startmonth = String.valueOf(month);
-                       con_str_startyear = String.valueOf(year);
                    }
                }, _year, _month, _day);
                datePickerDialog.show();
@@ -174,9 +165,6 @@ public class AddEventFragment extends Fragment {
                         month = month + 1;
                         int yyyy = year + 543;
                         btnenddate.setText(String.format("%02d/%02d/%04d", dayOfMonth, month, yyyy));
-                        con_str_enddate = String.valueOf(dayOfMonth);
-                        con_str_endmonth = String.valueOf(month);
-                        con_str_endyear = String.valueOf(year);
                     }
                 }, _year, _month, _day);
                 datePickerDialog.show();
@@ -195,8 +183,6 @@ public class AddEventFragment extends Fragment {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         btnstarttime.setText(String.format("%02d:%02d", hourOfDay, minute));
-                        con_str_starthour = String.valueOf(hourOfDay);
-                        con_str_startmin = String.valueOf(minute);
                     }
                 }, _hour, _minute, true);
                 timePickerDialog.show();
@@ -215,8 +201,6 @@ public class AddEventFragment extends Fragment {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         btnendtime.setText(String.format("%02d:%02d", hourOfDay, minute));
-                        con_str_endhour = String.valueOf(hourOfDay);
-                        con_str_endmin = String.valueOf(minute);
                     }
                 }, _hour, _minute, true);
                 timePickerDialog.show();
@@ -284,9 +268,6 @@ public class AddEventFragment extends Fragment {
                                 month = _month + 1;
                                 int yyyy = year + 543;
                                 button_date_allday.setText(String.format("%02d/%02d/%04d", dayOfMonth, month, yyyy));
-                                con_str_alldaydate = String.valueOf(dayOfMonth);
-                                con_str_alldaymonth = String.valueOf(month);
-                                con_str_alldayyear = String.valueOf(year);
                             }
                         }, _yaer, _month, _day);
                         datePickerDialog.show();
@@ -306,8 +287,6 @@ public class AddEventFragment extends Fragment {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                                 button_time_allday.setText(String.format("%02d:%02d", hourOfDay, minute));
-                                con_str_alldayhour = String.valueOf(hourOfDay);
-                                con_str_alldaymin = String.valueOf(minute);
                             }
                         }, _hour, _minute, true);
                         timePickerDialog.show();
@@ -396,25 +375,7 @@ public class AddEventFragment extends Fragment {
         fab_done_reminder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String con_str_taskname = et_addtaskname.getText().toString();
-                boolean bool_onoffswitch = onOffSwitch.isChecked();
-                String con_str_onoffswitch;
-                if(bool_onoffswitch) {
-                    con_str_onoffswitch = "1";
-                }else {
-                    con_str_onoffswitch = "0";
-                }
-                String con_str_placename = et_addplace.getText().toString();
-                String con_str_before_after = et_before_after.getText().toString();
-                String con_str_number = et_number.getText().toString();
-                String con_str_type_num = et_type_date.getText().toString();
-
-                boolean connection = connection_addreminder_event(con_str_taskname, con_str_onoffswitch, con_str_startdate, con_str_startmonth, con_str_startyear, con_str_starthour, con_str_startmin,
-                        con_str_enddate, con_str_endmonth, con_str_endyear, con_str_endhour, con_str_endmin, con_str_alldaydate, con_str_alldaymonth, con_str_alldayyear,
-                        con_str_alldayhour, con_str_alldaymin, con_str_placename, con_str_before_after, con_str_number, con_str_type_num);
-
-                Log.e("Event FloatingButton", con_str_placename);
-
+                connection_addreminder_event();
             }
         });
 
@@ -433,16 +394,6 @@ public class AddEventFragment extends Fragment {
         TextView tv_start = (TextView) traffic_rootview.findViewById(R.id.tv_start);
         TextView tv_end = (TextView) traffic_rootview.findViewById(R.id.tv_end);
         TextView tv_location = (TextView) traffic_rootview.findViewById(R.id.tv_location);
-
-//        tv_taskname.setText(et_addtaskname.getText().toString());
-//        tv_start.setText(btnstartdate.getText().toString() + " " + btnstarttime.getText().toString());
-//        tv_end.setText(btnenddate.getText().toString() + " " + btnendtime.getText().toString());
-//        tv_location.setText(et_addplace.getText().toString());
-//
-//        TextView tv_taskname_list = (TextView) traffic_rootview.findViewById(R.id.tv_taskname_list);
-//        TextView tv_start_list = (TextView) traffic_rootview.findViewById(R.id.tv_start_list);
-//        TextView tv_end_list = (TextView) traffic_rootview.findViewById(R.id.tv_end_list);
-//        TextView tv_location_list = (TextView) traffic_rootview.findViewById(R.id.tv_location_list);
 
         tv_taskname.setText(taskname);
         tv_start.setText(startdate_output + " " + starttime_output);
@@ -475,7 +426,53 @@ public class AddEventFragment extends Fragment {
 
     }
 
+    private void getDateTime() {
+        String str_startdate = btnstartdate.getText().toString();
+        String[] split_str_startdate = str_startdate.split("/");
+        if (split_str_startdate.length == 3) {
+            con_str_startdate = split_str_startdate[0];
+            con_str_startmonth = split_str_startdate[1];
+            int con_int_startyear = Integer.parseInt(split_str_startdate[2]) - 543;
+            con_str_startyear = Integer.toString(con_int_startyear);
+        }else {
+            con_str_startdate = "0";
+            con_str_startmonth = "0";
+            con_str_startyear = "0";
+        }
+        String str_starttime = btnstarttime.getText().toString();
+        String[] split_str_starttime = str_starttime.split(":");
+        if (split_str_starttime.length == 2) {
+            con_str_starthour = split_str_starttime[0];
+            con_str_startmin = split_str_starttime[1];
+        }else {
+            con_str_starthour = "0";
+            con_str_startmin = "0";
+        }
+        String str_enddate = btnenddate.getText().toString();
+        String[] split_str_enddate = str_enddate.split("/");
+        if (split_str_enddate.length == 3) {
+            con_str_enddate = split_str_enddate[0];
+            con_str_endmonth = split_str_enddate[1];
+            int con_int_endyear = Integer.parseInt(split_str_enddate[2]) - 543;
+            con_str_endyear = Integer.toString(con_int_endyear);
+        }else {
+            con_str_enddate = "0";
+            con_str_endmonth = "0";
+            con_str_endyear = "0";
+        }
+        String str_endtime = btnendtime.getText().toString();
+        String[] split_str_endtime = str_endtime.split(":");
+        if (split_str_endtime.length == 2) {
+            con_str_endhour = split_str_enddate[0];
+            con_str_endmin = split_str_enddate[1];
+        }else {
+            con_str_endhour = "0";
+            con_str_endmin = "0";
+        }
+    }
+
     private void connect_add_event() {
+        getDateTime();
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
             String URL = ConnectAPI.getUrl() + "addevent_task/task";
@@ -548,8 +545,40 @@ public class AddEventFragment extends Fragment {
         }
     }
 
-    private boolean connection_addreminder_event(String con_str_taskname, String con_str_onoffswitch, String con_str_startdate, String con_str_startmonth, String con_str_startyear, String con_str_starthour, String con_str_startmin, String con_str_enddate, String con_str_endmonth, String con_str_endyear, String con_str_endhour, String con_str_endmin, String con_str_alldaydate, String con_str_alldaymonth, String con_str_alldayyear, String con_str_alldayhour, String con_str_alldaymin, String con_str_placename, String con_str_before_after, String con_str_number, String con_str_type_num) {
-        final boolean[] return_conn = {true};
+    private void connection_addreminder_event() {
+        String con_str_taskname = et_addtaskname.getText().toString();
+        boolean bool_onoffswitch = onOffSwitch.isChecked();
+        String con_str_onoffswitch;
+        if(bool_onoffswitch) {
+            con_str_onoffswitch = "1";
+        }else {
+            con_str_onoffswitch = "0";
+        }
+        String con_str_placename = et_addplace.getText().toString();
+        String con_str_before_after = et_before_after.getText().toString();
+        String con_str_number = et_number.getText().toString();
+        String con_str_type_num = et_type_date.getText().toString();
+        getDateTime();
+        String con_str_alldaydate = "0";
+        String con_str_alldaymonth = "0";
+        String con_str_alldayyear = "0";
+        String con_str_alldayhour = "0";
+        String con_str_alldaymin = "0";
+        String date_allday = et_before_after.getText().toString();
+        String[] str_date_allday = date_allday.split("/");
+        if (str_date_allday.length == 3) {
+            con_str_alldaydate = str_date_allday[0];
+            con_str_alldaymonth = str_date_allday[1];
+            int con_int_alldayyear = Integer.parseInt(str_date_allday[2]) - 543;
+            con_str_endyear = Integer.toString(con_int_alldayyear);
+        }
+        String time_allday = et_type_date.getText().toString();
+        String[] str_time_allday = time_allday.split(":");
+        if (str_time_allday.length == 2) {
+            con_str_alldayhour = str_time_allday[0];
+            con_str_alldaymin = str_time_allday[1];
+        }
+
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
             String URL = ConnectAPI.getUrl() + "addreminder/event";
@@ -629,15 +658,12 @@ public class AddEventFragment extends Fragment {
                                     fragmentTransaction.commit();
                                 }else if(msg_event.equals("addreminder event : date not enough")) {
                                     check_msg = "error";
-                                    return_conn[0] = false;
                                     Toast.makeText(getActivity(),"Please fill data", Toast.LENGTH_SHORT).show();
                                 }else if(msg_event.equals("addreminder/event : allday = 0 : incorrect start and end date time")) {
                                     check_msg = "error";
-                                    return_conn[0] = false;
                                     Toast.makeText(getActivity(),"Start date and End date is incorrect", Toast.LENGTH_SHORT).show();
                                 }else if(msg_event.equals("addreminder/event : allday = 0 : warnning time")) {
                                     check_msg = "show";
-                                    return_conn[0] = false;
                                     JSONArray data = json.getJSONArray("data");
                                     JSONObject array = (JSONObject) data.get(0);
                                     String taskname = (String) array.get("taskname");
@@ -672,7 +698,6 @@ public class AddEventFragment extends Fragment {
                                     goDialog(taskname, startdate_output, starttime_output, enddate_output, endtime_output, placename);
                                 }else if(msg_event.equals("addreminder/event : allday = 0 : warning traffic")) {
                                     check_msg = "show";
-                                    return_conn[0] = false;
                                     JSONArray data = json.getJSONArray("data");
                                     JSONObject array = (JSONObject) data.get(0);
                                     String taskname = (String) array.get("taskname");
@@ -707,7 +732,6 @@ public class AddEventFragment extends Fragment {
                                     goDialog(taskname, startdate_output, starttime_output, enddate_output, endtime_output, placename);
                                 }else {
                                     check_msg = "error";
-                                    return_conn[0] = false;
                                     Toast.makeText(getActivity(),"Error", Toast.LENGTH_SHORT).show();
                                 }
                             }catch (JSONException e){
@@ -740,7 +764,6 @@ public class AddEventFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return return_conn[0];
     }
 
     public static void putArguments(Bundle args) {

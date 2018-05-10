@@ -75,6 +75,7 @@ public class EventScheduledFragment extends Fragment {
         mLocation = new ArrayList<>();
 
         boolean check_msg = connection_task_event(str_token);
+
         if(check_msg == false) {
             Intent intent = new Intent(getActivity(), MainActivity.class);
             startActivity(intent);
